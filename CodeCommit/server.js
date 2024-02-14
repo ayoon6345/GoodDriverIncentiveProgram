@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const mysql = require('mysql');
-const config = require('./config');
+const config = require('../../config');
 
 const connection = mysql.createConnection({
     host: config.host,
