@@ -19,8 +19,8 @@ connection.connect((err) => {
 });
 
 const server = https.createServer((req, res) => {
-    if (req.url === '/' || req.url === '/about') { // Updated to handle /about request
-        fs.readFile('about.html', 'utf8', (err, data) => {
+    if (req.url === '/' || req.url === '/index') { // Updated to handle /about request
+        fs.readFile('index.html', 'utf8', (err, data) => {
             if (err) {
                 console.error('Error reading HTML file:', err);
                 res.writeHead(500, {'Content-Type': 'text/plain'});
