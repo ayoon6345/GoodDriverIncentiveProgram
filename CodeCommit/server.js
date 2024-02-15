@@ -1,4 +1,4 @@
-const http = require('http');
+const http = require('https');
 const fs = require('fs');
 const mysql = require('mysql');
 const config = require('../../config');
@@ -18,9 +18,9 @@ connection.connect((err) => {
     console.log('Connected to MySQL database');
 });
 
-const server = http.createServer((req, res) => {
+const server = https.createServer((req, res) => {
     if (req.url === '/') {
-        fs.readFile('index.html', 'utf8', (err, data) => {
+        fs.readFile('about.html', 'utf8', (err, data) => {
             if (err) {
                 console.error('Error reading HTML file:', err);
                 res.writeHead(500, {'Content-Type': 'text/plain'});
