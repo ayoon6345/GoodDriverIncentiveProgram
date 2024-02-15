@@ -19,37 +19,43 @@ connection.connect((err) => {
 });
 
 const server = https.createServer((req, res) => {
-    if (req.url === '/') {
-        fs.readFile('about.html', 'utf8', (err, data) => {
+    if (req.url === '/' || req.url === '/index.html') {
+        serveHTML('index.html', res);
+    } else if (req.url === '/test' || req.url === '/test.html') {
+        serveHTML('test.html', res);
+    }
+});
+
+function serveHTML(fileName, res) {
+    fs.readFile(fileName, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading HTML file:', err);
+            res.writeHead(500, {'Content-Type': 'text/plain'});
+            res.end('Internal Server Error');
+            return;
+        }
+
+        connection.query('SELECT * FROM about_page_data', (err, results) => {
             if (err) {
-                console.error('Error reading HTML file:', err);
+                console.error('Error querying MySQL database:', err);
                 res.writeHead(500, {'Content-Type': 'text/plain'});
                 res.end('Internal Server Error');
                 return;
             }
             
-            connection.query('SELECT * FROM about_page_data', (err, results) => {
-                if (err) {
-                    console.error('Error querying MySQL database:', err);
-                    res.writeHead(500, {'Content-Type': 'text/plain'});
-                    res.end('Internal Server Error');
-                    return;
-                }
-                
-                const aboutData = results[0];
-                const html = data
-                    .replace('<span id="teamNumber"></span>', `<span id="teamNumber">${aboutData.team_number}</span>`)
-                    .replace('<span id="versionNumber"></span>', `<span id="versionNumber">${aboutData.version_number}</span>`)
-                    .replace('<span id="releaseDate"></span>', `<span id="releaseDate">${aboutData.release_date}</span>`)
-                    .replace('<span id="productName"></span>', `<span id="productName">${aboutData.product_name}</span>`)
-                    .replace('<span id="productDescription"></span>', `<span id="productDescription">${aboutData.product_description}</span>`);
+            const aboutData = results[0];
+            const html = data
+                .replace('<span id="teamNumber"></span>', `<span id="teamNumber">${aboutData.team_number}</span>`)
+                .replace('<span id="versionNumber"></span>', `<span id="versionNumber">${aboutData.version_number}</span>`)
+                .replace('<span id="releaseDate"></span>', `<span id="releaseDate">${aboutData.release_date}</span>`)
+                .replace('<span id="productName"></span>', `<span id="productName">${aboutData.product_name}</span>`)
+                .replace('<span id="productDescription"></span>', `<span id="productDescription">${aboutData.product_description}</span>`);
 
-                res.writeHead(200, {'Content-Type': 'text/html'});
-                res.end(html);
-            });
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(html);
         });
-    }
-});
+    });
+}
 
 const PORT = 3000;
 server.listen(PORT, () => {
