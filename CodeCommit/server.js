@@ -1,7 +1,7 @@
 const https = require('https');
 const fs = require('fs');
 const mysql = require('mysql');
-const config = require('../../config.js');
+const config = require('../../../config.js');
 
 const connection = mysql.createConnection({
     host: config.host,
