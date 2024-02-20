@@ -1,12 +1,7 @@
-
-require('@babel/register')({
-  presets: ['@babel/preset-env', '@babel/preset-react']
-});
-
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
 const express = require('express');
 const mysql = require('mysql');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
 const fs = require('fs');
 const path = require('path');
 const About = require('./src/about.js'); // Path to your About component
@@ -38,7 +33,9 @@ app.get('/about', (req, res) => {
       return;
     }
     const aboutData = results[0];
-    const appHtml = ReactDOMServer.renderToString(<About aboutData={aboutData} />);
+    const appHtml = ReactDOMServer.renderToString(
+      React.createElement(About, { aboutData: aboutData })
+    );
     const indexHtmlPath = path.resolve(__dirname, 'public', 'about.html');
     fs.readFile(indexHtmlPath, 'utf8', (err, data) => {
       if (err) {
