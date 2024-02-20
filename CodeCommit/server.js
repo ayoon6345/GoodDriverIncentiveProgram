@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
-const React = require('react');
+const React = require('react-jsx');
 const ReactDOMServer = require('react-dom/server');
 const fs = require('fs');
 const path = require('path');
