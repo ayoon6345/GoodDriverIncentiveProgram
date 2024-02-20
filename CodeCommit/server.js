@@ -30,7 +30,7 @@ app.get('/about', (req, res) => {
       return;
     }
     const aboutData = results[0];
-    fs.readFile(__dirname + '/public/about.html', 'utf8', (err, data) => {
+    fs.readFile(__dirname + '/dashboard/public/about.html', 'utf8', (err, data) => {
       if (err) {
         console.error('Error reading file: ' + err.stack);
         res.status(500).send('Internal Server Error');
