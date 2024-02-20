@@ -99,6 +99,7 @@
   fetch('/api/about')
     .then(response => response.json())
     .then(data => {
+      // Update the text content of the <span> elements with the fetched data
       document.getElementById('team_number').textContent = data.team_number;
       document.getElementById('version_number').textContent = data.version_number;
       document.getElementById('release_date').textContent = new Date(data.release_date).toLocaleDateString();
@@ -108,7 +109,7 @@
       // Update form fields with fetched data
       document.getElementById('team_number_input').value = data.team_number;
       document.getElementById('version_number_input').value = data.version_number;
-      document.getElementById('release_date_input').value = data.release_date;
+      document.getElementById('release_date_input').value = new Date(data.release_date).toISOString().split('T')[0];
       document.getElementById('product_name_input').value = data.product_name;
       document.getElementById('product_description_input').value = data.product_description;
     })
@@ -131,6 +132,7 @@
       throw new Error('Network response was not ok.');
     })
     .then(data => {
+      // Update the text content of the <span> elements with the updated data
       document.getElementById('team_number').textContent = data.team_number;
       document.getElementById('version_number').textContent = data.version_number;
       document.getElementById('release_date').textContent = new Date(data.release_date).toLocaleDateString();
