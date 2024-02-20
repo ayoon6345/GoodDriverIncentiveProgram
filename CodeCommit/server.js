@@ -4,7 +4,7 @@ const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const fs = require('fs');
 const path = require('path');
-const About = require('./src/About'); // Path to your About component
+const About = require('./src/about.js'); // Path to your About component
 const app = express();
 const config = require('../../config.js');
 
@@ -23,7 +23,7 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
