@@ -20,8 +20,10 @@ connection.connect((err) => {
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
-
 app.get('/about', (req, res) => {
+  res.sendFile(__dirname + '/public/about.html');
+});
+app.get('/about-data', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
@@ -32,6 +34,7 @@ app.get('/about', (req, res) => {
     res.json(aboutData);
   });
 });
+
 
 app.listen(3000, () => {
   console.log('Server running on port 3000');
