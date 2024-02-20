@@ -20,6 +20,9 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
+// Add this line to parse JSON bodies
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
 app.get('/about', (req, res) => {
@@ -58,7 +61,6 @@ app.post('/api/update-about', (req, res) => {
     res.json(req.body); // Send back the updated data
   });
 });
-
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
