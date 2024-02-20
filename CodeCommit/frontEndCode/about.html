@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <title>About</title>
+        <script type="text/javascript" src="about.js"></script>
+    </head>
+    <style>
+        #title{
+        text-align:center; 
+        padding-top: 70px; 
+        display:inline-block;
+        margin-left:40%
+        }
+        #backBtn{
+            margin-top: 70px;
+            margin-left:15px;
+            border-style:solid;
+            border-color:rgb(0, 0, 0);
+            max-width: fit-content;
+            display:inline-block;
+        }
+        #backBtn:hover{
+            background-color: #f1f1f1;
+        }
+        div h3{
+            display: inline-block;
+        }
+    </style>
+    <body  onload="getData()">
+        <header>
+            <h3 id="backBtn"><a href="javascript:history.back();">Back</a></h3>
+            <h1 id="title">About</h1>
+            <hr>
+        </header>
+        <div style="margin:5%">
+
+            <div id="team">
+                <h3>Team #:</h3>
+            </div>
+            <div id="version">
+                <h3>Version #:</h3>
+            </div>
+            <div id="release">
+                <h3>Release Date:</h3>
+            </div>
+            <div id="name">
+                <h3>Product Name:</h3>
+            </div>
+            <div id="desc">
+                <h3>Product Description:</h3>
+            </div>
+
+        </div>
+    </body>
+</html>
