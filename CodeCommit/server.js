@@ -1,8 +1,12 @@
 const express = require('express');
 const mysql = require('mysql');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
+const fs = require('fs');
+const path = require('path');
+const About = require('./src/About'); // Path to your About component
 const app = express();
 const config = require('../../config.js');
-const ejs = require('ejs');
 
 const connection = mysql.createConnection({
   host: config.host,
@@ -19,9 +23,6 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/public');
-
 app.use(express.static('public'));
 
 app.get('/about', (req, res) => {
@@ -32,7 +33,17 @@ app.get('/about', (req, res) => {
       return;
     }
     const aboutData = results[0];
-    res.render('about', { aboutData: aboutData });
+    const appHtml = ReactDOMServer.renderToString(<About aboutData={aboutData} />);
+    const indexHtmlPath = path.resolve(__dirname, 'public', 'about.html');
+    fs.readFile(indexHtmlPath, 'utf8', (err, data) => {
+      if (err) {
+        console.error('Error reading file: ' + err.stack);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      data = data.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+      res.send(data);
+    });
   });
 });
 
