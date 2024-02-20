@@ -1,4 +1,4 @@
-import React from 'react';
+const React = require('react');
 
 const About = ({ aboutData }) => (
   <div>
@@ -11,4 +11,4 @@ const About = ({ aboutData }) => (
   </div>
 );
 
-export default About;
+module.exports = About;
