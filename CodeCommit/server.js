@@ -20,6 +20,9 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
+// Add this line to parse JSON bodies
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
 app.get('/about', (req, res) => {
@@ -46,6 +49,18 @@ app.get('/about', (req, res) => {
   });
 });
 
+app.post('/api/update-about', (req, res) => {
+  const { team_number, version_number, release_date, product_name, product_description } = req.body;
+  const sql = 'UPDATE about_page_data SET team_number = ?, version_number = ?, release_date = ?, product_name = ?, product_description = ? WHERE id = 1';
+  connection.query(sql, [team_number, version_number, release_date, product_name, product_description], (err, result) => {
+    if (err) {
+      console.error('Error updating data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.json(req.body); // Send back the updated data
+  });
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
