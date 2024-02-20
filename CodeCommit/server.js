@@ -1,7 +1,12 @@
+
+require('@babel/register')({
+  presets: ['@babel/preset-env', '@babel/preset-react']
+});
+
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
 const express = require('express');
 const mysql = require('mysql');
-const React = require('react-jsx');
-const ReactDOMServer = require('react-dom/server');
 const fs = require('fs');
 const path = require('path');
 const About = require('./src/about.js'); // Path to your About component
