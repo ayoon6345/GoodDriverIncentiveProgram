@@ -20,8 +20,7 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
-// Remove the express.static middleware for dashboard/build
-// app.use(express.static(path.join(__dirname, 'dashboard/build')));
+app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
 app.get('/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
@@ -31,7 +30,7 @@ app.get('/about', (req, res) => {
       return;
     }
     const aboutData = results[0];
-    fs.readFile(path.join(__dirname, 'dashboard/public/about.html'), 'utf8', (err, data) => {
+    fs.readFile(__dirname + '/public/about.html', 'utf8', (err, data) => {
       if (err) {
         console.error('Error reading file: ' + err.stack);
         res.status(500).send('Internal Server Error');
