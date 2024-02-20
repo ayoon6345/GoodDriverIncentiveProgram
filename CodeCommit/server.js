@@ -22,7 +22,15 @@ connection.connect((err) => {
 app.use(express.static('public'));
 
 app.get('/about', (req, res) => {
-  res.sendFile(__dirname + '/public/about.html');
+  connection.query('SELECT * FROM about_page_data', (err, results) => {
+    if (err) {
+      console.error('Error fetching data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    const aboutData = results[0];
+    res.json(aboutData);
+  });
 });
 
 app.listen(3000, () => {
