@@ -1,5 +1,0 @@
-Created initial login/registration system using aws cognito- cognito is very efficient with user registration, 2 factor authentication, pasword recovery, etc
-Created RDS- configured all settings for RDS and connected to the RDS using VS CODE
-Implementd a simple website using Node and Flask and determine which route we want to go in, ultimately Node is the better solution with more ways to build a fully functional app
- Looked into apache and how to use frameworks- apache will fit our needs very efficient
- Also looked at the front end languages- html,css,js. Ultimately these languages, frameworks and libraries we will be using are going to fulfill our needs
