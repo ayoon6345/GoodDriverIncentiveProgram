@@ -21,6 +21,9 @@ connection.connect((err) => {
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
 
+app.get('/about', (req, res) => {
+  res.sendFile(__dirname + '/public/about.html');
+});
 
 app.listen(3000, () => {
   console.log('Server running on port 3000');
