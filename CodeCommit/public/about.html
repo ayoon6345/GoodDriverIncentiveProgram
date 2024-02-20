@@ -52,17 +52,15 @@
   <div id="aboutData"></div>
   <script>
     fetch('/about')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
       .then(data => {
         const aboutDataElement = document.getElementById('aboutData');
-        aboutDataElement.innerHTML = `
-          <h1>About Us</h1>
-          <p>Team #: ${data.team_number}</p>
-          <p>Version #: ${data.version_number}</p>
-          <p>Release Date: ${new Date(data.release_date).toLocaleDateString()}</p>
-          <p>Product Name: ${data.product_name}</p>
-          <p>Product Description: ${data.product_description}</p>
-        `;
+        aboutDataElement.innerHTML = data;
       })
       .catch(error => {
         console.error('Error fetching data:', error);
