@@ -19,7 +19,7 @@ connection.connect((err) => {
 });
 
 app.get('/about', (req, res) => {
-  connection.query('SELECT * FROM about_info', (err, results) => {
+  connection.query('SELECT * FROM about_page_data', (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
       res.status(500).send('Internal Server Error');
@@ -34,7 +34,8 @@ app.get('/about', (req, res) => {
       </head>
       <body>
         <h1>About Us</h1>
-        <p>Version #: ${aboutData.version}</p>
+        <p>Team #: ${aboutData.team_number}</p>
+        <p>Version #: ${aboutData.version_number}</p>
         <p>Release Date: ${aboutData.release_date}</p>
         <p>Product Name: ${aboutData.product_name}</p>
         <p>Product Description: ${aboutData.product_description}</p>
