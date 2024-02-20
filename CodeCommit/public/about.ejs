@@ -51,11 +51,11 @@
   </div>
   <div class="container">
     <h1>About Us</h1>
-    <p>Team #: ${team_number}</p>
-    <p>Version #: ${version_number}</p>
-    <p>Release Date: ${release_date}</p>
-    <p>Product Name: ${product_name}</p>
-    <p>Product Description: ${product_description}</p>
+    <p>Team #: <%= aboutData.team_number %></p>
+    <p>Version #: <%= aboutData.version_number %></p>
+    <p>Release Date: <%= new Date(aboutData.release_date).toLocaleDateString() %></p>
+    <p>Product Name: <%= aboutData.product_name %></p>
+    <p>Product Description: <%= aboutData.product_description %></p>
   </div>
 </body>
 </html>
