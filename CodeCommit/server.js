@@ -18,6 +18,9 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
+app.use(express.static('public'));
+
+
 app.get('/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
     if (err) {
