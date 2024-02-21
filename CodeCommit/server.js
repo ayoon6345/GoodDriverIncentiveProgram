@@ -20,7 +20,7 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
-app.use(express.static(path.join(__dirname, 'dashboard/build')));
+app.use(express.static(path.join(__dirname, 'dashboard')));
 
 app.get('/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
