@@ -1,45 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
-import './App.css'; // Make sure the CSS file is appropriately located and imported
+// Import React and the CSS file for styling
+import React from 'react';
+import './App.css';
 
+// Define the AboutUs component
 function AboutUs() {
-  const [aboutData, setAboutData] = useState({
-    teamNumber: '',
-    versionNumber: '',
-    releaseDate: '',
-    productName: '',
-    productDescription: ''
-  });
-
-  useEffect(() => {
-    fetch('/about') // Adjust the endpoint if needed
-      .then(response => response.json())
-      .then(data => setAboutData({
-        teamNumber: data.team_number,
-        versionNumber: data.version_number,
-        releaseDate: new Date(data.release_date).toLocaleDateString(),
-        productName: data.product_name,
-        productDescription: data.product_description
-      }))
-      .catch(error => console.error('Error fetching about data:', error));
-  }, []);
+  // Replace the placeholders with actual values or props as necessary
+  const teamNumber = "Your Team Number";
+  const versionNumber = "Your Version Number";
+  const releaseDate = "Your Release Date";
+  const productName = "Your Product Name";
+  const productDescription = "Your Product Description";
 
   return (
     <div>
       <div className="navbar">
-        <Link to="/">Home</Link>
-        <Link to="/about">About Us</Link>
+        <a href="/">Home</a>
+        <a href="/about">About Us</a>
       </div>
       <div className="container">
         <h1>About Us</h1>
-        <p>Team #: {aboutData.teamNumber}</p>
-        <p>Version #: {aboutData.versionNumber}</p>
-        <p>Release Date: {aboutData.releaseDate}</p>
-        <p>Product Name: {aboutData.productName}</p>
-        <p>Product Description: {aboutData.productDescription}</p>
+        <p>Team #: {teamNumber}</p>
+        <p>Version #: {versionNumber}</p>
+        <p>Release Date: {releaseDate}</p>
+        <p>Product Name: {productName}</p>
+        <p>Product Description: {productDescription}</p>
       </div>
     </div>
   );
 }
 
+// Export the AboutUs component
 export default AboutUs;
