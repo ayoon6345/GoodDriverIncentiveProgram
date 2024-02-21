@@ -47,7 +47,7 @@ app.get('/about', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'dashboard/public', 'index.html'));
 });
 
 app.listen(3000, () => {
