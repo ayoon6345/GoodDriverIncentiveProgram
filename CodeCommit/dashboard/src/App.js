@@ -1,31 +1,35 @@
 import React from 'react';
-import './App.css';
+import './App.css'; // Import your CSS for styling
 
-function App() {
+function LandingPage() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Welcome to My Website</h1>
-        <p>Your go-to destination for all things awesome!</p>
+        <h1>Good Truck Driver Incentive Program</h1>
+        <p>Spring 2024</p>
       </header>
-      <section className="Features">
-        <h2>Features</h2>
-        <ul>
-          <li>Feature 1</li>
-          <li>Feature 2</li>
-          <li>Feature 3</li>
-        </ul>
+      <section className="content">
+        <h2>Backstory</h2>
+        <p>Your company has been hired by an entrepreneur to build a software system for the trucking industry...</p>
+        <h2>User Specific Requirements</h2>
+        <p>Drivers: ...</p>
+        <p>Drivers Users: ...</p>
+        <p>Sponsors: ...</p>
+        <p>Sponsor Users: ...</p>
+        <p>Admin Users: ...</p>
+        <p>Audit Logging: ...</p>
+        <p>Application security: ...</p>
+        <p>Reports: ...</p>
+        <h2>General System Requirements</h2>
+        <p>About Page: ...</p>
+        <p>Development Process: ...</p>x
+        <p>Professional Skills Showcase: ...</p>
       </section>
-      <section className="CTA">
-        <h2>Get Started</h2>
-        <p>Sign up now and join the fun!</p>
-        <button>Sign Up</button>
-      </section>
-      <footer className="Footer">
-        <p>&copy; 2024 My Website. All Rights Reserved.</p>
+      <footer className="footer">
+        <p>&copy; 2024 Good Truck Driver Incentive Program. All rights reserved.</p>
       </footer>
     </div>
   );
 }
 
-export default App;
+export default LandingPage;
