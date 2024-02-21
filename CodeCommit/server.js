@@ -28,16 +28,15 @@ connection.connect((err) => {
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
-// Route for fetching about page data
 app.get('/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
     if (err) {
-      console.error('Error fetching data: ' + err.stack);
+      console.error('Error fetching data:', err); // Log the error to the console
       res.status(500).send('Internal Server Error');
       return;
     }
     const aboutData = results[0];
-    // Pass the fetched data as props to the React component
+    // Pass the retrieved data to the AboutUs component
     res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
   });
 });
