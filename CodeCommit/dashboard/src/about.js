@@ -3,14 +3,7 @@ import React from 'react';
 import './App.css';
 
 // Define the AboutUs component
-function AboutUs() {
-  // Replace the placeholders with actual values or props as necessary
-  const teamNumber = "Your Team Number";
-  const versionNumber = "Your Version Number";
-  const releaseDate = "Your Release Date";
-  const productName = "Your Product Name";
-  const productDescription = "Your Product Description";
-
+function AboutUs({ team_number, version_number, release_date, product_name, product_description }) {
   return (
     <div>
       <div className="navbar">
@@ -19,11 +12,11 @@ function AboutUs() {
       </div>
       <div className="container">
         <h1>About Us</h1>
-        <p>Team #: {teamNumber}</p>
-        <p>Version #: {versionNumber}</p>
-        <p>Release Date: {releaseDate}</p>
-        <p>Product Name: {productName}</p>
-        <p>Product Description: {productDescription}</p>
+        <p>Team #: {team_number}</p>
+        <p>Version #: {version_number}</p>
+        <p>Release Date: {release_date}</p>
+        <p>Product Name: {product_name}</p>
+        <p>Product Description: {product_description}</p>
       </div>
     </div>
   );
@@ -31,3 +24,4 @@ function AboutUs() {
 
 // Export the AboutUs component
 export default AboutUs;
+
