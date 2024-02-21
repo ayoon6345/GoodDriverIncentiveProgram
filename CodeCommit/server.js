@@ -1,10 +1,14 @@
+// Import necessary modules
 const express = require('express');
 const mysql = require('mysql');
 const fs = require('fs');
 const path = require('path');
+
+// Create Express app
 const app = express();
 const config = require('../../config.js');
 
+// Create MySQL connection
 const connection = mysql.createConnection({
   host: config.host,
   user: config.user,
@@ -12,6 +16,7 @@ const connection = mysql.createConnection({
   database: config.database
 });
 
+// Connect to MySQL
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to database: ' + err.stack);
@@ -32,8 +37,7 @@ app.get('/about', (req, res) => {
       return;
     }
     const aboutData = results[0];
-    aboutData.release_date = new Date(aboutData.release_date).toLocaleDateString();
-    // Send the index.html file, React Router will handle the route on the client side
+    // Pass the fetched data as props to the React component
     res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
   });
 });
