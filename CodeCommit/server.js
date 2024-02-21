@@ -48,12 +48,18 @@ app.get('/about', (req, res) => {
 });
 
 // Proxy requests to the React development server
-app.use('/dashboard', createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
+app.use('/dashboard', createProxyMiddleware({ target: 'http://localhost:3001', changeOrigin: true }));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dashboard/public', 'index.html'));
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+app.listen(3001, () => {
+  console.log('Server running on port 3001');
 });
+
+const PORT = 3000;
+server.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+
