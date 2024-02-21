@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const fs = require('fs');
 const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 const config = require('../../config.js');
 
@@ -45,6 +46,9 @@ app.get('/about', (req, res) => {
     });
   });
 });
+
+// Proxy requests to the React development server
+app.use('/dashboard', createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dashboard/public', 'index.html'));
