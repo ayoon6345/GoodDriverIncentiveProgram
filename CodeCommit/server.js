@@ -28,10 +28,20 @@ connection.connect((err) => {
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'error',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: 'error.log' })
+  ]
+});
+
 app.get('/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
     if (err) {
-      console.error('Error fetching data:', err); // Log the error to the console
+      logger.error('Error fetching data:', err); // Log the error to a file
       res.status(500).send('Internal Server Error');
       return;
     }
@@ -40,6 +50,7 @@ app.get('/about', (req, res) => {
     res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
   });
 });
+
 
 // For all other routes, serve the index.html file
 app.get('*', (req, res) => {
