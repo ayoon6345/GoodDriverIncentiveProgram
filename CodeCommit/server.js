@@ -2,7 +2,6 @@ const express = require('express');
 const mysql = require('mysql');
 const fs = require('fs');
 const path = require('path');
-const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 const config = require('../../config.js');
 
@@ -21,7 +20,7 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
-app.use(express.static(path.join(__dirname, 'dashboard')));
+app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
 app.get('/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
@@ -47,19 +46,10 @@ app.get('/about', (req, res) => {
   });
 });
 
-// Proxy requests to the React development server
-app.use('/dashboard', createProxyMiddleware({ target: 'http://localhost:3001', changeOrigin: true }));
-
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dashboard/public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
 });
 
-app.listen(3001, () => {
-  console.log('Server running on port 3001');
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
 });
-
-const PORT = 3000;
-server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
-
