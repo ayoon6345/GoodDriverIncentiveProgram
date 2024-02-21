@@ -31,7 +31,8 @@ app.get('/about', (req, res) => {
     }
     const aboutData = results[0];
     aboutData.release_date = new Date(aboutData.release_date).toLocaleDateString();
-    res.json(aboutData);
+    // Instead of sending JSON, send the index.html file
+    res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
   });
 });
 
