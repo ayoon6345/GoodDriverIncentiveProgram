@@ -30,21 +30,11 @@ app.get('/about', (req, res) => {
       return;
     }
     const aboutData = results[0];
-    fs.readFile(__dirname + '/dashboard/public/about.html', 'utf8', (err, data) => {
-      if (err) {
-        console.error('Error reading file: ' + err.stack);
-        res.status(500).send('Internal Server Error');
-        return;
-      }
-      data = data.replace('${team_number}', aboutData.team_number)
-                 .replace('${version_number}', aboutData.version_number)
-                 .replace('${release_date}', new Date(aboutData.release_date).toLocaleDateString())
-                 .replace('${product_name}', aboutData.product_name)
-                 .replace('${product_description}', aboutData.product_description);
-      res.send(data);
-    });
+    aboutData.release_date = new Date(aboutData.release_date).toLocaleDateString();
+    res.json(aboutData);
   });
 });
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
