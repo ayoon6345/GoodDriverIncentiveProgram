@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import { useNavigate } from 'react-router-dom';
 
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
+  const navigate = useNavigate();
 
-useEffect(() => {
-  fetch('/api/about')
-    .then(response => response.json())
-    .then(data => setAboutData(data))
-    .catch(error => console.error('Error fetching data:', error));
-}, []);
-
+  useEffect(() => {
+    fetch('/api/about')
+      .then(response => {
+        if (response.status === 401) {
+          // Redirect to login if not authenticated
+          navigate('/login');
+          return;
+        }
+        return response.json();
+      })
+      .then(data => setAboutData(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, [navigate]);
 
   return (
     <div>
@@ -18,7 +25,6 @@ useEffect(() => {
         <a href="/">Home</a>
         <a href="/about">About Us</a>
         <a href="https://team29cpsc4911login.auth.us-east-1.amazoncognito.com/logout?client_id=79svo07u2k8h4oea15mh3krra7&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fteam29.cpsc4911.com%2Fdashboard" className="logout-button">Logout</a>
-
       </div>
       <div className="container">
         <h1>About Us</h1>
