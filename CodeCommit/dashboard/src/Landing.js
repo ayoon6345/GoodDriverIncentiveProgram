@@ -10,7 +10,7 @@ function LandingPage() {
       </div>
       <div className="container">
         <h1>Good Truck Driver Incentive Program</h1>
-        <p>Spring 2024</p>
+        <p>CPSC 4911 Spring 2024</p>
         <section className="content">
           <h1>Sample Landing Page</h1>
         </section>
