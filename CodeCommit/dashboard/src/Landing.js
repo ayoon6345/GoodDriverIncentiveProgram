@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css'; // Import your CSS for styling
+// Import your CSS for styling
 import './navbar.js';
 function LandingPage() {
   return (
