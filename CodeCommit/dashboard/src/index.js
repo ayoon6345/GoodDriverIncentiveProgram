@@ -5,6 +5,8 @@ import LandingPage from './Landing';
 import AboutUs from './about';
 import DriverDashboard from './DriverDashboard'; // Import the dashboard component
 import reportWebVitals from './reportWebVitals';
+import '../../../amplify-config';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
