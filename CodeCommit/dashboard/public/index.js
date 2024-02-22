@@ -101,8 +101,10 @@ class Header extends HTMLElement {
   visibility: visible;
 }
 #cart h3{
+  display: inline-block;
   position: absolute;
   right: 115px;
+  color: black;
 }
 #pointDiv{
   max-width: 100px;
