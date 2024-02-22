@@ -23,7 +23,7 @@ connection.connect((err) => {
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
-app.get('/about', (req, res) => {
+app.get('/api/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
@@ -32,10 +32,10 @@ app.get('/about', (req, res) => {
     }
     const aboutData = results[0];
     aboutData.release_date = new Date(aboutData.release_date).toLocaleDateString();
-    // Send the data as JSON
     res.json(aboutData);
   });
 });
+
 
 // For all other routes, serve the index.html file
 app.get('*', (req, res) => {
