@@ -3,6 +3,7 @@
 <head>
   <title>About Us</title>
   <script src="index.js" type="text/javascript"></script>
+</head>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,16 +12,7 @@
       background-color: #f7f7f7;
       color: #333;
     }
-    .navbar {
-      background-color: #333;
-      color: #fff;
-      padding: 10px 20px;
-    }
-    .navbar a {
-      color: #fff;
-      text-decoration: none;
-      margin-right: 20px;
-    }
+
     .container {
       max-width: 800px;
       margin: 20px auto;
@@ -33,22 +25,26 @@
       color: #333;
       margin-bottom: 20px;
     }
-    p {
+    .container p {
+      text-align: center;
       margin-bottom: 10px;
     }
-    a {
-      text-decoration: none;
-      color: #007bff;
-    }
-    a:hover {
-      text-decoration: underline;
+    #title{
+      text-align:center; 
+      padding-top: 70px; 
+      display:inline-block;
+      margin-left:45%;
+      margin-bottom: 0;
     }
   </style>
-</head>
 <body>
-  <main-navbar></main-navbar>
+    <main-navbar></main-navbar>
+  <header>
+    <h1 id="title">About</h1>
+    <hr>
+  </header>
+
   <div class="container">
-    <h1>About Us</h1>
     <p>Team #: ${team_number}</p>
     <p>Version #: ${version_number}</p>
     <p>Release Date: ${release_date}</p>
