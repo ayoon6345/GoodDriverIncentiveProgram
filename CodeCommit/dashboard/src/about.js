@@ -4,12 +4,13 @@ import './App.css';
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
 
-  useEffect(() => {
-    fetch('/about')
-      .then(response => response.json())
-      .then(data => setAboutData(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
+useEffect(() => {
+  fetch('/api/about')
+    .then(response => response.json())
+    .then(data => setAboutData(data))
+    .catch(error => console.error('Error fetching data:', error));
+}, []);
+
 
   return (
     <div>
