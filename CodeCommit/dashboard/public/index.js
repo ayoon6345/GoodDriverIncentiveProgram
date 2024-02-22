@@ -161,7 +161,7 @@ class Header extends HTMLElement {
         
     <nav>
       
-      <div id="logo" onclick="window.location.href='/'">
+      <div id="logo" onclick="window.location.href='/index.html'">
       <img src="applogo.png" alt="Logo" width="70px" height="70px">
       <h2>company name</h2>      
       </div>
