@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
+import './App.css';
+
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
