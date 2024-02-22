@@ -3,8 +3,6 @@ import './App.css';// Import your CSS for styling
 import './navbar.js';
 function LandingPage() {
   return (  
-    <div>
-    <main-navbar></main-navbar>
     <div style="padding-top:70px;">
       <div className="navbar">
         <a href="/">Home</a>
@@ -20,7 +18,6 @@ function LandingPage() {
       <footer className="footer">
         <p>&copy; 2024 Good Truck Driver Incentive Program. All rights reserved.</p>
       </footer>
-    </div>
     </div>
   );
 }
