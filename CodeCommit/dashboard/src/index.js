@@ -25,6 +25,10 @@ const App = () => {
   };
 
   const PrivateRoute = ({ element, ...rest }) => {
+    if (rest.path === '/login') {
+      return element;
+    }
+
     return authenticated ? element : <Navigate to="/login" />;
   };
 
@@ -33,12 +37,9 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/about" element={<AboutUs />} />
+          <Route path="/about" element={<PrivateRoute element={<AboutUs />} />} />
           <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={<PrivateRoute element={<DriverDashboard />} />}
-          />
+          <Route path="/dashboard" element={<PrivateRoute element={<DriverDashboard />} />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
