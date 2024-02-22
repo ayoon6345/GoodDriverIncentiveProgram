@@ -1,5 +1,5 @@
 // amplify-config.js
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
   Auth: {
