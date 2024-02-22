@@ -15,10 +15,10 @@ function LandingPage() {
         <section className="content">
           <h1>Sample Landing Page</h1>
         </section>
-        <footer className="footer">
-          <p>&copy; 2024 Good Truck Driver Incentive Program. All rights reserved.</p>
-        </footer>
       </div>
+      <footer className="footer">
+        <p>&copy; 2024 Good Truck Driver Incentive Program. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
