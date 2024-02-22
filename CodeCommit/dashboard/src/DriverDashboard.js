@@ -3,6 +3,7 @@ import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
+import withAuth from './hocAuth';
 
 
 function DriverDashboard() {
@@ -32,4 +33,4 @@ function DriverDashboard() {
   );
 }
 
-export default DriverDashboard;
+export default withAuth(DriverDashboard);
