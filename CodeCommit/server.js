@@ -20,9 +20,10 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
+// Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
-app.get('/about', (req, res) => {
+app.get('/api/about', (req, res) => {
   connection.query('SELECT * FROM about_page_data', (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
@@ -30,26 +31,18 @@ app.get('/about', (req, res) => {
       return;
     }
     const aboutData = results[0];
-    fs.readFile(__dirname + '/dashboard/public/about.html', 'utf8', (err, data) => {
-      if (err) {
-        console.error('Error reading file: ' + err.stack);
-        res.status(500).send('Internal Server Error');
-        return;
-      }
-      data = data.replace('${team_number}', aboutData.team_number)
-                 .replace('${version_number}', aboutData.version_number)
-                 .replace('${release_date}', new Date(aboutData.release_date).toLocaleDateString())
-                 .replace('${product_name}', aboutData.product_name)
-                 .replace('${product_description}', aboutData.product_description);
-      res.send(data);
-    });
+    aboutData.release_date = new Date(aboutData.release_date).toLocaleDateString();
+    res.json(aboutData);
   });
 });
 
+
+// For all other routes, serve the index.html file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dashboard/build', 'index.html'));
 });
 
+// Start the server
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
