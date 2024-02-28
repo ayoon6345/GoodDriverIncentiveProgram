@@ -1,5 +1,5 @@
 import React from 'react';
-import Amplify, { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify/auth';
 
 function LandingPage() {
   const signOut = async () => {
