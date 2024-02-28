@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { withAuthenticator } from '@aws-amplify/ui-react'; // Import withAuthenticator
 import LandingPage from './Landing';
 import AboutUs from './about';
 import DriverDashboard from './DriverDashboard'; // Import the dashboard component
 import reportWebVitals from './reportWebVitals';
-import Amplify from 'aws-amplify';
-import awsconfig from './amplify-config';
-Amplify.configure(awsconfig);
+
+import { Amplify } from 'aws-amplify';
+
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
+
 
 // Wrap your components with withAuthenticator
 const AppWithAuth = withAuthenticator(() => (
