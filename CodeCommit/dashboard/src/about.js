@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from 'aws-amplify/auth';
+
 
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
