@@ -24,6 +24,7 @@ function AboutUs() {
       <div className="navbar">
         <a href="/">Home</a>
         <a href="/about">About Us</a>
+        <a href="/about">About Us</a>
       </div>
       <div className="container">
         <h1>About Us</h1>
