@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './Landing';
+import Home from './Home';
 import AboutUs from './about';
 import DriverDashboard from './DriverDashboard'; // Import the dashboard component
 import reportWebVitals from './reportWebVitals';
@@ -16,15 +17,18 @@ Amplify.configure(config);
 
 // Wrap your components with withAuthenticator
 const AppWithAuth = withAuthenticator(() => (
-  <React.StrictMode>
+ 
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+         <React.StrictMode>
+        <Route path="/home" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/dashboard" element={<DriverDashboard />} /> {/* Add the dashboard route */}
+        <Route path="/dashboard" element={<DriverDashboard />} /> 
+        </React.StrictMode>
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  
 ));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
