@@ -1,40 +1,31 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { withAuthenticator } from '@aws-amplify/ui-react'; // Import withAuthenticator
 import LandingPage from './Landing';
 import AboutUs from './about';
 import DriverDashboard from './DriverDashboard'; // Import the dashboard component
-import { Auth } from 'aws-amplify';
 import reportWebVitals from './reportWebVitals';
+import Amplify from 'aws-amplify';
+import awsconfig from './amplify-config';
+Amplify.configure(awsconfig);
 
-const ProtectedRoute = ({ element, ...rest }) => {
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        await Auth.currentAuthenticatedUser();
-      } catch (err) {
-        window.location.href = '/login'; // Redirect to the sign-in page
-      }
-    };
-
-    checkAuth();
-  }, []);
-
-  return <Route {...rest} element={element} />;
-};
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+// Wrap your components with withAuthenticator
+const AppWithAuth = withAuthenticator(() => (
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <ProtectedRoute path="/" element={<Navigate to="/dashboard" />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/dashboard" element={<DriverDashboard />} />
+        <Route path="/dashboard" element={<DriverDashboard />} /> {/* Add the dashboard route */}
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
+));
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <AppWithAuth /> // Render the AppWithAuth component
 );
 
 reportWebVitals();
