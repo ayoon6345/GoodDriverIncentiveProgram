@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './Landing';
-import Home from './Home';
+import Home from './home';
 import AboutUs from './about';
 import DriverDashboard from './DriverDashboard'; // Import the dashboard component
 import reportWebVitals from './reportWebVitals';
