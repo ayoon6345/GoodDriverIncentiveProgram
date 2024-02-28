@@ -1,12 +1,13 @@
 import React from 'react';
-import { Auth } from 'aws-amplify/auth';
+import { signOut } from 'aws-amplify/auth';
 
 function LandingPage() {
-  const signOut = async () => {
+  const handleSignOut = async () => {
     try {
-      await Auth.signOut(); // Sign out the user
+      await signOut();
+      // Handle successful sign-out, e.g., redirect to login page
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.log('error signing out: ', error);
     }
   };
 
@@ -14,7 +15,8 @@ function LandingPage() {
     <div>
       <div className="navbar">
         <a href="/">Home</a>
-        <button onClick={signOut} className="signout-button">Sign Out</button> {/* Add the sign-out button */}
+        <a href="https://team29cpsc4911login.auth.us-east-1.amazoncognito.com/login?client_id=79svo07u2k8h4oea15mh3krra7&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fteam29.cpsc4911.com%2Fdashboard" className="login-button">Login / Sign Up</a>
+        <button onClick={handleSignOut} className="signout-button">Sign Out</button> {/* Add the sign-out button */}
       </div>
       <div className="container">
         <h1>Good Truck Driver Incentive Program</h1>
