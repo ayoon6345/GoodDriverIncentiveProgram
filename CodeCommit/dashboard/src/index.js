@@ -14,26 +14,27 @@ import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
-
 // Wrap your components with withAuthenticator
 const AppWithAuth = withAuthenticator(() => (
- 
+  <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-         <React.StrictMode>
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/dashboard" element={<DriverDashboard />} /> 
-        </React.StrictMode>
       </Routes>
     </BrowserRouter>
-  
+  </React.StrictMode>
 ));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AppWithAuth /> // Render the AppWithAuth component
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route element={<AppWithAuth />} />
+    </Routes>
+  </BrowserRouter>
 );
 
 reportWebVitals();
