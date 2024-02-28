@@ -15,6 +15,8 @@ function LandingPage() {
     <div>
       <div className="navbar">
         <a href="/">Home</a>
+        <a href="/about">About Us</a>
+
         <button onClick={handleSignOut} className="signout-button">Sign Out</button> {/* Add the sign-out button */}
       </div>
       <div className="container">
