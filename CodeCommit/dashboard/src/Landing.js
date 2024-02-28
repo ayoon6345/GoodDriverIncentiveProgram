@@ -1,23 +1,22 @@
 import React from 'react';
-import { signOut } from 'aws-amplify/auth';
+import { signIn } from 'aws-amplify/auth';
+
+async function signIn({ username, password }) {
+  try {
+    const { isSignedIn, nextStep } = await signIn({ username, password });
+  } catch (error) {
+    console.log('error signing in', error);
+  }
+}
+
 
 function LandingPage() {
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      // Handle successful sign-out, e.g., redirect to login page
-    } catch (error) {
-      console.log('error signing out: ', error);
-    }
-  };
+  
 
   return (
     <div>
       <div className="navbar">
-        <a href="/">Home</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/about">About Us</a>
-        <button onClick={handleSignOut} className="signout-button">Sign Out</button> {/* Add the sign-out button */}
+       <button onClick={signIn} className="signin-button">Sign In</button> 
       </div>
       <div className="container">
         <h1>Good Truck Driver Incentive Program</h1>
