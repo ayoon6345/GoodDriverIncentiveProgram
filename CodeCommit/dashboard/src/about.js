@@ -4,6 +4,14 @@ import { useNavigate } from 'react-router-dom';
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
   const navigate = useNavigate();
+    const handleSignOut = async () => {
+    try {
+      await signOut();
+      // Handle successful sign-out, e.g., redirect to login page
+    } catch (error) {
+      console.log('error signing out: ', error);
+    }
+  };
 
   useEffect(() => {
     fetch('/api/about')
@@ -24,7 +32,9 @@ function AboutUs() {
       <div className="navbar">
         <a href="/">Home</a>
         <a href="/about">About Us</a>
-        <a href="/about">About Us</a>
+        <a href="/dashboard">Dashboard</a>
+       <button onClick={handleSignOut} className="signout-button">Sign Out</button> {/* Add the sign-out button */}
+
       </div>
       <div className="container">
         <h1>About Us</h1>
