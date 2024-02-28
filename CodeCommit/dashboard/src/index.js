@@ -14,30 +14,24 @@ import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
-// Custom component to conditionally apply withAuthenticator
-const ProtectedRoute = ({ path, element }) => {
-  if (path === '/') {
-    return <Route path={path} element={element} />;
-  }
-  return <Route path={path} element={withAuthenticator(element)} />;
-};
 
-const App = () => (
+// Wrap your components with withAuthenticator
+const AppWithAuth = withAuthenticator(() => (
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <ProtectedRoute path="/" element={<LandingPage />} />
-        <ProtectedRoute path="/home" element={<Home />} />
-        <ProtectedRoute path="/about" element={<AboutUs />} />
-        <ProtectedRoute path="/dashboard" element={<DriverDashboard />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/dashboard" element={<DriverDashboard />} /> 
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
-);
+));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <App /> // Render the App component
+  <AppWithAuth /> // Render the AppWithAuth component
 );
 
 reportWebVitals();
