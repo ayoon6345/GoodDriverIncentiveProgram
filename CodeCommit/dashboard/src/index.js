@@ -19,7 +19,7 @@ const App = () => (
   </React.StrictMode>
 );
 
-const AppWithAuth = withAuthenticator(App); // Wrap the App component with withAuthenticator
+const AppWithAuth = withAuthenticator(App, { includeGreetings: true }); // Wrap the App component with withAuthenticator
 
 ReactDOM.render(<AppWithAuth />, document.getElementById('root'));
 
