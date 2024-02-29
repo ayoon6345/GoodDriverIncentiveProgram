@@ -8,13 +8,15 @@ import DriverDashboard from './DriverDashboard'; // Import the dashboard compone
 import reportWebVitals from './reportWebVitals';
 
 import { Amplify } from 'aws-amplify';
+
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
-// Define your App component
-const App = () => (
+
+// Wrap your components with withAuthenticator
+const AppWithAuth = withAuthenticator(() => (
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
@@ -25,18 +27,11 @@ const App = () => (
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
+));
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <AppWithAuth /> // Render the AppWithAuth component
 );
-
-// Conditionally render App with or without authentication
-const Root = () => {
-  const isAuthenticated = true; // Replace with your authentication check
-  return isAuthenticated ? <AppWithAuth /> : <AppWithoutAuth />;
-};
-
-// Wrap your App component with withAuthenticator
-const AppWithAuth = withAuthenticator(App);
-
-// Render the Root component
-ReactDOM.render(<Root />, document.getElementById('root'));
 
 reportWebVitals();
