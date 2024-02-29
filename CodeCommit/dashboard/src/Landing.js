@@ -1,20 +1,17 @@
 import React from 'react';
-import { signIn as amplifySignIn } from 'aws-amplify/auth'; // Rename the imported function to avoid conflict
 
-async function signIn({ username, password }) {
-  try {
-    const { isSignedIn, nextStep } = await amplifySignIn({ username, password }); // Use amplifySignIn to avoid conflict
-    // Handle sign-in success
-  } catch (error) {
-    console.log('error signing in', error);
-  }
-}
+import { Amplify } from 'aws-amplify';
+
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
+
 
 function LandingPage() {
   return (
     <div>
       <div className="navbar">
-        <button onClick={() => signIn({ username: 'your_username', password: 'your_password' })} className="signin-button">Sign In</button> {/* Pass username and password as arguments */}
       </div>
       <div className="container">
         <h1>Good Truck Driver Incentive Program</h1>
@@ -30,4 +27,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default withAuthenticator (LandingPage);
