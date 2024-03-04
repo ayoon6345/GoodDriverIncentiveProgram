@@ -1,7 +1,7 @@
 import React from 'react';
 import { signOut } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
-
+import Navbar from './navbar'; // Import the Navbar component
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
@@ -20,12 +20,7 @@ function HomePage() {
 
   return (
     <div>
-      <div className="navbar">
-        <a href="/home">Home</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/about">About Us</a>
-        <button onClick={handleSignOut} className="signout-button">Sign Out</button> {/* Add the sign-out button */}
-      </div>
+      <Navbar /> 
       <div className="container">
         <h1>Good Truck Driver Incentive Program</h1>
         <p>CPSC 4911 Spring 2024</p>
