@@ -5,6 +5,8 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import Navbar from './navbar'; // Import the Navbar component
+import './App.css';
+
 
 Amplify.configure(config);
 
