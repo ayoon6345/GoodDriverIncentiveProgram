@@ -13,8 +13,11 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 Amplify.configure(config);
-
-
+import Navbar from './navbar';
+const NavBar = ReactDOM.createRoot(document.getElementById('navbar'));
+NavBar.render(
+  <Navbar />
+);
 // Wrap your components with withAuthenticator
 const AppWithAuth = withAuthenticator(() => (
   <React.StrictMode>
