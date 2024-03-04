@@ -4,6 +4,8 @@ import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
 import { signOut } from 'aws-amplify/auth';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+
 
 
 function DriverDashboard() {
@@ -44,4 +46,4 @@ function DriverDashboard() {
   );
 }
 
-export default (DriverDashboard);
+export default withAuthenticator(DriverDashboard);
