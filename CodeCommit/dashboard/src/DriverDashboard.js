@@ -8,6 +8,8 @@ import Navbar from './navbar'; // Import the Navbar component
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
+import './App.css';
+
 
 Amplify.configure(config);
 
