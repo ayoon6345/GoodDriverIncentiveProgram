@@ -1,15 +1,12 @@
 import React from 'react';
 import './navbar.css';
-import emptyCartImg from './emptyCart.png';
-import appLogo from './applogo.png'; // Update import path for applogo.png
-import userImg from './user.png'; // Update import path for user.png
 
 function Navbar() {
   return (
     <div className="wrapper">
       <nav>
         <div id="logo" onClick={() => {window.location.href='/home'}}>
-          <img src={appLogo} alt="Logo" width="70px" height="70px" />
+          <img src="%PUBLIC_URL%/images/applogo.png" alt="Logo" width="70px" height="70px" />
           <h2>company name</h2>      
         </div>
         <div id="searchbar">
@@ -29,12 +26,12 @@ function Navbar() {
             <div id="points">0</div>
           </div>
           <div id="cart">
-            <img src={emptyCartImg} alt="Cart" width="50px" height="50px" />
+            <img src="%PUBLIC_URL%/images/emptyCart.png" alt="Cart" width="50px" height="50px" />
             <h3 id="cartitems">4</h3>
             <span className="tooltiptext">Cart</span>
           </div>
           <div id="profile">
-            <div><img id="userimg"  src={userImg} alt="user Profile" width="50px" height="50px" /></div>
+            <div><img id="userimg" src="%PUBLIC_URL%/images/user.png" alt="user Profile" width="50px" height="50px" /></div>
             <div id="circle"></div>
             <span className="tooltiptext">Dashboard</span>
           </div>
