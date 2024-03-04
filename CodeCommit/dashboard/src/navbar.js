@@ -46,10 +46,6 @@ function CustomNavbar() {
           <p>points</p>
           <div id="points">0</div>
         </div>
-        <div className="navlinks">
-         <button onClick={handleSignOut}>Sign Out</button>
-        </div>
-
         <div id="cart"> 
           <img src={require('./images/emptyCart.png')} alt="Cart" width="50px" height="50px" />
           <h3 id="cartitems">4</h3>
@@ -61,7 +57,11 @@ function CustomNavbar() {
           <div id="circle"></div>
           <span className="tooltiptext">Dashboard</span>
         </div>
-  
+
+         <div className="amplify-sign-out">
+         <button onClick={handleSignOut}>Sign Out</button>
+        </div>
+
       </div>
     </nav>
   </div>
