@@ -1,22 +1,39 @@
-import { getCurrentUser } from 'aws-amplify/auth';
-import React from 'react';
-
-async function currentAuthenticatedUser() {
-  try {
-    const { username, userId, signInDetails } = await getCurrentUser();
-    console.log(`The username: ${username}`);
-    console.log(`The userId: ${userId}`);
-    console.log(`The signInDetails: ${signInDetails}`);
-  } catch (err) {
-    console.log(err);
-  }
-}
-
+import React, { useState, useEffect } from 'react';
+import { Auth } from 'aws-amplify';
 
 function LandingPage() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect(() => {
+    checkAuthState();
+  }, []);
+
+  const checkAuthState = async () => {
+    try {
+      await Auth.currentAuthenticatedUser();
+      setIsSignedIn(true);
+    } catch (error) {
+      setIsSignedIn(false);
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await Auth.signOut();
+      setIsSignedIn(false);
+    } catch (error) {
+      console.error('Error signing out: ', error);
+    }
+  };
+
   return (
     <div>
       <div className="navbar">
+        {isSignedIn ? (
+          <button onClick={signOut}>Sign Out</button>
+        ) : (
+          <button onClick={() => Auth.federatedSignIn()}>Sign In</button>
+        )}
       </div>
       <div className="container">
         <h1>Good Truck Driver Incentive Program</h1>
