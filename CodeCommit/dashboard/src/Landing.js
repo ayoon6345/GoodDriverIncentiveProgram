@@ -1,13 +1,5 @@
 import React from 'react';
 
-import { Amplify } from 'aws-amplify';
-
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import config from './amplifyconfiguration.json';
-Amplify.configure(config);
-
-
 function LandingPage() {
   return (
     <div>
@@ -27,4 +19,4 @@ function LandingPage() {
   );
 }
 
-export default withAuthenticator (LandingPage);
+export default LandingPage;
