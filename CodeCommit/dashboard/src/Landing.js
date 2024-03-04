@@ -1,4 +1,5 @@
 import { getCurrentUser } from 'aws-amplify/auth';
+import React from 'react';
 
 async function currentAuthenticatedUser() {
   try {
@@ -11,7 +12,6 @@ async function currentAuthenticatedUser() {
   }
 }
 
-import React from 'react';
 
 function LandingPage() {
   return (
