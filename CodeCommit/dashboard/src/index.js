@@ -2,11 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './Landing';
-import Home from './home';
 import AboutUs from './about';
-import DriverDashboard from './DriverDashboard';
+import Home from './home';
+import DriverDashboard from './DriverDashboard'; // Import the dashboard component
+import reportWebVitals from './reportWebVitals';
 
-const App = () => (
+import { Amplify } from 'aws-amplify';
+
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
+import Navbar from './navbar';
+const NavBar = ReactDOM.createRoot(document.getElementById('navbar'));
+NavBar.render(
+  <Navbar />
+);
+// Wrap your components with withAuthenticator
+const AppWithAuth = withAuthenticator(() => (
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
@@ -17,9 +30,11 @@ const App = () => (
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
-);
+));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <App />
+  <AppWithAuth /> // Render the AppWithAuth component
 );
+
+reportWebVitals();
