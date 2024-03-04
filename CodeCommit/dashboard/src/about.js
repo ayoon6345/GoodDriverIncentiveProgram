@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'aws-amplify/auth';
-
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
   const navigate = useNavigate();
-    const handleSignOut = async () => {
+
+  const handleSignOut = async () => {
     try {
       await signOut();
       // Handle successful sign-out, e.g., redirect to login page
@@ -35,8 +36,7 @@ function AboutUs() {
         <a href="/home">Home</a>
         <a href="/dashboard">Dashboard</a>
         <a href="/about">About Us</a>
-       <button onClick={handleSignOut} className="signout-button">Sign Out</button> {/* Add the sign-out button */}
-
+        <button onClick={handleSignOut} className="signout-button">Sign Out</button>
       </div>
       <div className="container">
         <h1>About Us</h1>
@@ -50,4 +50,4 @@ function AboutUs() {
   );
 }
 
-export default AboutUs;
+export default withAuthenticator(AboutUs);
