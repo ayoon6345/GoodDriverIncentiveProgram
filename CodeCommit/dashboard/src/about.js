@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
-import { signOut } from 'aws-amplify/auth';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
@@ -12,15 +11,6 @@ Amplify.configure(config);
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
   const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      // Handle successful sign-out, e.g., redirect to login page
-    } catch (error) {
-      console.log('error signing out: ', error);
-    }
-  };
 
   useEffect(() => {
     fetch('/api/about')
