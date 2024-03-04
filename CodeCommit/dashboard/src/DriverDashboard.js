@@ -4,7 +4,12 @@ import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
 import { signOut } from 'aws-amplify/auth';
+import { Amplify } from 'aws-amplify';
+
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);import Navbar from './navbar'; // Import the Navbar component
 
 
 
@@ -27,6 +32,7 @@ function DriverDashboard() {
 
   return (
     <div>
+      <Navbar /> {/* Render the Navbar component */}
       <div className="navbar">
         <a href="/home">Home</a>
         <a href="/dashboard">Dashboard</a>
