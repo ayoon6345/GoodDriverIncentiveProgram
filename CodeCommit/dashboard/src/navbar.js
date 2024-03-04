@@ -38,7 +38,7 @@ function Navbar() {
           <span className="tooltiptext">Cart</span>
         </div>
   
-        <div id="profile">
+        <div id="profile" onClick={() => {window.location.href='/dashboard'}}>
         <div><img id="userimg"  src={require('./images/user.png')} alt="user Profile" width="50px" height="50px" /></div>
           <div id="circle"></div>
           <span className="tooltiptext">Dashboard</span>
