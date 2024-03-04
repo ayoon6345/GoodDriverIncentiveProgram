@@ -1,5 +1,6 @@
 import React from 'react';
 import { signOut } from 'aws-amplify/auth';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
 function HomePage() {
   const handleSignOut = async () => {
@@ -33,4 +34,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default withAuthenticator(HomePage);
