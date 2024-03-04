@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Auth } from 'aws-amplify';
-
+import { Amplify } from 'aws-amplify';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
 function LandingPage() {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
