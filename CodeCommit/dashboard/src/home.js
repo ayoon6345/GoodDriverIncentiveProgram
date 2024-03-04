@@ -1,5 +1,4 @@
 import React from 'react';
-import { signOut } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import Navbar from './navbar'; // Import the Navbar component
 import { withAuthenticator } from '@aws-amplify/ui-react';
@@ -9,14 +8,6 @@ Amplify.configure(config);
 
 
 function HomePage() {
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      // Handle successful sign-out, e.g., redirect to login page
-    } catch (error) {
-      console.log('error signing out: ', error);
-    }
-  };
 
   return (
     <div>
