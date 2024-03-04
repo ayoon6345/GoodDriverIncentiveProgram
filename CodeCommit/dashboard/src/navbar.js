@@ -58,9 +58,10 @@ function CustomNavbar() {
           <span className="tooltiptext">Dashboard</span>
         </div>
 
-         <div className="amplify-sign-out">
-         <button onClick={handleSignOut}>Sign Out</button>
+        <div className="amplify-sign-out">
+        <button className="amplify-sign-out-button" onClick={handleSignOut}>Sign Out</button>
         </div>
+
 
       </div>
     </nav>
