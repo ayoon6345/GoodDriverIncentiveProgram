@@ -159,14 +159,40 @@ transition: all 0.3s ease;
 
 
 
-@media screen and (max-width: 1250px){
+@media screen and (max-width: 1250px) {
+  #searchbar {
+    display: none; /* Hide the search bar on smaller screens */
+  }
 
+  .links {
+    right: 10px; /* Adjust the position of the links */
+  }
 }
 
-@media screen and (max-width: 900px){
+@media screen and (max-width: 900px) {
+  #logo h2 {
+    display: none; /* Hide the company name on smaller screens */
+  }
 
+  .navlinks h4 {
+    font-size: 14px; /* Reduce the font size of the nav links */
+  }
+
+  #pointDiv, #cart, #profile {
+    display: none; /* Hide some elements on smaller screens */
+  }
 }
 
-@media screen and (max-width: 400px){
+@media screen and (max-width: 400px) {
+  .wrapper {
+    flex-direction: column; /* Stack the logo and links vertically */
+  }
 
+  #logo {
+    margin-bottom: 10px; /* Add some space below the logo */
+  }
+
+  .navlinks {
+    margin: 5px 0; /* Reduce the margin between nav links */
+  }
 }
