@@ -9,7 +9,7 @@ function Navbar() {
     <nav>
       
       <div id="logo" onClick={() => {window.location.href='/home'}}>
-      <img src={require('./images/applogo.png')} alt="Logo" width="70px" height="70px" />
+      <img src={require('../public/images/applogo.png')} alt="Logo" width="70px" height="70px" />
       <h2>company name</h2>      
       </div>
       <div id="searchbar">
@@ -33,13 +33,13 @@ function Navbar() {
         </div>
   
         <div id="cart">
-          <img src={require('./images/emptyCart.png')} alt="Cart" width="50px" height="50px" />
+          <img src={require('../public/emptyCart.png')} alt="Cart" width="50px" height="50px" />
           <h3 id="cartitems">4</h3>
           <span className="tooltiptext">Cart</span>
         </div>
   
         <div id="profile">
-        <div><img id="userimg"  src={require('./images/user.png')} alt="user Profile" width="50px" height="50px" /></div>
+        <div><img id="userimg"  src={require('../public/user.png')} alt="user Profile" width="50px" height="50px" /></div>
           <div id="circle"></div>
           <span className="tooltiptext">Dashboard</span>
         </div>
