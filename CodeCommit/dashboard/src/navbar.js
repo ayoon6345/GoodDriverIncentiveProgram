@@ -1,5 +1,7 @@
 import React from 'react';
 import './navbar.css';
+import { AmplifySignOut } from '@aws-amplify/ui-react';
+
 
 function Navbar() {
 
@@ -31,7 +33,10 @@ function Navbar() {
           <p>points</p>
           <div id="points">0</div>
         </div>
-  
+        <div className="navlinks">
+         <AmplifySignOut buttonText="Sign Out" />
+        </div>
+
         <div id="cart">
           <img src={require('./images/emptyCart.png')} alt="Cart" width="50px" height="50px" />
           <h3 id="cartitems">4</h3>
