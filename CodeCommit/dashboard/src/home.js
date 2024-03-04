@@ -1,6 +1,12 @@
 import React from 'react';
 import { signOut } from 'aws-amplify/auth';
+import { Amplify } from 'aws-amplify';
+
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
+
 
 function HomePage() {
   const handleSignOut = async () => {
