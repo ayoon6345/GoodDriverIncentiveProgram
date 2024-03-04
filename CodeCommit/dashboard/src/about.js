@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { Amplify } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'aws-amplify/auth';
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
+
+
+import Navbar from './navbar'; // Import the Navbar component
 
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
@@ -32,12 +39,7 @@ function AboutUs() {
 
   return (
     <div>
-      <div className="navbar">
-        <a href="/home">Home</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/about">About Us</a>
-        <button onClick={handleSignOut} className="signout-button">Sign Out</button>
-      </div>
+      <Navbar /> {/* Render the Navbar component */}
       <div className="container">
         <h1>About Us</h1>
         <p>Team #: {aboutData.team_number}</p>
