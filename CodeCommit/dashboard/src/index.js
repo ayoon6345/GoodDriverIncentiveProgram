@@ -7,7 +7,6 @@ import AboutUs from './about';
 import DriverDashboard from './DriverDashboard';
 
 const App = () => (
-  <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -16,7 +15,6 @@ const App = () => (
         <Route path="/dashboard" element={<DriverDashboard />} /> 
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
 );
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
