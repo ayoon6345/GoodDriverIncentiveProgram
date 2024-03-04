@@ -13,19 +13,27 @@ position: fixed;
 width: 100%;
 }
 
-.wrapper nav{
-position: relative;
-display: flex;
+.wrapper nav {
+  position: fixed; /* Change this to fixed */
+  display: flex;
+  width: 100%;
+  background-color: #4289fa;
 }
 
-.links{
-display:flex;
-flex-flow: row nowrap;
-justify-content: center;
-position:absolute;
-top:8px;
-right: 0px;
+/* Remove the position: absolute; from .links */
+.links {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin-left: auto; /* Align links to the right */
+  margin-right: 20px; /* Add some margin to the right */
 }
+
+/* Adjust the top margin to push content below the navbar */
+main {
+  margin-top: 70px; /* Adjust this value based on your navbar height */
+}
+
 .links div{
 margin-left: 10px;
 margin-right: 10px;
