@@ -6,32 +6,30 @@ import AboutUs from './about';
 import Home from './home';
 import DriverDashboard from './DriverDashboard'; // Import the dashboard component
 import reportWebVitals from './reportWebVitals';
+import Navbar from './navbar';
+//import { Amplify } from 'aws-amplify';
 
-import { Amplify } from 'aws-amplify';
-
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import config from './amplifyconfiguration.json';
-Amplify.configure(config);
-
-
-// Wrap your components with withAuthenticator
-const AppWithAuth = withAuthenticator(() => (
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/dashboard" element={<DriverDashboard />} /> 
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
-));
+//import { withAuthenticator } from '@aws-amplify/ui-react';
+//import '@aws-amplify/ui-react/styles.css';
+//import config from './amplifyconfiguration.json';
+//Amplify.configure(config);
+const NavBar = ReactDOM.createRoot(document.getElementById('navbar'));
+NavBar.render(
+  <Navbar />
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AppWithAuth /> // Render the AppWithAuth component
+  <React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/about" element={<AboutUs />} />
+      <Route path="/dashboard" element={<DriverDashboard />} /> 
+    </Routes>
+  </BrowserRouter>
+</React.StrictMode>// Render the AppWithAuth component
 );
 
 reportWebVitals();
