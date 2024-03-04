@@ -1,9 +1,22 @@
 import React from 'react';
 import './navbar.css';
-import { AmplifySignOut } from '@aws-amplify/ui-react';
+import { signOut } from 'aws-amplify/auth';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
 
+import { Amplify } from 'aws-amplify';
+Amplify.configure(config);
 
-function Navbar() {
+async function handleSignOut() {
+  try {
+    await signOut({ global: true });
+    window.location.href='/'; // Redirect to the home page after sign out
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
+
+function CustomNavbar() {
 
   return (
     <div className="wrapper">
@@ -34,10 +47,10 @@ function Navbar() {
           <div id="points">0</div>
         </div>
         <div className="navlinks">
-         <AmplifySignOut buttonText="Sign Out" />
+         <button onClick={handleSignOut}>Sign Out</button>
         </div>
 
-        <div id="cart">
+        <div id="cart"> 
           <img src={require('./images/emptyCart.png')} alt="Cart" width="50px" height="50px" />
           <h3 id="cartitems">4</h3>
           <span className="tooltiptext">Cart</span>
@@ -55,6 +68,4 @@ function Navbar() {
   );
 }
 
-export default (Navbar);
-
-
+export default CustomNavbar;
