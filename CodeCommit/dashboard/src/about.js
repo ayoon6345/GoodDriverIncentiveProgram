@@ -5,10 +5,9 @@ import { signOut } from 'aws-amplify/auth';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
-Amplify.configure(config);
-
-
 import Navbar from './navbar'; // Import the Navbar component
+
+Amplify.configure(config);
 
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
