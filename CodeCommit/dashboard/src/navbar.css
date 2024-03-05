@@ -69,7 +69,7 @@ cursor: pointer;
 #circle {
 position:absolute;
 z-index: -1;
-top: 0px;
+top: 10px;
 height: 50px;
 width: 50px;
 background-color: rgb(255, 255, 255);
@@ -85,11 +85,13 @@ position: absolute;
 z-index: 1;
 display:block;
 }
+#profile{
+  padding-top: 10px;
+}
 #profile:hover #circle{
 transition: all 0.3s ease;
 background: #ff7300;
 cursor: pointer;
-
 }
 #profile:hover{
     cursor: pointer;  
@@ -98,7 +100,11 @@ cursor: pointer;
 visibility: visible;
 
 }
-
+#cart img{
+  position: relative;
+  top:10px;
+  left: 5px;
+}
 #cart:hover{
 background-color: #ff7300;
 border-radius: 5px;
@@ -110,11 +116,13 @@ visibility: visible;
 }
 #cart h3{
 display: inline-block;
-position: absolute;
-right: 115px;
+position: relative;
 color: black;
+right:22px;
+bottom: 20px;
 }
 #pointDiv{
+margin-top: 10px;
 max-width: 100px;
 width:auto;
 height:50px;
@@ -165,7 +173,6 @@ transition: all 0.3s ease;
 .amplify-sign-out-button:hover {
   background-color: #e06600;
 }
-
 
 
 @media screen and (max-width: 1250px) {
