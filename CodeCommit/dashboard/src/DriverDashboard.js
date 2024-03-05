@@ -14,19 +14,26 @@ Amplify.configure(config);
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const changeView = (view) => {
     setActiveView(view);
   };
 
-  async function handleDeleteUser() {
+  const handleDeleteUser = async () => {
+    setShowDeleteConfirmation(true);
+  };
+
+  const confirmDeleteUser = async () => {
     try {
       await deleteUser();
       // Redirect user to a different page or show a message upon successful deletion
     } catch (error) {
       console.log(error);
     }
-  }
-  
+    setShowDeleteConfirmation(false);
+  };
+
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
@@ -41,6 +48,16 @@ function DriverDashboard() {
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
+
+        {showDeleteConfirmation && (
+          <div className="modal">
+            <div className="modal-content">
+              <p>Do you really want to delete?</p>
+              <button onClick={confirmDeleteUser}>Yes</button>
+              <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
