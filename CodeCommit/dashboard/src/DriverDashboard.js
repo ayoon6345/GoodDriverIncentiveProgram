@@ -14,7 +14,6 @@ import { post } from 'aws-amplify/api';
 
 Amplify.configure(config);
 
-const client = generateClient()
 
 async function addToGroup() { 
   let apiName = 'AdminQueries';
