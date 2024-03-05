@@ -5,14 +5,6 @@ import './LandingPage.css';
 function LandingPage() {
   return (
     <div className="landing-page">
-      <header className="navbar">
-        <a href="/" className="logo">TruckStar Rewards</a>
-        <nav>
-          <ul>
-            <li><a href="/home">Home</a></li>
-          </ul>
-        </nav>
-      </header>
       <div className="container">
         <h1>Welcome to TruckStar Rewards</h1>
         <p>Driving Excellence in the Trucking Industry</p>
