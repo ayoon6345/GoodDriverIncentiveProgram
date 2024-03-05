@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -15,6 +15,7 @@ Amplify.configure(config);
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const changeView = (view) => {
     setActiveView(view);
@@ -34,6 +35,14 @@ function DriverDashboard() {
     setShowDeleteConfirmation(false);
   };
 
+  useEffect(() => {
+    // Fetch user data when component mounts
+    fetch('/api/list-users')
+      .then((response) => response.json())
+      .then((data) => setUserData(data))
+      .catch((error) => console.error('Error fetching user data:', error));
+  }, []);
+
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
@@ -45,7 +54,7 @@ function DriverDashboard() {
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={handleDeleteUser}>Delete User</button>
         </nav>
-        {activeView === 'profile' && <Profile />}
+        {activeView === 'profile' && <Profile userData={userData} />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
 
@@ -63,6 +72,4 @@ function DriverDashboard() {
   );
 }
 
-
-export default DriverDashboard;
-//export default withAuthenticator(DriverDashboard);
+export default withAuthenticator(DriverDashboard);
