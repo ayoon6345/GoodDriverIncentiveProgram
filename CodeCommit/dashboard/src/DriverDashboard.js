@@ -9,27 +9,8 @@ import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
 import { deleteUser } from 'aws-amplify/auth';
-import { fetchAuthSession } from 'aws-amplify/auth';
-import { post } from 'aws-amplify/api';
 
 Amplify.configure(config);
-
-
-async function addToGroup() { 
-  let apiName = 'AdminQueries';
-  let path = '/addUserToGroup';
-  let options = {
-      body: {
-        "username" : "richard",
-        "groupname": "Editors"
-      }, 
-      headers: {
-        'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
-      } 
-  }
-  return post({apiName, path, options});
-}
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
@@ -53,16 +34,6 @@ function DriverDashboard() {
     setShowDeleteConfirmation(false);
   };
 
-  const handleAddToGroup = async () => {
-    try {
-      await addToGroup();
-      // Handle success
-    } catch (error) {
-      console.log(error);
-      // Handle error
-    }
-  };
-
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
@@ -73,7 +44,6 @@ function DriverDashboard() {
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={handleDeleteUser}>Delete User</button>
-          <button onClick={handleAddToGroup}>Add to Group</button>
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
@@ -93,4 +63,6 @@ function DriverDashboard() {
   );
 }
 
+
 export default DriverDashboard;
+//export default withAuthenticator(DriverDashboard);
