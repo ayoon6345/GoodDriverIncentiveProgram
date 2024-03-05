@@ -1,15 +1,12 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
   color: #333;
 }
-
 .App {
   text-align: center;
-}
-#root{
-  padding-top: 70px;
 }
 
 header {
@@ -54,7 +51,7 @@ header {
 
 .container {
   max-width: 800px;
-  margin: 20px auto;
+  margin: 90px auto;   /*was originally 20px. but added 70px. The navbar is 70px long so added 70px to make the container below nav*/
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
