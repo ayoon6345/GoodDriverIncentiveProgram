@@ -7,36 +7,17 @@ import Navbar from './navbar'; // Import the Navbar component
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
-import AdminDashboard from './AdminDashboard'; // Import the AdminDashboard component
 import './App.css';
 
 Amplify.configure(config);
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
-  const [userType, setUserType] = useState(null);
-
-  useEffect(() => {
-    const fetchUserType = async () => {
-      try {
-        const user = await Auth.currentAuthenticatedUser();
-        setUserType(user.attributes['custom:user_type']);
-      } catch (error) {
-        console.error('Failed to fetch user type:', error);
-      }
-    };
-
-    fetchUserType();
-  }, []);
-
   const changeView = (view) => {
     setActiveView(view);
   };
 
-  if (userType === 'admin') {
-    return <AdminDashboard />;
-  }
-
+  
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
