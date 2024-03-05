@@ -40,6 +40,7 @@ function DriverDashboard() {
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
+      <div className="container">
       <h1>Driver Dashboard</h1>
       <nav>
         <button onClick={() => changeView('profile')}>Profile</button>
@@ -49,6 +50,7 @@ function DriverDashboard() {
       {activeView === 'profile' && <Profile />}
       {activeView === 'points' && <PointsOverview />}
       {activeView === 'catalog' && <ProductCatalog />}
+      </div>
     </div>
   );
 }
