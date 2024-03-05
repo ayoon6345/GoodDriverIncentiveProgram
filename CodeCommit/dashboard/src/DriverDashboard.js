@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { withAuthenticator, AmplifyAuth } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import Navbar from './navbar'; // Import the Navbar component
@@ -7,6 +8,7 @@ import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
+import { deleteUser } from 'aws-amplify/auth';
 
 Amplify.configure(config);
 
@@ -16,21 +18,15 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-  const createUser = async () => {
+  async function handleDeleteUser() {
     try {
-      const result = await AmplifyAuth.signUp({
-        username: 'username',
-        password: 'password',
-        attributes: {
-          email: 'email@example.com',
-        },
-      });
-      console.log('User successfully created:', result);
+      await deleteUser();
+      // Redirect user to a different page or show a message upon successful deletion
     } catch (error) {
-      console.error('Error creating user:', error);
+      console.log(error);
     }
-  };
-
+  }
+  
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
@@ -40,7 +36,7 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-          <button onClick={createUser}>Create User</button> {/* Add a button to create a user */}
+          <button onClick={handleDeleteUser}>Delete User</button>
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
