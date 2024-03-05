@@ -5,6 +5,7 @@ body {
   background-color: #f0f0f0;
   color: #333;
 }
+
 .App {
   text-align: center;
 }
@@ -51,9 +52,47 @@ header {
 
 .container {
   max-width: 800px;
-  margin: 90px auto;   /*was originally 20px. but added 70px. The navbar is 70px long so added 70px to make the container below nav*/
+  margin: 90px auto; /* was originally 20px. but added 70px. The navbar is 70px long so added 70px to make the container below nav */
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content p {
+  margin-bottom: 20px;
+}
+
+.modal-content button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #61dafb;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.modal-content button:last-child {
+  margin-right: 0;
 }
