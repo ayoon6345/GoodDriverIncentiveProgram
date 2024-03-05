@@ -44,6 +44,10 @@ function DriverDashboard() {
     }
   };
 
+  if (userType === 'admin') {
+    return <AdminDashboard />;
+  }
+
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
