@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Amplify} from 'aws-amplify';
-import { Auth } from 'aws-amplify/auth';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import React, { useState } from 'react';
+import { withAuthenticator, AmplifyAuth } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import Navbar from './navbar'; // Import the Navbar component
@@ -20,15 +18,14 @@ function DriverDashboard() {
 
   const createUser = async () => {
     try {
-      await Auth.signUp({
-        username: 'username', // Provide a unique username
-        password: 'password', // Provide a password
+      const result = await AmplifyAuth.signUp({
+        username: 'username',
+        password: 'password',
         attributes: {
-          email: 'email@example.com', // Provide an email address
-          // Add any other user attributes you want to include
+          email: 'email@example.com',
         },
       });
-      console.log('User successfully created');
+      console.log('User successfully created:', result);
     } catch (error) {
       console.error('Error creating user:', error);
     }
