@@ -15,6 +15,7 @@ Amplify.configure(config);
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [userType, setUserType] = useState(null);
+  const [showAccountSettings, setShowAccountSettings] = useState(false);
 
   useEffect(() => {
     const fetchUserType = async () => {
@@ -33,23 +34,36 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-  if (userType === 'admin') {
-    return <AdminDashboard />;
-  }
+  const handleDeleteUser = async () => {
+    try {
+      await Auth.currentAuthenticatedUser().then((user) => {
+        return Auth.deleteUser(user);
+      });
+    } catch (error) {
+      console.log('Failed to delete user:', error);
+    }
+  };
 
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
       <div className="container">
-      <h1>Driver Dashboard</h1>
-      <nav>
-        <button onClick={() => changeView('profile')}>Profile</button>
-        <button onClick={() => changeView('points')}>Points Overview</button>
-        <button onClick={() => changeView('catalog')}>Product Catalog</button>
-      </nav>
-      {activeView === 'profile' && <Profile />}
-      {activeView === 'points' && <PointsOverview />}
-      {activeView === 'catalog' && <ProductCatalog />}
+        <h1>Driver Dashboard</h1>
+        <nav>
+          <button onClick={() => changeView('profile')}>Profile</button>
+          <button onClick={() => changeView('points')}>Points Overview</button>
+          <button onClick={() => changeView('catalog')}>Product Catalog</button>
+          <button onClick={() => setShowAccountSettings(!showAccountSettings)}>Account Settings</button> {/* Toggle account settings */}
+        </nav>
+        {showAccountSettings && (
+          <div>
+            <h2>Account Settings</h2>
+            <button onClick={handleDeleteUser}>Delete User Account</button> {/* Button to delete user account */}
+          </div>
+        )}
+        {activeView === 'profile' && <Profile />}
+        {activeView === 'points' && <PointsOverview />}
+        {activeView === 'catalog' && <ProductCatalog />}
       </div>
     </div>
   );
