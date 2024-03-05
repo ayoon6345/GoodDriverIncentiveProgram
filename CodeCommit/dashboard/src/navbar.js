@@ -10,7 +10,7 @@ Amplify.configure(config);
 async function handleSignOut() {
   try {
     await signOut({ global: true });
-    window.location.href='/'; // Redirect to the home page after sign out
+    window.location.href='/'; // Redirect to the landing page after sign out
   } catch (error) {
     console.log('error signing out: ', error);
   }
