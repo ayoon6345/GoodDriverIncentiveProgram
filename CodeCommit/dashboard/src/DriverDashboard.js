@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Amplify } from 'aws-amplify';
+import React, { useState, useEffect } from 'react';
+import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
@@ -15,6 +15,13 @@ Amplify.configure(config);
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(user => setUser(user))
+      .catch(() => setUser(null));
+  }, []);
 
   const changeView = (view) => {
     setActiveView(view);
@@ -39,6 +46,7 @@ function DriverDashboard() {
       <Navbar /> {/* Render the Navbar component */}
       <div className="container">
         <h1>Driver Dashboard</h1>
+        <p>Logged in as: {user ? user.username : 'Unknown'}</p>
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
