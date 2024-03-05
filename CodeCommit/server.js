@@ -29,8 +29,8 @@ const cognito = new AWS.CognitoIdentityServiceProvider({
   secretAccessKey: amplifyConfig.aws_secret_access_key
 });
 
-// List Cognito users
 app.get('/api/list-users', (req, res) => {
+  console.log('Fetching user data...');
   const params = {
     UserPoolId: amplifyConfig.aws_user_pools_id,
     AttributesToGet: [
@@ -42,10 +42,12 @@ app.get('/api/list-users', (req, res) => {
 
   cognito.listUsers(params, (err, data) => {
     if (err) {
-      console.error('Error listing users: ' + err);
-      res.status(500).send('Internal Server Error');
+      console.error('Error listing users:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
       return;
     }
+
+    console.log('User data fetched successfully:', data);
     const users = data.Users.map(user => ({
       Username: user.Username,
       Attributes: user.Attributes.reduce((acc, attr) => {
@@ -53,9 +55,12 @@ app.get('/api/list-users', (req, res) => {
         return acc;
       }, {})
     }));
+
+    console.log('Sending user data:', users);
     res.json(users);
   });
 });
+
 
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
