@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 *{
-margin: 0;
-padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .wrapper{
 box-sizing: border-box;
@@ -15,6 +15,7 @@ width: 100%;
 
 .wrapper nav {
   position: fixed; /* Change this to fixed */
+  top:0;
   display: flex;
   width: 100%;
   background-color: #4289fa;
@@ -204,3 +205,4 @@ transition: all 0.3s ease;
     margin: 5px 0; /* Reduce the margin between nav links */
   }
 }
+
