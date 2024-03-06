@@ -1,37 +1,28 @@
 import React, { useState } from 'react';
-import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import config from './amplifyconfiguration.json';
 import Navbar from './navbar'; // Import the Navbar component
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
-import { deleteUser } from 'aws-amplify/auth';
-
-Amplify.configure(config);
+import { addUserToGroup } from './adminApi'; // Import the API function
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [username, setUsername] = useState('');
+  const [groupname, setGroupname] = useState('');
+  const [message, setMessage] = useState('');
 
   const changeView = (view) => {
     setActiveView(view);
   };
 
-  const handleDeleteUser = async () => {
-    setShowDeleteConfirmation(true);
-  };
-
-  const confirmDeleteUser = async () => {
-    try {
-      await deleteUser();
-      // Redirect user to a different page or show a message upon successful deletion
-    } catch (error) {
-      console.log(error);
-    }
-    setShowDeleteConfirmation(false);
+  const handleAddUserToGroup = async () => {
+    const result = await addUserToGroup(username, groupname);
+    setMessage(result);
+    setUsername('');
+    setGroupname('');
   };
 
   return (
@@ -43,25 +34,34 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-          <button onClick={handleDeleteUser}>Delete User</button>
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
 
-        {showDeleteConfirmation && (
-          <div className="modal">
-            <div className="modal-content">
-              <p>Do you really want to delete?</p>
-              <button onClick={confirmDeleteUser}>Yes</button>
-              <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
-            </div>
+        {/* Admin Actions */}
+        <div className="admin-actions">
+          <h2>Admin Actions</h2>
+          <div>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Group Name"
+              value={groupname}
+              onChange={(e) => setGroupname(e.target.value)}
+            />
+            <button onClick={handleAddUserToGroup}>Add User to Group</button>
           </div>
-        )}
+          {message && <p>{message}</p>}
+        </div>
       </div>
     </div>
   );
 }
-
 
 export default withAuthenticator(DriverDashboard);
