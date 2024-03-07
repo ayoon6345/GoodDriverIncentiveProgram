@@ -24,18 +24,29 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
+ 
+
 async function listEditors(){
-  let apiName = 'AdminQueries';
-  let path = '/listUsers';
-  let options = { 
+  try {
+    const response = await fetch('/.netlify/functions/listUsers', {
+      method: 'POST',
       headers: {
-        'Content-Type' : 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
-      }
+      },
+      body: JSON.stringify({ Limit: 10 }) // Pass the Limit parameter if needed
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch users');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error listing users:', error);
+    throw error;
   }
-  const response = await get({apiName, path, options});
-  return response;
 }
+
 
 
   return (
