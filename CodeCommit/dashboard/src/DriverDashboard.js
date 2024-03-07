@@ -6,7 +6,7 @@ import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
-import { addUserToGroup, listUsers } from './adminApi'; // Import the API functions
+import {listUsers } from './adminApi'; // Import the API functions
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
