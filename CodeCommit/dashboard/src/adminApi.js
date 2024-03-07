@@ -20,7 +20,7 @@ export const addUserToGroup = async (username, groupname) => {
 
 export const listUsers = async () => {
   try {
-    const response = await fetch('https://lxr0v6oa27.execute-api.us-east-1.amazonaws.com/dev/listUsers', {
+    const response = await fetch('https://lxr0v6oa27.execute-api.us-east-1.amazonaws.com/dev', {
       method: 'GET'
     });
     if (response.ok) {
