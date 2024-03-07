@@ -9,6 +9,8 @@ import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
 
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
@@ -22,7 +24,7 @@ async function listEditors(limit){
   let path = '/listUsersInGroup';
   let options = { 
       queryStringParameters: {
-        "groupname": "Editors",
+        "groupname": "admins",
         "limit": limit,
       },
       headers: {
