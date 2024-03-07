@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
-import { Amplify } from 'aws-amplify';
-import { fetchAuthSession } from 'aws-amplify/auth';
-import { get } from 'aws-amplify/api'
+import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-
-import Navbar from './navbar'; // Import the Navbar component
+import Navbar from './navbar';
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
-
-
 import amplifyconfig from './amplifyconfiguration.json';
+
 Amplify.configure(amplifyconfig);
-
-
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
@@ -24,38 +18,29 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
- 
-
-async function listEditors(limit){
-  let apiName = 'AdminQueries';
-  let path = '/listUsersInGroup';
-  let options = { 
-      queryStringParameters: {
-        "groupname": "Admins",
-        "limit": limit,
-      },
-      headers: {
-        'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
-      }
-  }
-  const response = await get({apiName, path, options});
-  return response;
-}
-
-
+  const getUserInfo = async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      const userInfo = await Auth.adminGetUser({
+        Username: user.username,
+        UserPoolId: amplifyconfig.aws_user_pools_id,
+      });
+      console.log(userInfo);
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+    }
+  };
 
   return (
     <div>
-      <Navbar /> {/* Render the Navbar component */}
+      <Navbar />
       <div className="container">
         <h1>Driver Dashboard</h1>
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-      <button onClick={() => listEditors(10)}>List Editors</button>
-
+          <button onClick={getUserInfo}>Get User Info</button>
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
