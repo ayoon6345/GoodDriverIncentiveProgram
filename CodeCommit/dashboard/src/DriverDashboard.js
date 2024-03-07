@@ -21,12 +21,19 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-async function listEditors(){
+async function listEditors(limit){
   let apiName = 'AdminQueries';
   let path = '/listUsers';
-  let options = {}; // You need to define options object if needed
-
-  
+  let options = { 
+      queryStringParameters: {
+        "groupname": "admins",
+        "limit": limit,
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+      }
+  }
   const response = await get({apiName, path, options});
   return response;
 }
