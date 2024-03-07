@@ -9,8 +9,6 @@ import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
 
-import amplifyconfig from './amplifyconfiguration.json';
-Amplify.configure(amplifyconfig);
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
