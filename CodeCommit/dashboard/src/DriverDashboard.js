@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Amplify } from 'aws-amplify';
+import { Amplify, API } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { get } from 'aws-amplify/api'
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -11,11 +10,8 @@ import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
 
-
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
-
-
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
@@ -24,21 +20,24 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
- 
-
-async function listEditors(){
-  let apiName = 'AdminQueries';
-  let path = '/listUsers';
-  let options = { 
+  async function listEditors() {
+    const apiName = 'AdminQueries';
+    const path = '/listUsers';
+    const session = await fetchAuthSession();
+    const options = { 
       headers: {
         'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+        Authorization: `Bearer ${session.accessToken.jwtToken}`
       }
-  }
-  const response = await get({apiName, path, options});
-  return response;
-}
+    };
 
+    try {
+      const response = await API.get(apiName, path, options);
+      console.log(response);
+    } catch (error) {
+      console.error('Error listing users:', error);
+    }
+  }
 
   return (
     <div>
@@ -49,8 +48,7 @@ async function listEditors(){
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-      <button onClick={() => listEditors(10)}>List Editors</button>
-
+          <button onClick={() => listEditors()}>List Editors</button>
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
