@@ -15,6 +15,23 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
+async function listEditors(limit){
+  let apiName = 'AdminQueries';
+  let path = '/listUsersInGroup';
+  let options = { 
+      queryStringParameters: {
+        "groupname": "Editors",
+        "limit": limit,
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+      }
+  }
+  const response = await get({apiName, path, options});
+  return response;
+}
+
 
 
 
@@ -27,6 +44,8 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
+          <button onClick={() => listEditors(10)}>List Editors</button>
+
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
