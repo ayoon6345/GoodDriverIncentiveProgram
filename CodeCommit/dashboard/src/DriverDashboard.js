@@ -1,14 +1,16 @@
-import Navbar from './navbar'; // Import the Navbar component
-import Profile from './Profile';
-import PointsOverview from './PointsOverview';
-import ProductCatalog from './ProductCatalog';
-import './App.css';
 import React from 'react'
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { get } from 'aws-amplify/api'
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+
+import Navbar from './navbar'; // Import the Navbar component
+import Profile from './Profile';
+import PointsOverview from './PointsOverview';
+import ProductCatalog from './ProductCatalog';
+import './App.css';
+
 
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
