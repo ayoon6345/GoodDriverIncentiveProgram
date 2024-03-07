@@ -6,29 +6,15 @@ import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
-import {listUsers } from './adminApi'; // Import the API functions
+import { post } from 'aws-amplify/api'
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
-  const [username, setUsername] = useState('');
-  const [groupname, setGroupname] = useState('');
-  const [message, setMessage] = useState('');
 
   const changeView = (view) => {
     setActiveView(view);
   };
 
-const [users, setUsers] = useState([]);
-
-const handleListUsers = async () => {
-  const result = await listUsers();
-  console.log(result); // Add this line to log the result
-  if (Array.isArray(result)) {
-    setUsers(result);
-  } else {
-    setMessage(JSON.stringify(result)); // Update this line to stringify the result
-  }
-};
 
 
 
@@ -45,24 +31,6 @@ const handleListUsers = async () => {
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
-
-        {/* Admin Actions */}
-        <div className="admin-actions">
-          <h2>Admin Actions</h2>
-          <div>
-            
-            <button onClick={handleListUsers}>List Users</button>
-{users.length > 0 && (
-  <ul>
-    {users.map((user) => (
-      <li key={user.Username}>{user.Username}</li>
-    ))}
-  </ul>
-)}
-
-          </div>
-          {message && <p>{message}</p>}
-        </div>
       </div>
     </div>
   );
