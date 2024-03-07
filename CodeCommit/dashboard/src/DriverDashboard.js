@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Amplify, API } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
+import { post } from 'aws-amplify/api'
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -13,6 +14,8 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
+const client = generateClient()
+
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
 
@@ -20,25 +23,22 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-  async function listEditors() {
-    const apiName = 'AdminQueries';
-    const path = '/listUsers';
-    const session = await fetchAuthSession();
-    const options = { 
+
+async function addToGroup() { 
+  let apiName = 'AdminQueries';
+  let path = '/addUserToGroup';
+  let options = {
+      body: {
+        "username" : "richard",
+        "groupname": "Admins"
+      }, 
       headers: {
         'Content-Type' : 'application/json',
-        Authorization: `Bearer ${session.accessToken.jwtToken}`
-      }
-    };
-
-    try {
-      const response = await API.get(apiName, path, options);
-      console.log(response);
-    } catch (error) {
-      console.error('Error listing users:', error);
-    }
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+      } 
   }
-
+  return post({apiName, path, options});
+}
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
@@ -48,7 +48,7 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-          <button onClick={() => listEditors()}>List Editors</button>
+          <button onClick={addToGroup}>Add to Group</button>
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
