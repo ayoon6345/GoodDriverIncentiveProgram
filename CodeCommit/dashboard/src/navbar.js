@@ -59,15 +59,18 @@ function CustomNavbar() {
             <h3 id="cartitems">4</h3>
             <span className="tooltiptext">Cart</span>
           </div>
-          <div id="profile" onClick={() => {window.location.href='/dashboard'}}>
+          <div id="profile">
             <div><img id="userimg"  src={require('./images/user.png')} alt="user Profile" width="50px" height="50px" /></div>
             <div id="circle"></div>
-            <span className="tooltiptext">Dashboard</span>
+            <div id="dropdown">
+              <ul>
+                <li><h4 onClick={() => {window.location.href='/dashboard'}} >Dashboard</h4></li>
+                <li><h4 onClick={handleSignOut}>Sign Out</h4></li>
+              </ul>
+            </div>
             {username && <span>{username}</span>}
           </div>
-          <div className="navlinks" onClick={handleSignOut}>
-            <h4>Sign Out</h4>
-          </div>
+
         </div>
       </nav>
     </div>
