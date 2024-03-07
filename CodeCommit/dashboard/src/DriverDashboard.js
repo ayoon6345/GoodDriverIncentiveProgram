@@ -8,6 +8,9 @@ import ProductCatalog from './ProductCatalog';
 import './App.css';
 import { post } from 'aws-amplify/api'
 
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
+
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
 
