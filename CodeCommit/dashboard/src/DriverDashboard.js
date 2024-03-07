@@ -18,13 +18,6 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-  const handleAddUserToGroup = async () => {
-    const result = await addUserToGroup(username, groupname);
-    setMessage(result);
-    setUsername('');
-    setGroupname('');
-  };
-
 const [users, setUsers] = useState([]);
 
 const handleListUsers = async () => {
@@ -57,19 +50,7 @@ const handleListUsers = async () => {
         <div className="admin-actions">
           <h2>Admin Actions</h2>
           <div>
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Group Name"
-              value={groupname}
-              onChange={(e) => setGroupname(e.target.value)}
-            />
-            <button onClick={handleAddUserToGroup}>Add User to Group</button>
+            
             <button onClick={handleListUsers}>List Users</button>
 {users.length > 0 && (
   <ul>
