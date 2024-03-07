@@ -96,10 +96,36 @@ cursor: pointer;
 #profile:hover{
     cursor: pointer;  
 }
-#profile:hover .tooltiptext{
+#profile:hover #dropdown{
 visibility: visible;
-
+display: block;
 }
+#dropdown{
+  position:absolute;
+  list-style-type: none;
+  display: none;
+  visibility: hidden;
+  right: 5px;
+}
+#dropdown ul li{
+  list-style-type: none;
+  background-color: #3975d6;
+  color:white;
+  padding: 1px;
+  border-radius: 5px;
+}
+#dropdown h4{
+  background-color: #4289fa;
+  padding: 5px;
+}
+#dropdown h4:hover{
+  background-color: #ff7300;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  }
 #cart img{
   position: relative;
   top:10px;
