@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import '@aws-amplify/ui-react/styles.css';
+import { get } from 'aws-amplify/api'
 import Navbar from './navbar'; // Import the Navbar component
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
