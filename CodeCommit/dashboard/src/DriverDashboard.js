@@ -1,7 +1,7 @@
 import React from 'react'
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { get } from 'aws-amplify/api'
+import { post } from 'aws-amplify/api'
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -24,23 +24,22 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-
-async function listEditors(limit){
+async function addToGroup() { 
   let apiName = 'AdminQueries';
-  let path = '/listUsersInGroup';
-  let options = { 
-      queryStringParameters: {
-        "groupname": "Admins",
-        "limit": limit,
-      },
+  let path = '/addUserToGroup';
+  let options = {
+      body: {
+        "username" : "richard",
+        "groupname": "Admins"
+      }, 
       headers: {
         'Content-Type' : 'application/json',
         Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
-      }
+      } 
   }
-  const response = await get({apiName, path, options});
-  return response;
+  return post({apiName, path, options});
 }
+
 
 
 
@@ -53,7 +52,7 @@ async function listEditors(limit){
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-          <button onClick={() => listEditors(10)}>List Editors</button>
+         <button onClick={addToGroup}>Add to Group</button>
 
         </nav>
         {activeView === 'profile' && <Profile />}
