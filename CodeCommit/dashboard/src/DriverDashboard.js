@@ -6,7 +6,7 @@ import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
-import { addUserToGroup } from './adminApi'; // Import the API function
+import { addUserToGroup, listUsers } from './adminApi'; // Import the API functions
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
@@ -24,6 +24,18 @@ function DriverDashboard() {
     setUsername('');
     setGroupname('');
   };
+
+const [users, setUsers] = useState([]);
+
+const handleListUsers = async () => {
+  const result = await listUsers();
+  if (Array.isArray(result)) {
+    setUsers(result);
+  } else {
+    setMessage(result);
+  }
+};
+
 
   return (
     <div>
@@ -56,6 +68,15 @@ function DriverDashboard() {
               onChange={(e) => setGroupname(e.target.value)}
             />
             <button onClick={handleAddUserToGroup}>Add User to Group</button>
+            <button onClick={handleListUsers}>List Users</button>
+{users.length > 0 && (
+  <ul>
+    {users.map((user) => (
+      <li key={user.Username}>{user.Username}</li>
+    ))}
+  </ul>
+)}
+
           </div>
           {message && <p>{message}</p>}
         </div>
