@@ -24,6 +24,8 @@ function DriverDashboard() {
 async function listEditors(){
   let apiName = 'AdminQueries';
   let path = '/listUsers';
+  let options = {}; // You need to define options object if needed
+
   
   const response = await get({apiName, path, options});
   return response;
