@@ -29,12 +29,14 @@ const [users, setUsers] = useState([]);
 
 const handleListUsers = async () => {
   const result = await listUsers();
+  console.log(result); // Add this line to log the result
   if (Array.isArray(result)) {
     setUsers(result);
   } else {
-    setMessage(result);
+    setMessage(JSON.stringify(result)); // Update this line to stringify the result
   }
 };
+
 
 
   return (
