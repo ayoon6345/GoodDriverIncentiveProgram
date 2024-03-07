@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { Amplify } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import { fetchAuthSession } from 'aws-amplify/auth';
-import '@aws-amplify/ui-react/styles.css';
-import { get } from 'aws-amplify/api'
 import Navbar from './navbar'; // Import the Navbar component
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import './App.css';
+import React from 'react'
+import { Amplify } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
+import { get } from 'aws-amplify/api'
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
+
 
 
 function DriverDashboard() {
@@ -21,12 +22,13 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
+
 async function listEditors(limit){
   let apiName = 'AdminQueries';
-  let path = '/listUsers';
+  let path = '/listUsersInGroup';
   let options = { 
       queryStringParameters: {
-        "groupname": "admins",
+        "groupname": "Admins",
         "limit": limit,
       },
       headers: {
@@ -37,7 +39,6 @@ async function listEditors(limit){
   const response = await get({apiName, path, options});
   return response;
 }
-
 
 
 
