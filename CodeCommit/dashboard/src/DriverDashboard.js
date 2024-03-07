@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { post } from 'aws-amplify/api'
+import { generateClient, post } from 'aws-amplify/api'
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
