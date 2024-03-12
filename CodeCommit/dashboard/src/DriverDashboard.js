@@ -34,7 +34,7 @@ async function addToGroup() {
       }, 
       headers: {
         'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       } 
   }
   return await post({apiName, path, options});
