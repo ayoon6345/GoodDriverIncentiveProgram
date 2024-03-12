@@ -29,7 +29,7 @@ async function addToGroup() {
   let path = '/addUserToGroup';
   let options = {
       body: {
-        "username" : "richard",
+        "username" : "ayoon",
         "groupname": "Admins"
       }, 
       headers: {
