@@ -68,3 +68,6 @@ function DriverDashboard() {
     </div>
   );
 }
+
+
+export default withAuthenticator(DriverDashboard);
