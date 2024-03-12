@@ -51,6 +51,8 @@ function DriverDashboard() {
     }
   }
 
+  async function addToGroup() {
+
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
@@ -78,4 +80,4 @@ function DriverDashboard() {
   );
 }
 
-export default withAuthenticator(DriverDashboard);
+export default DriverDashboard;
