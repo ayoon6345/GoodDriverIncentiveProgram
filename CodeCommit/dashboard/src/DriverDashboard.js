@@ -29,15 +29,15 @@ async function addToGroup() {
   let path = '/addUserToGroup';
   let options = {
       body: {
-        "username" : "richard",
-        "groupname": "Admins"
+        "Username" : "richard",
+        "GroupName": "Admins"
       }, 
       headers: {
         'Content-Type' : 'application/json',
         Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
       } 
   }
-  return post({apiName, path, options});
+  return await post({apiName, path, options});
 }
   return (
     <div>
