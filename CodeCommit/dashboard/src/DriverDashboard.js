@@ -39,6 +39,7 @@ async function addToGroup() {
   }
   return await post({apiName, path, options});
 }
+console.log(addToGroup());
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
