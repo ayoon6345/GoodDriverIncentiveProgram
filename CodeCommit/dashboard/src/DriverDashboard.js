@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { generateClient, post } from 'aws-amplify/api'
+import { post } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -14,11 +14,11 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-const client = generateClient()
-
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [username, setUsername] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const changeView = (view) => {
     setActiveView(view);
@@ -28,25 +28,32 @@ function DriverDashboard() {
     setUsername(event.target.value);
   };
 
-  async function addToGroup() { 
-    let apiName = 'AdminQueries';
-    let path = '/addUserToGroup';
-    let options = {
-      body: {
-        "username" : username,
-        "groupname": "Admins"
-      }, 
-      headers: {
-        'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-      } 
+  async function addToGroup() {
+    try {
+      let apiName = 'AdminQueries';
+      let path = '/addUserToGroup';
+      let options = {
+        body: {
+          "username": username,
+          "groupname": "Admins"
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        }
+      }
+      await post({ apiName, path, options });
+      setSuccessMessage(`User ${username} added to group.`);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Failed to add user to group. Please try again.');
+      setSuccessMessage('');
     }
-    return await post({apiName, path, options});
   }
 
   return (
     <div>
-      <Navbar />
+      <Navbar /> {/* Render the Navbar component */}
       <div className="container">
         <h1>Driver Dashboard</h1>
         <input
@@ -61,6 +68,8 @@ function DriverDashboard() {
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
         </nav>
+        {successMessage && <div className="success-message">{successMessage}</div>}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
@@ -68,6 +77,5 @@ function DriverDashboard() {
     </div>
   );
 }
-
 
 export default withAuthenticator(DriverDashboard);
