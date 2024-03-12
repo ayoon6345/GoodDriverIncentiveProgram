@@ -18,33 +18,43 @@ const client = generateClient()
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
+  const [username, setUsername] = useState('');
 
   const changeView = (view) => {
     setActiveView(view);
   };
 
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
 
-async function addToGroup() { 
-  let apiName = 'AdminQueries';
-  let path = '/addUserToGroup';
-  let options = {
+  async function addToGroup() { 
+    let apiName = 'AdminQueries';
+    let path = '/addUserToGroup';
+    let options = {
       body: {
-        "username" : "ayoon",
+        "username" : username,
         "groupname": "Admins"
       }, 
       headers: {
         'Content-Type' : 'application/json',
         Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       } 
+    }
+    return await post({apiName, path, options});
   }
-  return await post({apiName, path, options});
-}
-console.log(addToGroup());
+
   return (
     <div>
-      <Navbar /> {/* Render the Navbar component */}
+      <Navbar />
       <div className="container">
         <h1>Driver Dashboard</h1>
+        <input
+          type="text"
+          placeholder="Enter Username"
+          value={username}
+          onChange={handleUsernameChange}
+        />
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
@@ -58,5 +68,3 @@ console.log(addToGroup());
     </div>
   );
 }
-
-export default withAuthenticator(DriverDashboard);
