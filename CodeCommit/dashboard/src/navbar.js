@@ -37,7 +37,7 @@ function CustomNavbar() {
       <nav>
         <div id="logo" onClick={() => {window.location.href='/home'}}>
           <img src={require('./images/applogo.png')} alt="Logo" width="70px" height="70px" />
-          <h2>company name</h2>      
+          <h2>TruckStar Rewards</h2>      
         </div>
         <div id="searchbar">
           <input type="text" placeholder="Search.." />
