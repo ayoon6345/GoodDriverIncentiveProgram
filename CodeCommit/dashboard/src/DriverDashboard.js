@@ -51,7 +51,7 @@ function DriverDashboard() {
     }
   }
 
-  async function addToGroup() {
+  
 
   return (
     <div>
@@ -80,4 +80,4 @@ function DriverDashboard() {
   );
 }
 
-export default DriverDashboard;
+export default (DriverDashboard);
