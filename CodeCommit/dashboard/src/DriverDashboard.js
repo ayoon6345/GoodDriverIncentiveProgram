@@ -80,4 +80,4 @@ function DriverDashboard() {
   );
 }
 
-export default (DriverDashboard);
+export default withAuthenticator (DriverDashboard);
