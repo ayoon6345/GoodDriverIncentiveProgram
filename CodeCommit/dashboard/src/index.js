@@ -5,6 +5,7 @@ import LandingPage from './Landing';
 import Home from './home';
 import AboutUs from './about';
 import DriverDashboard from './DriverDashboard';
+import ProductSearch from './ProductSearch';
 
 const App = () => (
     <BrowserRouter>
@@ -13,6 +14,7 @@ const App = () => (
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/dashboard" element={<DriverDashboard />} /> 
+        <Route path="/search" element={<ProductSearch />} /> 
       </Routes>
     </BrowserRouter>
 );
