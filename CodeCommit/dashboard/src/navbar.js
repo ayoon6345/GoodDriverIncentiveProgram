@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './navbar.css';
 import { signOut, getCurrentUser } from 'aws-amplify/auth';
-//import '@aws-amplify/ui-react/styles.css';
-//import config from './amplifyconfiguration.json';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
 
-//import { Amplify } from 'aws-amplify';
-//Amplify.configure(config);
+import { Amplify } from 'aws-amplify';
+Amplify.configure(config);
 
 async function handleSignOut() {
   try {
