@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './navbar.css';
 import { signOut, getCurrentUser } from 'aws-amplify/auth';
-import '@aws-amplify/ui-react/styles.css';
-import config from './amplifyconfiguration.json';
+//import '@aws-amplify/ui-react/styles.css';
+//import config from './amplifyconfiguration.json';
 
-import { Amplify } from 'aws-amplify';
-Amplify.configure(config);
+//import { Amplify } from 'aws-amplify';
+//Amplify.configure(config);
 
 async function handleSignOut() {
   try {
@@ -40,8 +40,11 @@ function CustomNavbar() {
           <h2>TruckStar Rewards</h2>      
         </div>
         <div id="searchbar">
-          <input type="text" placeholder="Search.." />
-          <button type="submit"><i className="fa fa-search"></i></button>
+          <input id='searchtxt' type="text" placeholder="Search.." />
+          <button type="submit" onClick={() => {          
+            localStorage.setItem("searchinput", document.getElementById('searchtxt').value);
+            window.location.href='/search';
+            }}><i className="fa fa-search"></i></button>
         </div>
         <div className="links">
           <div className="navlinks" onClick={() => {window.location.href='/about'}}>
