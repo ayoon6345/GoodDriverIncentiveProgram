@@ -86,13 +86,16 @@ async function listAll() {
       }
     };
     const response = await get({ apiName, path, options });
-    console.log('Users:', response.data.Users);
+    console.log('Response:', response);
     return response.data.Users;
   } catch (error) {
     console.error('Failed to list users:', error);
     throw error;
   }
 }
+
+
+
 
 
   
