@@ -29,28 +29,24 @@ function DriverDashboard() {
   };
 
 //add users to group
-  async function addToGroup() {
-    try {
-      let apiName = 'AdminQueries';
-      let path = '/addUserToGroup';
-      let options = {
-        body: {
-          "username": username,
-          "groupname": "Admins"
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-        }
-      }
-      await post({ apiName, path, options });
-      setSuccessMessage(`User ${username} added to Admins.`);
-      setErrorMessage('');
-    } catch (error) {
-      setErrorMessage('Failed to add user to Admins. Please try again.');
-      setSuccessMessage('');
+async function listAll() {
+  let apiName = 'AdminQueries';
+  let path = '/listUsers';
+  let options = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: (await fetchAuthSession()).tokens?.accessToken
     }
+  };
+  const response = await get({ apiName, path, options });
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
   }
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
+
 
 //remove users from group
 async function removeFromGroup() {
