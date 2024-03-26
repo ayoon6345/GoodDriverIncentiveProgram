@@ -59,12 +59,18 @@ async function listAllUsers(limit){
       queryStringParameters: {
         "limit": limit,
       },
-      headers: {
-        'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-      }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+    }
   }
-  await get({apiName, path, options});
+  try {
+    const response = await get({ apiName, path, options });
+    return response;
+  } catch (err) {
+    console.error('Error listing users:', err);
+    throw err; // re-throw the error to be caught by the caller
+  }
 }
 
   
