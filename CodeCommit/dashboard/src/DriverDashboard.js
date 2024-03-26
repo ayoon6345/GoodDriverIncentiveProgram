@@ -78,26 +78,23 @@ async function removeFromGroup() {
 
 
 async function listAll() {
-  let apiName = 'AdminQueries';
-  let path = '/listUsers';
-  let options = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: (await fetchAuthSession()).tokens?.accessToken
-    }
-  };
-  const result = await get({ apiName, path, options });
-  result
-    .then(response => {
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+  try {
+    let apiName = 'AdminQueries';
+    let path = '/listUsers';
+    let options = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: (await fetchAuthSession()).tokens?.accessToken
+      }
+    };
+    const result = await get({ apiName, path, options });
+    const data = await result.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
 }
+
 
 
 
