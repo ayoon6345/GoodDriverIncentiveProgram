@@ -95,9 +95,6 @@ async function removeFromGroup() {
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
           <button onClick={removeFromGroup}>Remove from Group</button>
-
-          <button onClick={() => listAllUsers(10)}>List Users</button>
-
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
