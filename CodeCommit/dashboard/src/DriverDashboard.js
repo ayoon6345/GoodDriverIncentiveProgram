@@ -29,24 +29,28 @@ function DriverDashboard() {
   };
 
 //add users to group
-async function listAll() {
-  let apiName = 'AdminQueries';
-  let path = '/listUsers';
-  let options = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: (await fetchAuthSession()).tokens?.accessToken
+  async function addToGroup() {
+    try {
+      let apiName = 'AdminQueries';
+      let path = '/addUserToGroup';
+      let options = {
+        body: {
+          "username": username,
+          "groupname": "Admins"
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        }
+      }
+      await post({ apiName, path, options });
+      setSuccessMessage(`User ${username} added to Admins.`);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Failed to add user to Admins. Please try again.');
+      setSuccessMessage('');
     }
-  };
-  const response = await get({ apiName, path, options });
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
   }
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
 
 //remove users from group
 async function removeFromGroup() {
@@ -82,16 +86,21 @@ async function listAll() {
       Authorization: (await fetchAuthSession()).tokens?.accessToken
     }
   };
-  const response = await get({ apiName, path, options });
-  const data = await response.json();
-  console.log(data);
-  return data;
+  const result = await get({ apiName, path, options });
+  result
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
 
 
 
-
-  
 
   return (
     <div>
@@ -110,16 +119,9 @@ async function listAll() {
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
           <button onClick={removeFromGroup}>Remove from Group</button>
+          <button onClick={listAll}>List All</button>
 
-     <button onClick={async () => {
-  try {
-    const response = await listAll();
-    const result = await response.json();
-    console.log(result);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}}>List Users</button>
+
 
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
