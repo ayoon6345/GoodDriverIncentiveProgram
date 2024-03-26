@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { post } from 'aws-amplify/api';
+import { post, get } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -51,6 +51,25 @@ function DriverDashboard() {
     }
   }
 
+
+async function listAdmins(limit){
+  let apiName = 'AdminQueries';
+  let path = '/listUsersInGroup';
+  let options = { 
+      queryStringParameters: {
+        "groupname": "Admins",
+        "limit": limit,
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+      }
+  }
+  const response = await get({apiName, path, options});
+  return response;
+}
+
+  
   
 
   return (
@@ -69,6 +88,8 @@ function DriverDashboard() {
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
+          <button onClick={() => listAdmins(10)}>List Admins</button>
+
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
