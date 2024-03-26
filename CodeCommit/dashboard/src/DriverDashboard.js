@@ -112,7 +112,8 @@ async function listAll() {
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
           <button onClick={removeFromGroup}>Remove from Group</button>
-          <button onClick={async () => {
+
+     <button onClick={async () => {
   try {
     const response = await listAll();
     const result = await response.json();
@@ -121,7 +122,6 @@ async function listAll() {
     console.error('Error:', error);
   }
 }}>List Users</button>
-
 
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
