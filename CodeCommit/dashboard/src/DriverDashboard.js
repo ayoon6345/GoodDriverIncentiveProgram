@@ -52,12 +52,11 @@ function DriverDashboard() {
   }
 
 
-async function listAdmins(limit){
+async function listAllUsers(limit){
   let apiName = 'AdminQueries';
-  let path = '/listUsersInGroup';
+  let path = '/listUsers';
   let options = { 
       query: {
-        "groupname": "Admins",
         "limit": limit,
       },
       headers: {
@@ -87,7 +86,7 @@ async function listAdmins(limit){
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
-          <button onClick={() => listAdmins(10)}>List Admins</button>
+          <button onClick={() => listAllUsers(10)}>List Users</button>
 
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
