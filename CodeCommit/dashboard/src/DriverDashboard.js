@@ -87,7 +87,7 @@ async function listAll() {
       }
     };
     const result = await get({ apiName, path, options });
-    return result.body.json();
+    return result;
   }
 
 
@@ -112,7 +112,16 @@ async function listAll() {
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
           <button onClick={removeFromGroup}>Remove from Group</button>
-          <button onClick={listAll}>List Users</button>
+          <button onClick={async () => {
+  try {
+    const response = await listAll();
+    const result = await response.json();
+    console.log(result);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}}>List Users</button>
+
 
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
