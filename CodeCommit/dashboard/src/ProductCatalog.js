@@ -7,7 +7,6 @@ function ProductCatalog() {
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
       .then((data) => {
-        // Transform the data to match your application's data structure
         const transformedData = data.map((product) => ({
           id: product.id,
           name: product.title,
@@ -24,17 +23,17 @@ function ProductCatalog() {
   }, []);
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <h2>Product Catalog</h2>
-      <div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
         {products.map((product) => (
-          <div key={product.id}>
+          <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
+            <img src={product.image} alt={product.name} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px' }} />
             <h3>{product.name}</h3>
-            <p>Points: {product.price}</p>
-            <p>Availability: {product.availability}</p>
-            <p>Description: {product.description}</p>
-            <img src={product.image} alt={product.name} style={{ width: '100px' }} />
-            {/* Add button to "purchase" product */}
+            <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
+            <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
+            <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
+            {/* Placeholder for future "purchase" button */}
           </div>
         ))}
       </div>
