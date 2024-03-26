@@ -78,17 +78,19 @@ async function removeFromGroup() {
 
 
 async function listAll() {
-    let apiName = 'AdminQueries';
-    let path = '/listUsers';
-    let options = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: (await fetchAuthSession()).tokens?.accessToken
-      }
-    };
-    const result = await get({ apiName, path, options });
-    return result;
-  }
+  let apiName = 'AdminQueries';
+  let path = '/listUsers';
+  let options = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: (await fetchAuthSession()).tokens?.accessToken
+    }
+  };
+  const response = await get({ apiName, path, options });
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
 
 
 
