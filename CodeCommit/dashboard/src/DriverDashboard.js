@@ -43,35 +43,37 @@ function DriverDashboard() {
         }
       }
       await post({ apiName, path, options });
-      setSuccessMessage(`User ${username} added to group.`);
+      setSuccessMessage(`User ${username} added to Admins.`);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Failed to add user to Admins. Please try again.');
+      setSuccessMessage('');
+    }
+  }
+
+
+async function removeFromGroup() {
+    try {
+      let apiName = 'AdminQueries';
+      let path = '/removeUserFromGroup';
+      let options = {
+        body: {
+          "username": username,
+          "groupname": "Admins"
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        }
+      }
+      await post({ apiName, path, options });
+      setSuccessMessage(`User ${username} removed from Admins.`);
       setErrorMessage('');
     } catch (error) {
       setErrorMessage('Failed to add user to group. Please try again.');
       setSuccessMessage('');
     }
   }
-
-
-async function listAllUsers(limit){
-  let apiName = 'AdminQueries';
-  let path = '/listUsers';
-  let options = { 
-      queryStringParameters: {
-        "limit": limit,
-      },
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-    }
-  }
-  try {
-    const response = await get({ apiName, path, options });
-    return response;
-  } catch (err) {
-    console.error('Error listing users:', err);
-    throw err; // re-throw the error to be caught by the caller
-  }
-}
 
   
   
@@ -92,6 +94,8 @@ async function listAllUsers(limit){
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
+          <button onClick={removeFromGroup}>Remove from Group</button>
+
           <button onClick={() => listAllUsers(10)}>List Users</button>
 
         </nav>
