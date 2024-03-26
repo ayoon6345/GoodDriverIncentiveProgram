@@ -65,8 +65,7 @@ async function listAdmins(limit){
         Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
   }
-  const response = await get({apiName, path, options});
-  return response;
+  await get({apiName, path, options});
 }
 
   
