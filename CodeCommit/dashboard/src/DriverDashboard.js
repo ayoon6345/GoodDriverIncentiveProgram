@@ -56,7 +56,7 @@ async function listAllUsers(limit){
   let apiName = 'AdminQueries';
   let path = '/listUsers';
   let options = { 
-      query: {
+      queryStringParameters: {
         "limit": limit,
       },
       headers: {
