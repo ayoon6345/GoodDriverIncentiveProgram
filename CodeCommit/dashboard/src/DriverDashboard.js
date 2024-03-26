@@ -52,23 +52,22 @@ function DriverDashboard() {
   }
 
 
-async function listAdmins(limit = 10) {
+async function listAdmins(limit){
   let apiName = 'AdminQueries';
   let path = '/listUsersInGroup';
-  let options = {
-    queryStringParameters: {
-      "groupname": "Admins",
-      "limit": limit,
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-    }
+  let options = { 
+      query: {
+        "groupname": "Admins",
+        "limit": limit,
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+      }
   }
-  const response = await get({ apiName, path, options });
+  const response = await get({apiName, path, options});
   return response;
 }
-
 
   
   
