@@ -75,26 +75,20 @@ async function removeFromGroup() {
       setSuccessMessage('');
     }
   }
+
+
 async function listAll() {
-  try {
-    const apiName = 'AdminQueries';
-    const path = '/listUsers';
-    const options = {
+    let apiName = 'AdminQueries';
+    let path = '/listUsers';
+    let options = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        Authorization: (await fetchAuthSession()).tokens?.accessToken
       }
     };
-    const response = await get({ apiName, path, options });
-    const data = await response.json();
-    console.log('Response:', data);
-    return data.Users;
-  } catch (error) {
-    console.error('Failed to list users:', error);
-    throw error;
+    const result = await get({ apiName, path, options });
+    return result.body.json();
   }
-}
-
 
 
 
