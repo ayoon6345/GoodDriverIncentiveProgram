@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { post, get } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-import Navbar from './navbar';
+import Navbar from './navbar'; // Import the Navbar component
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
@@ -19,11 +19,6 @@ function DriverDashboard() {
   const [username, setUsername] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [usersInGroup, setUsersInGroup] = useState([]);
-
-  useEffect(() => {
-    fetchUsersInGroup();
-  }, []);
 
   const changeView = (view) => {
     setActiveView(view);
@@ -33,89 +28,78 @@ function DriverDashboard() {
     setUsername(event.target.value);
   };
 
-  const fetchUsersInGroup = async () => {
+//add users to group
+  async function addToGroup() {
     try {
-      const apiName = 'AdminQueries';
-      const path = '/listUsersInGroup';
-      const options = {
+      let apiName = 'AdminQueries';
+      let path = '/addUserToGroup';
+      let options = {
         body: {
-          groupname: 'Admins'
+          "username": username,
+          "groupname": "Admins"
         },
         headers: {
           'Content-Type': 'application/json',
           Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
         }
-      };
-      const response = await post({ apiName, path, options });
-      setUsersInGroup(response.data.Users);
-    } catch (error) {
-      console.error('Failed to fetch users in group:', error);
-    }
-  };
-
-  const handleAddToGroup = async () => {
-    if (!username) {
-      setErrorMessage('Username is required.');
-      return;
-    }
-
-    try {
-      const apiName = 'AdminQueries';
-      const path = '/addUserToGroup';
-      const options = {
-        body: {
-          username,
-          groupname: 'Admins'
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-        }
-      };
+      }
       await post({ apiName, path, options });
       setSuccessMessage(`User ${username} added to Admins.`);
       setErrorMessage('');
-      setUsername('');
-      fetchUsersInGroup();
     } catch (error) {
       setErrorMessage('Failed to add user to Admins. Please try again.');
       setSuccessMessage('');
     }
-  };
+  }
 
-  const handleRemoveFromGroup = async () => {
-    if (!username) {
-      setErrorMessage('Username is required.');
-      return;
-    }
-
+//remove users from group
+async function removeFromGroup() {
     try {
-      const apiName = 'AdminQueries';
-      const path = '/removeUserFromGroup';
-      const options = {
+      let apiName = 'AdminQueries';
+      let path = '/removeUserFromGroup';
+      let options = {
         body: {
-          username,
-          groupname: 'Admins'
+          "username": username,
+          "groupname": "Admins"
         },
         headers: {
           'Content-Type': 'application/json',
           Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
         }
-      };
+      }
       await post({ apiName, path, options });
       setSuccessMessage(`User ${username} removed from Admins.`);
       setErrorMessage('');
-      setUsername('');
-      fetchUsersInGroup();
     } catch (error) {
-      setErrorMessage('Failed to remove user from Admins. Please try again.');
+      setErrorMessage('Failed to add user to group. Please try again.');
       setSuccessMessage('');
     }
-  };
+  }
+async function listAll() {
+  try {
+    const apiName = 'AdminQueries';
+    const path = '/listUsers';
+    const options = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+      }
+    };
+    const response = await get({ apiName, path, options });
+    console.log('Users:', response.data.Users);
+    return response.data.Users;
+  } catch (error) {
+    console.error('Failed to list users:', error);
+    throw error;
+  }
+}
+
+
+  
 
   return (
     <div>
-      <Navbar />
+      <Navbar /> {/* Render the Navbar component */}
       <div className="container">
         <h1>Driver Dashboard</h1>
         <input
@@ -128,23 +112,19 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-          <button onClick={handleAddToGroup}>Add to Group</button>
-          <button onClick={handleRemoveFromGroup}>Remove from Group</button>
+          <button onClick={addToGroup}>Add to Group</button>
+          <button onClick={removeFromGroup}>Remove from Group</button>
+          <button onClick={listAll}>List Users</button>
+
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
-        <h2>Users in Admins Group:</h2>
-        <ul>
-          {usersInGroup.map((user, index) => (
-            <li key={index}>{user.Username}</li>
-          ))}
-        </ul>
       </div>
     </div>
   );
 }
 
-export default withAuthenticator(DriverDashboard);
+export default withAuthenticator (DriverDashboard);
