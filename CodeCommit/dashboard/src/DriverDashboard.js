@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { post } from 'aws-amplify/api';
+import { post, get } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -19,6 +19,28 @@ function DriverDashboard() {
   const [username, setUsername] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  async function fetchUsers() {
+    try {
+      let apiName = 'AdminQueries';
+      let path = '/listUsers';
+      let options = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        }
+      }
+      const response = await get(apiName, path, options);
+      setUsers(response);
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    }
+  }
 
   const changeView = (view) => {
     setActiveView(view);
@@ -51,8 +73,6 @@ function DriverDashboard() {
     }
   }
 
-  
-
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
@@ -75,9 +95,15 @@ function DriverDashboard() {
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
+        <h2>List of Users</h2>
+        <ul>
+          {users.map(user => (
+            <li key={user.username}>{user.username}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 
-export default withAuthenticator (DriverDashboard);
+export default withAuthenticator(DriverDashboard);
