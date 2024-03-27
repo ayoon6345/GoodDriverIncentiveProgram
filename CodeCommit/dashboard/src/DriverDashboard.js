@@ -87,7 +87,7 @@ async function listAll(limit = 25) {
       },
       headers: {
         'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
   }
   const response = await get({apiName, path, options});
