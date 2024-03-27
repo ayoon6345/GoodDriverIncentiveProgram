@@ -77,9 +77,12 @@ async function removeFromGroup() {
   }
 
 
+
+
 function listAll() {
   let apiName = 'AdminQueries';
   let path = '/listUsers';
+  let fetched;
   return fetchAuthSession()
     .then(session => {
       let options = {
@@ -88,11 +91,18 @@ function listAll() {
           Authorization: `Bearer ${session.tokens?.accessToken}`
         }
       };
-      return get({ apiName, path, options });
+      fetched = get({ apiName, path, options });
+      return fetched;
     })
     .then(result => {
-      console.log(result); // Log the response
-      return result;
+      return result.response;
+    })
+    .then(response => {
+      return response.body.json();
+    })
+    .then(data => {
+      console.log(data);
+      return data;
     })
     .catch(error => {
       console.error(error); // Log any errors
@@ -101,6 +111,16 @@ function listAll() {
 }
 
 
+getAllUsers()
+      .then(response => {
+        return response.response;
+      })
+      .then(result => {
+        return result.body.json();
+      })
+      .then((data: any) => {
+          console.log(data);
+      }
 
 
 
