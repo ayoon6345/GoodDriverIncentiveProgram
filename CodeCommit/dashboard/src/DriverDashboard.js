@@ -115,8 +115,7 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-          <button onClick={addToGroup}>Add to Group</button>
-          <button onClick={removeFromGroup}>Remove from Group</button>
+
           <button onClick={listAll}>List All</button>
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
@@ -127,16 +126,19 @@ function DriverDashboard() {
         <div>
           <h2>Users:</h2>
           <ul>
-            {users.map((user, index) => (
-              <li key={index}>
-                <div>Username: {user.Username}</div>
-                <div>User Status: {user.UserStatus}</div>
-                <div>Enabled: {user.Enabled}</div>
-                <div>User Create Date: {user.UserCreateDate}</div>
-                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-              </li>
-            ))}
-          </ul>
+  {users.map((user, index) => (
+    <li key={index}>
+      <div>Username: {user.Username}</div>
+      <div>User Status: {user.UserStatus}</div>
+      <div>Enabled: {user.Enabled}</div>
+      <div>User Create Date: {user.UserCreateDate}</div>
+      <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+      <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
+      <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
+    </li>
+  ))}
+</ul>
+
         </div>
       </div>
     </div>
