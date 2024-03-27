@@ -119,6 +119,28 @@ function DriverDashboard() {
     }
   }
 
+     async function enableUser(username) {
+    try {
+      let apiName = 'AdminQueries';
+      let path = '/enableUser';
+      let options = {
+        body: {
+          "username": username,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        }
+      }
+      await post({ apiName, path, options });
+      setSuccessMessage(`User ${username} has been disabled`);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Failed to disable user. Please try again.');
+      setSuccessMessage('');
+    }
+  }
+
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
@@ -149,12 +171,14 @@ function DriverDashboard() {
                     </div>
                   ))}
                   <div>User Status: {user.UserStatus}</div>
-                  <div>Enabled: {user.Enabled}</div>
+                  <div>Enabled: {user.Status}</div>
                   <div>User Create Date: {user.UserCreateDate}</div>
                   <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
                   <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
                   <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
                   <button onClick={() => disableUser(user.Username)}>Disable User</button>
+                  <button onClick={() => enableUser(user.Username)}>Enable User</button>
+
                 </li>
               ))}
             </ul>
