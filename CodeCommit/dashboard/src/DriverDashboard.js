@@ -16,7 +16,6 @@ Amplify.configure(amplifyconfig);
 
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
-  const [username, setUsername] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
@@ -25,9 +24,18 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await listAll();
+        const data = await response.body.json();
+        setUsers(data.Users);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    }
+    fetchData();
+  }, []);
 
   async function listAll(limit = 25) {
     let apiName = 'AdminQueries';
@@ -41,20 +49,10 @@ function DriverDashboard() {
         Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
     }
-    const response = await get({ apiName, path, options });
-    return response;
+    return get({ apiName, path, options });
   }
 
-  useEffect(() => {
-    listAll()
-      .then(response => response.response)
-      .then(result => result.body.json())
-      .then((data) => {
-        setUsers(data.Users);
-      });
-  }, []);
-
-  async function addToGroup() {
+  async function addToGroup(username) {
     try {
       let apiName = 'AdminQueries';
       let path = '/addUserToGroup';
@@ -77,7 +75,7 @@ function DriverDashboard() {
     }
   }
 
-  async function removeFromGroup() {
+  async function removeFromGroup(username) {
     try {
       let apiName = 'AdminQueries';
       let path = '/removeUserFromGroup';
@@ -105,17 +103,10 @@ function DriverDashboard() {
       <Navbar /> {/* Render the Navbar component */}
       <div className="container">
         <h1>Driver Dashboard</h1>
-        <input
-          type="text"
-          placeholder="Enter Username"
-          value={username}
-          onChange={handleUsernameChange}
-        />
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-
           <button onClick={listAll}>List All</button>
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
@@ -126,19 +117,18 @@ function DriverDashboard() {
         <div>
           <h2>Users:</h2>
           <ul>
-  {users.map((user, index) => (
-    <li key={index}>
-      <div>Username: {user.Username}</div>
-      <div>User Status: {user.UserStatus}</div>
-      <div>Enabled: {user.Enabled}</div>
-      <div>User Create Date: {user.UserCreateDate}</div>
-      <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-      <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
-      <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
-    </li>
-  ))}
-</ul>
-
+            {users.map((user, index) => (
+              <li key={index}>
+                <div>Username: {user.Username}</div>
+                <div>User Status: {user.UserStatus}</div>
+                <div>Enabled: {user.Enabled}</div>
+                <div>User Create Date: {user.UserCreateDate}</div>
+                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+                <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
+                <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
