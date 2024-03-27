@@ -125,11 +125,7 @@ listAll()
           <button onClick={removeFromGroup}>Remove from Group</button>
           <button onClick={listAll}>List All</button>
 
- <ul>
-        {users.map(user => (
-          <li key={user.Username}>{user.Username}</li>
-        ))}
-      </ul>
+
 
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
