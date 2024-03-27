@@ -78,7 +78,7 @@ async function removeFromGroup() {
 
 
 
-async function listAll(limit = 25) {
+function listAll(limit = 25) {
   let apiName = 'AdminQueries';
   let path = '/listUsers';
   let options = { 
@@ -89,12 +89,20 @@ async function listAll(limit = 25) {
         'Content-Type' : 'application/json',
         Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
-  }
-  const response = await get({apiName, path, options});
-  return response;
+  };
+
+  get({apiName, path, options})
+    .then(response => response.response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 
+that responsoe that list all users returns needs to be .then'd like 3 times
 
 
   return (
