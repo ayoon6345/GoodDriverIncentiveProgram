@@ -50,6 +50,34 @@ function DriverDashboard() {
       });
   }, []);
 
+
+    async function listUsersInGroup(limit = 25) {
+    let apiName = 'AdminQueries';
+    let path = '/listUsersInGroup';
+    let options = {
+      queryStringParameters: {
+        "limit": limit,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+      }
+    }
+    const response = await get({ apiName, path, options });
+    return response;
+  }
+
+  useEffect(() => {
+  listUsersInGroup()
+    .then(response => response.response)
+    .then(result => result.body.json())
+    .then((data) => {
+      console.log(data.Users); // Print the list of users to the console
+      setUsers(data.Users);
+    });
+}, []);
+
+
   async function addToGroup(username) {
     try {
       let apiName = 'AdminQueries';
