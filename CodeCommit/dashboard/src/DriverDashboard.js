@@ -51,32 +51,38 @@ function DriverDashboard() {
   }, []);
 
 
-    async function listUsersInGroup(limit = 25) {
-    let apiName = 'AdminQueries';
-    let path = '/listUsersInGroup';
-    let options = {
-      queryStringParameters: {
-        "groupname": "Admins",
-        "limit": limit,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-      }
+async function listUsersInGroup(groupname, limit = 25) {
+  let apiName = 'AdminQueries';
+  let path = '/listUsersInGroup';
+  let options = {
+    queryStringParameters: {
+      "groupname": groupname,
+      "limit": limit,
+    },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
     }
-    const response = await get({ apiName, path, options });
-    return response;
   }
+  const response = await get({ apiName, path, options });
+  return response;
+}
 
 useEffect(() => {
-  listUsersInGroup('Admins') // Pass the groupname parameter here
-    .then(response => response.response)
-    .then(result => result.body.json())
-    .then((data) => {
+  async function fetchUsers() {
+    try {
+      const response = await listUsersInGroup('Admins');
+      const data = await response.response.body.json();
       console.log(data.Users); // Print the list of users to the console
       setUsers(data.Users);
-    });
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    }
+  }
+
+  fetchUsers();
 }, []);
+
 
 
 
