@@ -118,7 +118,7 @@ function DriverDashboard() {
     }
   }
 
-  return (
+ return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
       <div className="container">
