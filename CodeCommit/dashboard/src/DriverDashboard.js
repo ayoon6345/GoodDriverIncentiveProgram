@@ -133,10 +133,10 @@ function DriverDashboard() {
         }
       }
       await post({ apiName, path, options });
-      setSuccessMessage(`User ${username} has been disabled`);
+      setSuccessMessage(`User ${username} has been enabled`);
       setErrorMessage('');
     } catch (error) {
-      setErrorMessage('Failed to disable user. Please try again.');
+      setErrorMessage('Failed to enable user. Please try again.');
       setSuccessMessage('');
     }
   }
@@ -171,7 +171,7 @@ function DriverDashboard() {
                     </div>
                   ))}
                   <div>User Status: {user.UserStatus}</div>
-                  <div>Enabled: {user.Status}</div>
+                  <div>Enabled: {user.enabled}</div>
                   <div>User Create Date: {user.UserCreateDate}</div>
                   <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
                   <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
