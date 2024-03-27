@@ -78,45 +78,20 @@ async function removeFromGroup() {
 
 
 
-function listAll(limit, token) {
+async function listAll(limit = 25) {
   let apiName = 'AdminQueries';
   let path = '/listUsers';
-  let options = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  if (token) {
-    options.headers.Authorization = `Bearer ${token}`;
-  } else {
-    // Fetch session token if not provided
-    return fetchAuthSession()
-      .then(session => {
-        options.headers.Authorization = `Bearer ${session.tokens?.accessToken}`;
-        if (limit) {
-          path += `?limit=${limit}`;
-        }
-        return get({ apiName, path, options });
-      })
-      .then(result => {
-        return result.response.body;
-      })
-      .catch(error => {
-        console.error(error); // Log any errors
-        throw error;
-      });
+  let options = { 
+      queryStringParameters: {
+        "limit": limit,
+      },
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken.payload}`
+      }
   }
-  if (limit) {
-    path += `?limit=${limit}`;
-  }
-  return get({ apiName, path, options })
-    .then(result => {
-      return result.response;
-    })
-    .catch(error => {
-      console.error(error); // Log any errors
-      throw error;
-    });
+  const response = await get({apiName, path, options});
+  return response;
 }
 
 
