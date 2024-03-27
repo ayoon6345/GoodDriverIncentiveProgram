@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
-import { get, post } from 'aws-amplify/api';
+import { post, get } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -25,10 +25,6 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
-
   async function listAll(limit = 25) {
     let apiName = 'AdminQueries';
     let path = '/listUsers';
@@ -42,31 +38,16 @@ function DriverDashboard() {
       }
     }
     const response = await get({ apiName, path, options });
-    
-    // Fetch groups for each user
-    const usersWithGroups = await Promise.all(response.Users.map(async (user) => {
-      const groupsResponse = await get({
-        apiName: 'AdminQueries',
-        path: '/listGroupsForUser',
-        options: {
-          queryStringParameters: {
-            username: user.Username
-          },
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-          }
-        }
-      });
-      user.Groups = groupsResponse.Groups;
-      return user;
-    }));
-
-    setUsers(usersWithGroups);
+    return response;
   }
 
   useEffect(() => {
-    listAll();
+    listAll()
+      .then(response => response.response)
+      .then(result => result.body.json())
+      .then((data) => {
+        setUsers(data.Users);
+      });
   }, []);
 
   async function addToGroup(username) {
@@ -117,13 +98,14 @@ function DriverDashboard() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar /> {/* Render the Navbar component */}
       <div className="container">
         <h1>Driver Dashboard</h1>
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
+
           <button onClick={listAll}>List All</button>
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
@@ -133,32 +115,25 @@ function DriverDashboard() {
         {activeView === 'catalog' && <ProductCatalog />}
         <div>
           <h2>Users:</h2>
-          <ul>
-            {users.map((user, index) => (
-              <li key={index}>
-                <div>Username: {user.Username}</div>
-                {user.Attributes.map((attribute, attrIndex) => (
-                  <div key={attrIndex}>
-                    {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
-                    {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
-                  </div>
-                ))}
-                <div>User Status: {user.UserStatus}</div>
-                <div>Enabled: {user.Enabled}</div>
-                <div>User Create Date: {user.UserCreateDate}</div>
-                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-                <div>Groups:
-                  <ul>
-                    {user.Groups.map((group, groupIndex) => (
-                      <li key={groupIndex}>{group}</li>
-                    ))}
-                  </ul>
-                </div>
-                <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
-                <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
-              </li>
-            ))}
-          </ul>
+            <ul>
+              {users.map((user, index) => (
+                <li key={index}>
+                  <div>Username: {user.Username}</div>
+                  {user.Attributes.map((attribute, attrIndex) => (
+                    <div key={attrIndex}>
+                      {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
+                      {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
+                    </div>
+                  ))}
+                  <div>User Status: {user.UserStatus}</div>
+                  <div>Enabled: {user.Enabled}</div>
+                  <div>User Create Date: {user.UserCreateDate}</div>
+                  <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+                  <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
+                  <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
+                </li>
+              ))}
+            </ul>
         </div>
       </div>
     </div>
