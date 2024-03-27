@@ -17,8 +17,6 @@ Amplify.configure(amplifyconfig);
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
@@ -51,26 +49,6 @@ function DriverDashboard() {
         setUsers(data.Users);
       });
   }, []);
-
-  async function createUser() {
-    try {
-      const response = await post('/createUser', {
-        body: {
-          username,
-          password,
-          email
-        }
-      });
-      setSuccessMessage('User created successfully');
-      setErrorMessage('');
-      setUsername('');
-      setPassword('');
-      setEmail('');
-    } catch (error) {
-      setErrorMessage('Failed to create user. Please try again.');
-      setSuccessMessage('');
-    }
-  }
 
   async function addToGroup(username) {
     try {
@@ -118,7 +96,7 @@ function DriverDashboard() {
     }
   }
 
- return (
+  return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
       <div className="container">
@@ -127,6 +105,7 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
+
           <button onClick={listAll}>List All</button>
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
@@ -135,41 +114,26 @@ function DriverDashboard() {
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
         <div>
-          <h2>Create User</h2>
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            createUser();
-          }}>
-            <label>Username:</label>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-            <label>Password:</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <label>Email:</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <button type="submit">Create User</button>
-          </form>
-        </div>
-        <div>
           <h2>Users:</h2>
-          <ul>
-            {users.map((user, index) => (
-              <li key={index}>
-                <div>Username: {user.Username}</div>
-                {user.Attributes.map((attribute, attrIndex) => (
-                  <div key={attrIndex}>
-                    {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
-                    {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
-                  </div>
-                ))}
-                <div>User Status: {user.UserStatus}</div>
-                <div>Enabled: {user.Enabled}</div>
-                <div>User Create Date: {user.UserCreateDate}</div>
-                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-                <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
-                <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
-              </li>
-            ))}
-          </ul>
+            <ul>
+              {users.map((user, index) => (
+                <li key={index}>
+                  <div>Username: {user.Username}</div>
+                  {user.Attributes.map((attribute, attrIndex) => (
+                    <div key={attrIndex}>
+                      {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
+                      {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
+                    </div>
+                  ))}
+                  <div>User Status: {user.UserStatus}</div>
+                  <div>Enabled: {user.Enabled}</div>
+                  <div>User Create Date: {user.UserCreateDate}</div>
+                  <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+                  <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
+                  <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
+                </li>
+              ))}
+            </ul>
         </div>
       </div>
     </div>
