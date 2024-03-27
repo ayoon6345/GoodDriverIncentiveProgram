@@ -99,7 +99,7 @@ function listAll(limit, token) {
         return get({ apiName, path, options });
       })
       .then(result => {
-        return result.response.body.json();
+        return result.response.body;
       })
       .catch(error => {
         console.error(error); // Log any errors
@@ -111,7 +111,7 @@ function listAll(limit, token) {
   }
   return get({ apiName, path, options })
     .then(result => {
-      return result.response.body.json();
+      return result.response;
     })
     .catch(error => {
       console.error(error); // Log any errors
