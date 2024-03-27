@@ -77,8 +77,7 @@ async function removeFromGroup() {
   }
 
 
-
-function listAll(limit = 25) {
+async function listAll(limit = 25) {
   let apiName = 'AdminQueries';
   let path = '/listUsers';
   let options = { 
@@ -89,20 +88,22 @@ function listAll(limit = 25) {
         'Content-Type' : 'application/json',
         Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
-  };
-
-  get({apiName, path, options})
-    .then(response => response.response.json())
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
-      console.error(error);
-    });
+  }
+  const response = await get({apiName, path, options});
+  return response;
 }
 
+listAll()
+  .then(response => {
+    return response.response;
+  })
+  .then(result => {
+    return result.body.json();
+  })
+  .then((data) => {
+      console.log(data);
+  });
 
-that responsoe that list all users returns needs to be .then'd like 3 times
 
 
   return (
@@ -122,7 +123,7 @@ that responsoe that list all users returns needs to be .then'd like 3 times
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
           <button onClick={removeFromGroup}>Remove from Group</button>
-          <button onClick={listAll}>List All</button>
+          <button onClick={listAll()}>List All</button>
 
 
 
