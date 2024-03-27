@@ -183,7 +183,7 @@ function DriverDashboard() {
               {users.map((user, index) => (
                 <li key={index}>
                   <div>Username: {user.Username}</div>
-                  <div>Name: {user.Name}</div>
+                  <div>Name: {user.Attributes.find(attr => attr.Name === 'name')?.Value}</div>
                   {user.Attributes.map((attribute, attrIndex) => (
                     <div key={attrIndex}>
                       {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
