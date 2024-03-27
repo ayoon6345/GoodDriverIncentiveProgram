@@ -115,33 +115,25 @@ function DriverDashboard() {
         {activeView === 'catalog' && <ProductCatalog />}
         <div>
           <h2>Users:</h2>
-<ul>
-  {users.map((user, index) => (
-    <li key={index}>
-      <div>Username: {user.Username}</div>
-      {user.Attributes.map((attribute, attrIndex) => (
-        <div key={attrIndex}>
-          {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
-          {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
-        </div>
-      ))}
-      <div>User Status: {user.UserStatus}</div>
-      <div>Enabled: {user.Enabled}</div>
-      <div>User Create Date: {user.UserCreateDate}</div>
-      <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-      <div>Groups:
-        <ul>
-          {user.Groups.map((group, groupIndex) => (
-            <li key={groupIndex}>{group}</li>
-          ))}
-        </ul>
-      </div>
-      <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
-      <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
-    </li>
-  ))}
-</ul>
-
+            <ul>
+              {users.map((user, index) => (
+                <li key={index}>
+                  <div>Username: {user.Username}</div>
+                  {user.Attributes.map((attribute, attrIndex) => (
+                    <div key={attrIndex}>
+                      {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
+                      {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
+                    </div>
+                  ))}
+                  <div>User Status: {user.UserStatus}</div>
+                  <div>Enabled: {user.Enabled}</div>
+                  <div>User Create Date: {user.UserCreateDate}</div>
+                  <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+                  <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
+                  <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
+                </li>
+              ))}
+            </ul>
         </div>
       </div>
     </div>
