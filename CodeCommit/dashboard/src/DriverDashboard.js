@@ -78,50 +78,46 @@ async function removeFromGroup() {
 
 
 
-
-function listAll() {
+function listAll(limit, token) {
   let apiName = 'AdminQueries';
   let path = '/listUsers';
-  let fetched;
-  return fetchAuthSession()
-    .then(session => {
-      let options = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.tokens?.accessToken}`
+  let options = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  if (token) {
+    options.headers.Authorization = `Bearer ${token}`;
+  } else {
+    // Fetch session token if not provided
+    return fetchAuthSession()
+      .then(session => {
+        options.headers.Authorization = `Bearer ${session.tokens?.accessToken}`;
+        if (limit) {
+          path += `?limit=${limit}`;
         }
-      };
-      fetched = get({ apiName, path, options });
-      return fetched;
-    })
+        return get({ apiName, path, options });
+      })
+      .then(result => {
+        return result.response.body.json();
+      })
+      .catch(error => {
+        console.error(error); // Log any errors
+        throw error;
+      });
+  }
+  if (limit) {
+    path += `?limit=${limit}`;
+  }
+  return get({ apiName, path, options })
     .then(result => {
-      return result.response;
-    })
-    .then(response => {
-      return response.body.json();
-    })
-    .then(data => {
-      console.log(data);
-      return data;
+      return result.response.body.json();
     })
     .catch(error => {
       console.error(error); // Log any errors
       throw error;
     });
 }
-
-
-getAllUsers()
-      .then(response => {
-        return response.response;
-      })
-      .then(result => {
-        return result.body.json();
-      })
-      .then((data: any) => {
-          console.log(data);
-      }
-
 
 
 
