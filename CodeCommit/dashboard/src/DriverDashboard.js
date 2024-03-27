@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { post, get } from 'aws-amplify/api';
@@ -19,6 +19,7 @@ function DriverDashboard() {
   const [username, setUsername] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [users, setUsers] = useState([]);
 
   const changeView = (view) => {
     setActiveView(view);
@@ -28,7 +29,31 @@ function DriverDashboard() {
     setUsername(event.target.value);
   };
 
-//add users to group
+  async function listAll(limit = 25) {
+    let apiName = 'AdminQueries';
+    let path = '/listUsers';
+    let options = {
+      queryStringParameters: {
+        "limit": limit,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+      }
+    }
+    const response = await get({ apiName, path, options });
+    return response;
+  }
+
+  useEffect(() => {
+    listAll()
+      .then(response => response.response)
+      .then(result => result.body.json())
+      .then((data) => {
+        setUsers(data.Users);
+      });
+  }, []);
+
   async function addToGroup() {
     try {
       let apiName = 'AdminQueries';
@@ -52,8 +77,7 @@ function DriverDashboard() {
     }
   }
 
-//remove users from group
-async function removeFromGroup() {
+  async function removeFromGroup() {
     try {
       let apiName = 'AdminQueries';
       let path = '/removeUserFromGroup';
@@ -71,40 +95,10 @@ async function removeFromGroup() {
       setSuccessMessage(`User ${username} removed from Admins.`);
       setErrorMessage('');
     } catch (error) {
-      setErrorMessage('Failed to add user to group. Please try again.');
+      setErrorMessage('Failed to remove user from group. Please try again.');
       setSuccessMessage('');
     }
   }
-
-
-async function listAll(limit = 25) {
-  let apiName = 'AdminQueries';
-  let path = '/listUsers';
-  let options = { 
-      queryStringParameters: {
-        "limit": limit,
-      },
-      headers: {
-        'Content-Type' : 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-      }
-  }
-  const response = await get({apiName, path, options});
-  return response;
-}
-
-listAll()
-  .then(response => {
-    return response.response;
-  })
-  .then(result => {
-    return result.body.json();
-  })
-  .then((data) => {
-      console.log(data.Users);
-  });
-
-
 
   return (
     <div>
@@ -124,18 +118,29 @@ listAll()
           <button onClick={addToGroup}>Add to Group</button>
           <button onClick={removeFromGroup}>Remove from Group</button>
           <button onClick={listAll}>List All</button>
-
-
-
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
+        <div>
+          <h2>Users:</h2>
+          <ul>
+            {users.map((user, index) => (
+              <li key={index}>
+                <div>Username: {user.Username}</div>
+                <div>User Status: {user.UserStatus}</div>
+                <div>Enabled: {user.Enabled}</div>
+                <div>User Create Date: {user.UserCreateDate}</div>
+                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
 }
 
-export default withAuthenticator (DriverDashboard);
+export default withAuthenticator(DriverDashboard);
