@@ -68,8 +68,8 @@ function DriverDashboard() {
     return response;
   }
 
-  useEffect(() => {
-  listUsersInGroup()
+useEffect(() => {
+  listUsersInGroup('Admins') // Pass the groupname parameter here
     .then(response => response.response)
     .then(result => result.body.json())
     .then((data) => {
@@ -77,6 +77,7 @@ function DriverDashboard() {
       setUsers(data.Users);
     });
 }, []);
+
 
 
   async function addToGroup(username) {
