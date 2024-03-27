@@ -56,6 +56,7 @@ function DriverDashboard() {
     let path = '/listUsersInGroup';
     let options = {
       queryStringParameters: {
+        "groupname": "Admins",
         "limit": limit,
       },
       headers: {
