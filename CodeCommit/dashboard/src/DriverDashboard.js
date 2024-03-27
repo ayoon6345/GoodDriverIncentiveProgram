@@ -54,7 +54,7 @@ function DriverDashboard() {
       });
   }, []);
 
-  async function addToGroup() {
+  async function addToGroup(username) {
     try {
       let apiName = 'AdminQueries';
       let path = '/addUserToGroup';
@@ -77,7 +77,7 @@ function DriverDashboard() {
     }
   }
 
-  async function removeFromGroup() {
+  async function removeFromGroup(username) {
     try {
       let apiName = 'AdminQueries';
       let path = '/removeUserFromGroup';
@@ -120,19 +120,18 @@ function DriverDashboard() {
         <div>
           <h2>Users:</h2>
           <ul>
-  {users.map((user, index) => (
-    <li key={index}>
-      <div>Username: {user.Username}</div>
-      <div>User Status: {user.UserStatus}</div>
-      <div>Enabled: {user.Enabled}</div>
-      <div>User Create Date: {user.UserCreateDate}</div>
-      <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-      <button onClick={() => addToGroup(username = user.Username)}>Add to Group</button>
-      <button onClick={() => removeFromGroup(username = user.Username)}>Remove from Group</button>
-    </li>
-  ))}
-</ul>
-
+            {users.map((user, index) => (
+              <li key={index}>
+                <div>Username: {user.Username}</div>
+                <div>User Status: {user.UserStatus}</div>
+                <div>Enabled: {user.Enabled}</div>
+                <div>User Create Date: {user.UserCreateDate}</div>
+                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+                <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
+                <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
