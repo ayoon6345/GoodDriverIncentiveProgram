@@ -183,6 +183,7 @@ function DriverDashboard() {
               {users.map((user, index) => (
                 <li key={index}>
                   <div>Username: {user.Username}</div>
+                  <div>Name: {user.Name}</div>
                   {user.Attributes.map((attribute, attrIndex) => (
                     <div key={attrIndex}>
                       {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
@@ -190,7 +191,7 @@ function DriverDashboard() {
                     </div>
                   ))}
                   <div>User Status: {user.UserStatus}</div>
-                  <div>Enabled: {user.Enabled}</div>
+                  <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div> {/* Display Yes or No based on the value */}
                   <div>User Create Date: {user.UserCreateDate}</div>
                   <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
                   <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
