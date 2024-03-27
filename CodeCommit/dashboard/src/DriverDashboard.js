@@ -101,7 +101,7 @@ listAll()
     return result.body.json();
   })
   .then((data) => {
-      console.log(data);
+      console.log(data.Users);
   });
 
 
