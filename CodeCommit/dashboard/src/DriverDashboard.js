@@ -140,6 +140,25 @@ function DriverDashboard() {
       setSuccessMessage('');
     }
   }
+{users.map((user, index) => {
+  console.log(user); // Log the user object to the console
+  return (
+    <li key={index}>
+      <div>Username: {user.Username}</div>
+      {user.Attributes.map((attribute, attrIndex) => (
+        <div key={attrIndex}>
+          {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
+          {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
+        </div>
+      ))}
+      <div>User Status: {user.UserStatus}</div>
+      <div>User Create Date: {user.UserCreateDate}</div>
+      <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+      <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
+      <button onClick={() => removeFromGroup(user.Username)}>Remove from Group</button>
+    </li>
+  );
+})}
 
   return (
     <div>
@@ -171,7 +190,7 @@ function DriverDashboard() {
                     </div>
                   ))}
                   <div>User Status: {user.UserStatus}</div>
-                  <div>Enabled: {user.enabled}</div>
+                  <div>Enabled: {user.Enabled}</div>
                   <div>User Create Date: {user.UserCreateDate}</div>
                   <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
                   <button onClick={() => addToGroup(user.Username)}>Add to Group</button>
