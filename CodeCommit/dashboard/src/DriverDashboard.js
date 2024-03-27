@@ -123,7 +123,7 @@ listAll()
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={addToGroup}>Add to Group</button>
           <button onClick={removeFromGroup}>Remove from Group</button>
-          <button onClick={listAll()}>List All</button>
+          <button onClick={listAll}>List All</button>
 
 
 
