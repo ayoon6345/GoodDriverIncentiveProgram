@@ -181,7 +181,7 @@ async function listUsersInGroup(groupname = 'Admins') {
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={listAll}>List All</button>
-          <button onClick={listUsersInGroup}>List users</button>
+<button onClick={() => listUsersInGroup('Admins')}>List Admins</button>
 
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
