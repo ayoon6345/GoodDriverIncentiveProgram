@@ -69,19 +69,19 @@ async function listUsersInGroup(groupname, limit = 25) {
 }
 
 useEffect(() => {
-  async function fetchUsers() {
-    try {
-      const response = await listUsersInGroup('Admins');
-      const data = await response.response.body.json();
-      console.log(data.Users); // Print the list of users to the console
-      setUsers(data.Users);
-    } catch (error) {
-      console.error('Failed to fetch users:', error);
-    }
+  async function fetchUsersInGroup(groupName) {
+  try {
+    const response = await listUsersInGroup(groupName);
+    const data = await response.json(); // Ensure this matches the actual format of your response
+    setUsers(data.Users || []);
+    setSuccessMessage(`Fetched users from group ${groupName}.`);
+    setErrorMessage('');
+  } catch (error) {
+    console.error('Failed to fetch users from group:', error);
+    setErrorMessage(`Failed to fetch users from group ${groupName}. Please try again.`);
+    setSuccessMessage('');
   }
-
-  fetchUsers();
-}, []);
+}
 
 
 
@@ -186,7 +186,7 @@ useEffect(() => {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-
+          <button onClick={() => fetchUsersInGroup('Admins')}>List Admins</button>
           <button onClick={listAll}>List All</button>
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
