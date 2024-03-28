@@ -51,39 +51,18 @@ function DriverDashboard() {
   }, []);
 
 
-async function listUsersInGroup(groupname) {
-  const apiName = 'AdminQueries';
-  const path = '/listUsersInGroup';
-  // First, get the authorization token
-  const session = await fetchAuthSession();
-  const token = session.tokens.accessToken; // Adjust this line according to how you actually get the token
-
-  // Then, use the token in the request headers
-  const options = {
-    queryStringParameters: {
-      "groupname": groupname,
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    }
-  };
-
-  // Making the GET request
-  const response = await get(apiName, path, options);
-  return response;
-}
 
 
 
- /* async function createUser() {
+ async function createUser() {
     try {
       let apiName = 'AdminQueries';
-      let path = '/addUserToGroup';
+      let path = '/createUser';
       let options = {
         body: {
-          "username": username,
-          "groupname": "Admins"
+          "username": "test12",
+          "password": "SD241dfmf2",
+          "email": "test@gmail.com"
         },
         headers: {
           'Content-Type': 'application/json',
@@ -91,14 +70,11 @@ async function listUsersInGroup(groupname) {
         }
       }
       await post({ apiName, path, options });
-      setSuccessMessage(`User ${username} added to Admins.`);
-      setErrorMessage('');
+     
     } catch (error) {
-      setErrorMessage('Failed to add user to Admins. Please try again.');
-      setSuccessMessage('');
     }
   }
-*/
+
 
 
 
@@ -203,7 +179,8 @@ async function listUsersInGroup(groupname) {
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={listAll}>List All</button>
-<button onClick={() => listUsersInGroup('Admins')}>List Admins</button>
+          <button onClick={createUser}>Test Create User</button>
+
 
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
