@@ -52,29 +52,27 @@ function DriverDashboard() {
 
 
 async function listUsersInGroup(groupname) {
-  let apiName = 'AdminQueries';
-  let path = '/listUsersInGroup';
-  let options = {
+  const apiName = 'AdminQueries';
+  const path = '/listUsersInGroup';
+  // First, get the authorization token
+  const session = await fetchAuthSession();
+  const token = session.tokens.accessToken; // Adjust this line according to how you actually get the token
+
+  // Then, use the token in the request headers
+  const options = {
     queryStringParameters: {
       "groupname": groupname,
     },
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+      Authorization: token
     }
-  }
-  const response = await get({ apiName, path, options });
+  };
+
+  // Making the GET request
+  const response = await get(apiName, path, options);
   return response;
 }
-
-  useEffect(() => {
-    listAll()
-      .then(response => response.response)
-      .then(result => result.body.json())
-      .then((data) => {
-        setUsers(data.Users);
-      });
-  }, []);
 
 
 
