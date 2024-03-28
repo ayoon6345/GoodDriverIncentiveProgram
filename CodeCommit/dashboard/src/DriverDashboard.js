@@ -70,8 +70,11 @@ function DriverDashboard() {
         }
       }
       await post({ apiName, path, options });
-     
+       setSuccessMessage(`User ${username} added to Admins.`);
+      setErrorMessage('');
     } catch (error) {
+      setErrorMessage('Failed to add user to Admins. Please try again.');
+      setSuccessMessage('');
     }
   }
 
