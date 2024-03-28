@@ -20,6 +20,7 @@ function DriverDashboard() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
+  const { CognitoIdentityServiceProvider } = require('aws-sdk'); // Example import statement
 
   const changeView = (view) => {
     setActiveView(view);
