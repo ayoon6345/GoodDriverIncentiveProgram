@@ -60,6 +60,7 @@ function DriverDashboard() {
       let path = '/createUser';
       let options = {
         body: {
+          "username": "test2",
           "password": "SD241dfmf2",
           "email": "test@gmail.com"
         },
