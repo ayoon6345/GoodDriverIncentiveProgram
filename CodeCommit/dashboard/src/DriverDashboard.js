@@ -51,13 +51,12 @@ function DriverDashboard() {
   }, []);
 
 
-async function listUsersInGroup(groupname, limit = 25) {
+async function listUsersInGroup(groupname = 'Admins') {
   let apiName = 'AdminQueries';
   let path = '/listUsersInGroup';
   let options = {
     queryStringParameters: {
       "groupname": groupname,
-      "limit": limit,
     },
     headers: {
       'Content-Type': 'application/json',
@@ -68,24 +67,14 @@ async function listUsersInGroup(groupname, limit = 25) {
   return response;
 }
 
-useEffect(() => {
-  async function fetchUsersInGroup(groupName) {
-    try {
-      const response = await listUsersInGroup(groupName);
-      // Assuming response is already in JSON format based on the Amplify API setup
-      setUsers(response.Users || []);
-      setSuccessMessage(`Fetched users from group ${groupName}.`);
-      setErrorMessage('');
-    } catch (error) {
-      console.error('Failed to fetch users from group:', error);
-      setErrorMessage(`Failed to fetch users from group ${groupName}. Please try again.`);
-      setSuccessMessage('');
-    }
-  }
-
-  // Example call to fetch users in the "Admins" group
-  fetchUsersInGroup('Admins');
-}, []); // Dependency array is empty, meaning this effect runs once on component mount
+  useEffect(() => {
+    listAll()
+      .then(response => response.response)
+      .then(result => result.body.json())
+      .then((data) => {
+        setUsers(data.Users);
+      });
+  }, []);
 
 
 
@@ -192,6 +181,8 @@ useEffect(() => {
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={listAll}>List All</button>
+          <button onClick={listUsersInGroup}>List users</button>
+
         </nav>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
