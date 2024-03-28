@@ -51,7 +51,7 @@ function DriverDashboard() {
   }, []);
 
 
-async function listUsersInGroup(groupname = 'Admins') {
+async function listUsersInGroup(groupname) {
   let apiName = 'AdminQueries';
   let path = '/listUsersInGroup';
   let options = {
@@ -77,6 +77,30 @@ async function listUsersInGroup(groupname = 'Admins') {
   }, []);
 
 
+
+ /* async function createUser() {
+    try {
+      let apiName = 'AdminQueries';
+      let path = '/addUserToGroup';
+      let options = {
+        body: {
+          "username": username,
+          "groupname": "Admins"
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        }
+      }
+      await post({ apiName, path, options });
+      setSuccessMessage(`User ${username} added to Admins.`);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Failed to add user to Admins. Please try again.');
+      setSuccessMessage('');
+    }
+  }
+*/
 
 
 
