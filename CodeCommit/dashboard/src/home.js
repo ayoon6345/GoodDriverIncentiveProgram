@@ -1,6 +1,7 @@
 import React from 'react';
 import { Amplify } from 'aws-amplify';
 import Navbar from './navbar'; // Import the Navbar component
+import Carousel from './caruousel';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
@@ -17,6 +18,7 @@ function HomePage() {
         <p>CPSC 4911 Spring 2024</p>
         <section className="content">
           <h1>Sample Home Page</h1>
+          <Carousel />
         </section>
       </div>
       <footer className="footer">
