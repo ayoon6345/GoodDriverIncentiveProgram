@@ -38,7 +38,7 @@ function DriverDashboard() {
         const response = await fetch(`/api/getUserType?username=${username}`);
         if (response.ok) {
           const data = await response.json();
-          setUserType(data.userType);
+          setusertype(data.userType);
         } else {
           console.error('Failed to fetch user type');
         }
@@ -49,6 +49,7 @@ function DriverDashboard() {
 
     fetchUserType();
   }, [username]);
+
 
   async function listAll(limit = 25) {
     let apiName = 'AdminQueries';
