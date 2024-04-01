@@ -17,6 +17,8 @@ Amplify.configure(amplifyconfig);
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
