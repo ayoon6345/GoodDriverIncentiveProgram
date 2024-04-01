@@ -54,15 +54,15 @@ function DriverDashboard() {
 
 
 
- async function createUser() {
+  async function createUser() {
     try {
       let apiName = 'AdminQueries';
       let path = '/createUser';
       let options = {
         body: {
-          "username": "test2",
-          "password": "SD241dfmf2",
-          "email": "test@gmail.com"
+          "username": username,
+          "password": password,
+          "email": email
         },
         headers: {
           'Content-Type': 'application/json',
@@ -70,10 +70,10 @@ function DriverDashboard() {
         }
       }
       await post({ apiName, path, options });
-       setSuccessMessage(`User ${username} added to Admins.`);
+      setSuccessMessage(`User ${username} added successfully.`);
       setErrorMessage('');
     } catch (error) {
-      setErrorMessage('Failed to add user to Admins. Please try again.');
+      setErrorMessage('Failed to add user. Please try again.');
       setSuccessMessage('');
     }
   }
@@ -186,6 +186,15 @@ function DriverDashboard() {
 
 
         </nav>
+         <form onSubmit={createUser}>
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <label>Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <label>Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <button type="submit">Create User</button>
+        </form>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {activeView === 'profile' && <Profile />}
