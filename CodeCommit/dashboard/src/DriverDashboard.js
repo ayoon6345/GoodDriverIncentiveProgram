@@ -19,6 +19,9 @@ function DriverDashboard() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [name, setName] = useState(''); // Add name state
+  const [userType, setUserType] = useState('sponsor'); // Default value: sponsor
+  const [phoneNumber, setPhoneNumber] = useState(''); // Add phoneNumber state
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
@@ -52,55 +55,56 @@ function DriverDashboard() {
       });
   }, []);
 
+  async function createUser(event) {
+    event.preventDefault(); // Prevent the default form submission
 
+    try {
+      // Create user in AWS Cognito
+      let apiName = 'AdminQueries';
+      let path = '/createUser';
+      let options = {
+        body: {
+          "username": username,
+          "password": password,
+          "email": email,
+          "name": name, // Add name field
+          "phone_number": phoneNumber // Add phone_number field
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        }
+      };
+      await post({ apiName, path, options });
 
+      // Send user data to MySQL RDS
+      const response = await fetch('/api/createUserInMySQL', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: username,
+          email: email,
+          name: name, // Add name field
+          phone_number: phoneNumber, // Add phone_number field
+          type: userType // Include user type
 
+        })
+      });
 
-async function createUser(event) {
-  event.preventDefault(); // Prevent the default form submission
-
-  try {
-    // Create user in AWS Cognito
-    let apiName = 'AdminQueries';
-    let path = '/createUser';
-    let options = {
-      body: {
-        "username": username,
-        "password": password,
-        "email": email
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+      if (!response.ok) {
+        throw new Error('Failed to add user to MySQL database');
       }
-    };
-    await post({ apiName, path, options });
 
-    // Send user data to MySQL RDS
-    const response = await fetch('/api/createUserInMySQL', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        user_id: username, // Assuming 'username' will be the user_id in MySQL
-        email: email
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to add user to MySQL database');
+      setSuccessMessage('User created successfully');
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Failed to add user:', error);
+      setErrorMessage('Failed to add user. Please try again.');
+      setSuccessMessage('');
     }
-
-    setSuccessMessage('User created successfully');
-    setErrorMessage('');
-  } catch (error) {
-    console.error('Failed to add user:', error);
-    setErrorMessage('Failed to add user. Please try again.');
-    setSuccessMessage('');
   }
-}
-
 
 
   async function addToGroup(username) {
@@ -213,9 +217,19 @@ async function createUser(event) {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           <label>Email:</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-
+          <label>Name:</label> 
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+          <label>Phone Number:</label> 
+          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
+            <label>User Type:</label>
+          <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+            <option value="sponsor">Sponsor</option>
+            <option value="driver">Driver</option>
+            <option value="admin">Admin</option>
+          </select>
           <button type="submit">Create User</button>
-        </form>
+
+          </form>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {activeView === 'profile' && <Profile />}
