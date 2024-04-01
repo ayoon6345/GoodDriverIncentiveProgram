@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Container, Row, Col} from "react-bootstrap";
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { post, get } from 'aws-amplify/api';
