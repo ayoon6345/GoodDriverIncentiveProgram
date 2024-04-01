@@ -56,29 +56,67 @@ function DriverDashboard() {
 
 
 
-  async function createUser() {
-    try {
-      let apiName = 'AdminQueries';
-      let path = '/createUser';
-      let options = {
-        body: {
-          "username": username,
-          "password": password,
-          "email": email
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-        }
+async function createUser(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  try {
+    let apiName = 'AdminQueries';
+    let path = '/createUser';
+    let options = {
+      body: {
+        "username": username,
+        "password": password,
+        "email": email
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
-      await post({ apiName, path, options });
-      setSuccessMessage(`User ${username} added successfully.`);
+    };
+    
+    const response = await post({ apiName, path, options });
+
+    // Assuming the response has a success indicator. You'll need to adjust based on actual response structure.
+    if (response.success) {
+      setSuccessMessage(`User ${username} added successfully in Cognito.`);
       setErrorMessage('');
-    } catch (error) {
-      setErrorMessage('Failed to add user. Please try again.');
-      setSuccessMessage('');
+
+      // Proceed to save additional user details in MySQL
+      saveUserDetails(username, email);
+    } else {
+      throw new Error('Failed to create user in Cognito.');
     }
+  } catch (error) {
+    console.error('Failed to add user:', error);
+    setErrorMessage('Failed to add user. Please try again.');
+    setSuccessMessage('');
   }
+}
+async function saveUserDetails(username, email) {
+  try {
+    const response = await fetch('/api/createUserInMySQL', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        email, // Only send non-sensitive information
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const message = await response.text();
+    setSuccessMessage(`User ${username} added successfully in both Cognito and MySQL.`);
+  } catch (error) {
+    console.error('Failed to save user details to MySQL:', error);
+    // You might want to update the error message state here as well
+  }
+}
+
 
 
 
