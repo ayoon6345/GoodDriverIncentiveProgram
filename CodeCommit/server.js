@@ -20,32 +20,6 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
-
-// Import body-parser to parse request bodies
-// Make sure to install it using npm if you haven't already
-const bodyParser = require('body-parser');
-
-// Use body-parser middleware to parse JSON bodies
-app.use(bodyParser.json());
-
-// Endpoint to create a new user in the database
-app.post('/api/createUser', (req, res) => {
-  const { user_id, email } = req.body;
-  
-  // SQL query to insert the new user
-  const query = 'INSERT INTO users (user_id, email) VALUES (?, ?)';
-  
-  connection.query(query, [user_id, email], (err, results) => {
-    if (err) {
-      console.error('Error inserting data: ' + err.stack);
-      res.status(500).send('Failed to create user');
-      return;
-    }
-    res.status(200).send(`User ${user_id} created successfully.`);
-  });
-});
-
-
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
