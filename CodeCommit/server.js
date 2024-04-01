@@ -12,6 +12,8 @@ const connection = mysql.createConnection({
   database: config.database
 });
 
+app.use(express.json());
+
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to database: ' + err.stack);
