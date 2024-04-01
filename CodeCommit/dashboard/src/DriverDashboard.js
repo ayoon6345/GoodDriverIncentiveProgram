@@ -74,18 +74,9 @@ async function createUser(event) {
       }
     };
     
-    const response = await post({ apiName, path, options });
-
-    // Assuming the response has a success indicator. You'll need to adjust based on actual response structure.
-    if (response.success) {
-      setSuccessMessage(`User ${username} added successfully in Cognito.`);
-      setErrorMessage('');
-
+    await post({ apiName, path, options });
       // Proceed to save additional user details in MySQL
       saveUserDetails(username, email);
-    } else {
-      throw new Error('Failed to create user in Cognito.');
-    }
   } catch (error) {
     console.error('Failed to add user:', error);
     setErrorMessage('Failed to add user. Please try again.');
