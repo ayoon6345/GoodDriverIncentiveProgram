@@ -15,6 +15,19 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
 
+
+function DriverDashboard() {
+  const [activeView, setActiveView] = useState('profile');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState(''); // Add name state
+  const [userType, setusertype] = useState('driver'); // Default value: sponsor
+  const [phoneNumber, setPhoneNumber] = useState(''); // Add phoneNumber state
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [users, setUsers] = useState([]);
+ 
  const changeView = (view) => {
     setActiveView(view);
   };
@@ -36,24 +49,6 @@ Amplify.configure(amplifyconfig);
 
     fetchUserType();
   }, [username]);
-
-
-
-function DriverDashboard() {
-  const [activeView, setActiveView] = useState('profile');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState(''); // Add name state
-  const [userType, setusertype] = useState('driver'); // Default value: sponsor
-  const [phoneNumber, setPhoneNumber] = useState(''); // Add phoneNumber state
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [users, setUsers] = useState([]);
- 
-  const changeView = (view) => {
-    setActiveView(view);
-  };
 
   async function listAll(limit = 25) {
     let apiName = 'AdminQueries';
