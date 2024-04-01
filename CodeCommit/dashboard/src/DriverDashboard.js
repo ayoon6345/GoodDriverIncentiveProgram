@@ -55,32 +55,52 @@ function DriverDashboard() {
 
 
 
-
-  async function createUser() {
-    try {
-      let apiName = 'AdminQueries';
-      let path = '/createUser';
-      let options = {
-        body: {
-          "username": username,
-          "password": password,
-          "email": email
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-        }
+async function createUser() {
+  try {
+    let apiName = 'AdminQueries';
+    let path = '/createUser';
+    let options = {
+      body: {
+        "username": username,
+        "password": password,
+        "email": email
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
-      await post({ apiName, path, options });
-      setSuccessMessage(`User ${username} added successfully.`);
-      setErrorMessage('');
-    } catch (error) {
-      setErrorMessage('Failed to add user. Please try again.');
-      setSuccessMessage('');
+    };
+    
+    // Attempt to create user in Cognito first
+    await post({ apiName, path, options });
+    
+    // If successful, proceed to insert the user into the MySQL database
+    const response = await fetch('/api/createUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: username, email: email }),
+    });
+    
+    // Check if the fetch call was successful
+    if (!response.ok) {
+      throw new Error('Failed to insert user details into database');
     }
+    
+    const data = await response.text();
+    console.log(data); // Log the success message from the server
+    
+    // Update UI based on successful operations
+    setSuccessMessage(`User ${username} added successfully.`);
+    setErrorMessage('');
+  } catch (error) {
+    // Catch any errors that occur during the process
+    console.error('Error:', error);
+    setErrorMessage('Failed to add user. Please try again.');
+    setSuccessMessage('');
   }
-
-
+}
 
 
   async function addToGroup(username) {
