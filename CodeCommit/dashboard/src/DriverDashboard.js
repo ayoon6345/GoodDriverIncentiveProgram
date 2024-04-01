@@ -100,7 +100,7 @@ function DriverDashboard() {
     setErrorMessage('');
 
     // If the user type is "admin", add them to the "Admins" group
-    if (userType === 'admin') {
+    if (userType === "admin") {
       await addToGroup(username);
     }
   } catch (error) {
