@@ -30,18 +30,18 @@ app.use(bodyParser.json());
 
 // Endpoint to create a new user in the database
 app.post('/api/createUser', (req, res) => {
-  const { username, email } = req.body;
+  const { user_id, email } = req.body;
   
   // SQL query to insert the new user
-  const query = 'INSERT INTO users (username, email) VALUES (?, ?)';
+  const query = 'INSERT INTO users (user_id, email) VALUES (?, ?)';
   
-  connection.query(query, [username, email], (err, results) => {
+  connection.query(query, [user_id, email], (err, results) => {
     if (err) {
       console.error('Error inserting data: ' + err.stack);
       res.status(500).send('Failed to create user');
       return;
     }
-    res.status(200).send(`User ${username} created successfully.`);
+    res.status(200).send(`User ${user_id} created successfully.`);
   });
 });
 
