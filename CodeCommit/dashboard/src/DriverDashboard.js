@@ -55,56 +55,61 @@ function DriverDashboard() {
       });
   }, []);
 
-  async function createUser(event) {
-    event.preventDefault(); // Prevent the default form submission
+ async function createUser(event) {
+  event.preventDefault(); // Prevent the default form submission
 
-    try {
-      // Create user in AWS Cognito
-      let apiName = 'AdminQueries';
-      let path = '/createUser';
-      let options = {
-        body: {
-          "username": username,
-          "password": password,
-          "email": email,
-          "name": name, // Add name field
-          "phone_number": phoneNumber, // Add phone_number field
-          "userType": userType
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
-        }
-      };
-      await post({ apiName, path, options });
-
-      const response = await fetch('/api/createUserInMySQL', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          user_id: username,
-          email: email,
-          name: name, // Add name field
-          phone_number: phoneNumber, // Add phone_number field
-          userType: userType // Include user type
-
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add user to MySQL database');
+  try {
+    // Create user in AWS Cognito
+    let apiName = 'AdminQueries';
+    let path = '/createUser';
+    let options = {
+      body: {
+        "username": username,
+        "password": password,
+        "email": email,
+        "name": name, // Add name field
+        "phone_number": phoneNumber, // Add phone_number field
+        "userType": userType
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
+    };
+    await post({ apiName, path, options });
 
-      setSuccessMessage('User created successfully');
-      setErrorMessage('');
-    } catch (error) {
-      console.error('Failed to add user:', error);
-      setErrorMessage('Failed to add user. Please try again.');
-      setSuccessMessage('');
+    const response = await fetch('/api/createUserInMySQL', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: username,
+        email: email,
+        name: name, // Add name field
+        phone_number: phoneNumber, // Add phone_number field
+        userType: userType // Include user type
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add user to MySQL database');
     }
+
+    setSuccessMessage('User created successfully');
+    setErrorMessage('');
+
+    // If the user type is "admin", add them to the "Admins" group
+    if (userType === 'admin') {
+      await addToGroup(username);
+    }
+  } catch (error) {
+    console.error('Failed to add user:', error);
+    setErrorMessage('Failed to add user. Please try again.');
+    setSuccessMessage('');
   }
+}
+
 
 
   async function addToGroup(username) {
