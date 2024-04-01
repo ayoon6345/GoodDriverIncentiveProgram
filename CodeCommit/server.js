@@ -1,9 +1,11 @@
 const express = require('express');
 const mysql = require('mysql');
-const fs = require('fs');
 const path = require('path');
 const app = express();
 const config = require('../../config.js');
+
+// Middleware to parse JSON bodies
+app.use(express.json());
 
 const connection = mysql.createConnection({
   host: config.host,
@@ -20,6 +22,24 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
+// Handle createUser request
+app.post('/createUser', (req, res) => {
+  const { email, username } = req.body;
+  if (!email || !username) {
+    res.status(400).send('Email and username are required');
+    return;
+  }
+
+  const query = 'INSERT INTO users (email, username) VALUES (?, ?)';
+  connection.query(query, [email, username], (err, results) => {
+    if (err) {
+      console.error('Error inserting data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.send(`User ${username} added successfully.`);
+  });
+});
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
