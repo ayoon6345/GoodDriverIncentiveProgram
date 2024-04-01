@@ -20,12 +20,12 @@ function DriverDashboard() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState(''); // Add name state
-  const [userType, setUserType] = useState('sponsor'); // Default value: sponsor
+  const [usertype, setusertype] = useState('driver'); // Default value: sponsor
   const [phoneNumber, setPhoneNumber] = useState(''); // Add phoneNumber state
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
-
+ 
   const changeView = (view) => {
     setActiveView(view);
   };
@@ -77,7 +77,6 @@ function DriverDashboard() {
       };
       await post({ apiName, path, options });
 
-      // Send user data to MySQL RDS
       const response = await fetch('/api/createUserInMySQL', {
         method: 'POST',
         headers: {
@@ -88,7 +87,7 @@ function DriverDashboard() {
           email: email,
           name: name, // Add name field
           phone_number: phoneNumber, // Add phone_number field
-         usertype: userType // Include user type
+          usertype: usertype // Include user type
 
         })
       });
@@ -221,12 +220,14 @@ function DriverDashboard() {
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
           <label>Phone Number:</label> 
           <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
+
             <label>User Type:</label>
-          <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+          <select value={usertype} onChange={(e) => setusertype(e.target.value)}>
             <option value="sponsor">Sponsor</option>
             <option value="driver">Driver</option>
             <option value="admin">Admin</option>
           </select>
+
           <button type="submit">Create User</button>
 
           </form>
