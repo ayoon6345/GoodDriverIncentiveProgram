@@ -20,7 +20,7 @@ function DriverDashboard() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState(''); // Add name state
-  const [usertype, setusertype] = useState('driver'); // Default value: sponsor
+  const [userType, setusertype] = useState('driver'); // Default value: sponsor
   const [phoneNumber, setPhoneNumber] = useState(''); // Add phoneNumber state
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -69,7 +69,7 @@ function DriverDashboard() {
           "email": email,
           "name": name, // Add name field
           "phone_number": phoneNumber, // Add phone_number field
-          "usertype": usertype
+          "userType": userType
         },
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function DriverDashboard() {
           email: email,
           name: name, // Add name field
           phone_number: phoneNumber, // Add phone_number field
-          usertype: usertype // Include user type
+          userType: userType // Include user type
 
         })
       });
@@ -223,7 +223,7 @@ function DriverDashboard() {
           <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
 
             <label>User Type:</label>
-          <select value={usertype} onChange={(e) => setusertype(e.target.value)}>
+          <select value={userType} onChange={(e) => setusertype(e.target.value)}>
             <option value="sponsor">Sponsor</option>
             <option value="driver">Driver</option>
             <option value="admin">Admin</option>
