@@ -88,7 +88,7 @@ function DriverDashboard() {
           email: email,
           name: name, // Add name field
           phone_number: phoneNumber, // Add phone_number field
-          type: userType // Include user type
+         usertype: userType // Include user type
 
         })
       });
