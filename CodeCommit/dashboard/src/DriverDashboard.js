@@ -183,8 +183,6 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-          <button onClick={listAll}>List All</button>
-          <button onClick={createUser}>Test Create User</button>
 
 
         </nav>
