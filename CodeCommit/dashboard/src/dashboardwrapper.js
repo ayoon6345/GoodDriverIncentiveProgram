@@ -50,4 +50,6 @@ const DashboardWrapper = () => {
     default:
       return <div>Unauthorized Access</div>; // Handle unknown userType or unauthorized access
   }
+  
 };
+export default DashboardWrapper;
