@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './Landing';
 import Home from './home';
 import AboutUs from './about';
-import DashboardWrapper from './dashboardwrapper'; // Import the wrapper
+import DashboardWrapper from './DashboardWrapper'; // Import the wrapper
 import ProductSearch from './ProductSearch';
 
 const App = () => (
