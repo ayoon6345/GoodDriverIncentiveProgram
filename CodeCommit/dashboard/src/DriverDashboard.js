@@ -55,7 +55,7 @@ function DriverDashboard() {
       });
   }, []);
 
- async function createUser(event) {
+  async function createUser(event) {
   event.preventDefault(); // Prevent the default form submission
 
   try {
@@ -78,6 +78,7 @@ function DriverDashboard() {
     };
     await post({ apiName, path, options });
 
+    // Add the user to the MySQL database
     const response = await fetch('/api/createUserInMySQL', {
       method: 'POST',
       headers: {
@@ -86,8 +87,8 @@ function DriverDashboard() {
       body: JSON.stringify({
         user_id: username,
         email: email,
-        name: name, // Add name field
-        phone_number: phoneNumber, // Add phone_number field
+        name: name,
+        phone_number: phoneNumber,
         userType: userType // Include user type
       })
     });
@@ -96,20 +97,19 @@ function DriverDashboard() {
       throw new Error('Failed to add user to MySQL database');
     }
 
-    setSuccessMessage('User created successfully');
-    setErrorMessage('');
-
-    // If the user type is "admin", add them to the "Admins" group
-    if (userType === "admin") {
+    // Automatically add user to Admins group if userType is Admin
+    if (userType === 'admin') {
       await addToGroup(username);
     }
+
+    setSuccessMessage('User created successfully');
+    setErrorMessage('');
   } catch (error) {
     console.error('Failed to add user:', error);
     setErrorMessage('Failed to add user. Please try again.');
     setSuccessMessage('');
   }
 }
-
 
 
   async function addToGroup(username) {
