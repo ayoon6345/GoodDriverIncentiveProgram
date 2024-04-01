@@ -20,6 +20,21 @@ connection.connect((err) => {
   console.log('Connected to database as id ' + connection.threadId);
 });
 
+
+app.post('/api/createUserInMySQL', (req, res) => {
+  const { user_id, email } = req.body; // Only get the data you need
+
+  const query = `INSERT INTO users (user_id, email) VALUES (?, ?)`;
+
+  connection.query(query, [user_id, email], (err, results) => {
+    if (err) {
+      console.error('Error adding user to MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.status(201).send(`User ${user_id} added successfully to MySQL database.`);
+  });
+});
+
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
