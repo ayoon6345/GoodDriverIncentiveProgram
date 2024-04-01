@@ -199,6 +199,7 @@ function DriverDashboard() {
             <option value="sponsor">Sponsor</option>
             <option value="admin">Admin</option>
           </select>
+
           <button type="submit">Create User</button>
         </form>
         {successMessage && <div className="success-message">{successMessage}</div>}
