@@ -36,6 +36,36 @@ app.post('/api/createUserInMySQL', (req, res) => {
   });
 });
 
+app.get('/api/getUserType', (req, res) => {
+  // Retrieve the username from query parameters
+  const { username } = req.query;
+
+  if (!username) {
+    return res.status(400).send('Username is required');
+  }
+
+  // Define the query to select the user type
+  const query = `SELECT usertype FROM users WHERE user_id = ?`;
+
+  // Execute the query
+  connection.query(query, [username], (err, results) => {
+    if (err) {
+      console.error('Error fetching user type from MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    // Check if user exists
+    if (results.length === 0) {
+      return res.status(404).send('User not found');
+    }
+
+    // Send back the user type
+    const userType = results[0].usertype;
+    res.json({ userType });
+  });
+});
+
+
 
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
