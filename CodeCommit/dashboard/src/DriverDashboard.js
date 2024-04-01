@@ -68,7 +68,8 @@ function DriverDashboard() {
           "password": password,
           "email": email,
           "name": name, // Add name field
-          "phone_number": phoneNumber // Add phone_number field
+          "phone_number": phoneNumber, // Add phone_number field
+          "usertype": usertype
         },
         headers: {
           'Content-Type': 'application/json',
