@@ -14,6 +14,31 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
+
+ const changeView = (view) => {
+    setActiveView(view);
+  };
+
+  useEffect(() => {
+    async function fetchUserType() {
+      try {
+        const response = await fetch(`/api/getUserType?username=${username}`);
+        if (response.ok) {
+          const data = await response.json();
+          setUserType(data.userType);
+        } else {
+          console.error('Failed to fetch user type');
+        }
+      } catch (error) {
+        console.error('Error fetching user type:', error);
+      }
+    }
+
+    fetchUserType();
+  }, [username]);
+
+
+
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [username, setUsername] = useState('');
@@ -203,47 +228,47 @@ function DriverDashboard() {
     }
   }
 
-  return (
+    return (
     <div>
-      <Navbar /> {/* Render the Navbar component */}
+      <Navbar />
       <div className="container">
-        <h1>Driver Dashboard</h1>
+        <h1>{userType === 'driver' ? 'Driver Dashboard' : 'Admin Dashboard'}</h1>
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
-
-
         </nav>
-         <form onSubmit={createUser}>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <label>Name:</label> 
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-          <label>Phone Number:</label> 
-          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-
-            <label>User Type:</label>
-          <select value={userType} onChange={(e) => setusertype(e.target.value)}>
-            <option value="sponsor">Sponsor</option>
-            <option value="driver">Driver</option>
-            <option value="admin">Admin</option>
-          </select>
-
-          <button type="submit">Create User</button>
-
-          </form>
+        <form onSubmit={createUser}>
+          {userType !== 'driver' && (
+            <>
+              <label>Username:</label>
+              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+              <label>Password:</label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <label>Email:</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <label>Name:</label> 
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+              <label>Phone Number:</label> 
+              <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
+              <label>User Type:</label>
+              <select value={userType} onChange={(e) => setusertype(e.target.value)}>
+                <option value="sponsor">Sponsor</option>
+                <option value="driver">Driver</option>
+                <option value="admin">Admin</option>
+              </select>
+              <button type="submit">Create User</button>
+            </>
+          )}
+        </form>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
-        {activeView === 'profile' && <Profile />}
-        {activeView === 'points' && <PointsOverview />}
-        {activeView === 'catalog' && <ProductCatalog />}
-        <div>
-          <h2>Users:</h2>
+        {activeView === 'profile' && userType === 'driver' && <Profile />}
+        {activeView === 'points' && userType === 'driver' && <PointsOverview />}
+        {activeView === 'catalog' && userType === 'driver' && <ProductCatalog />}
+        {userType !== 'driver' && (
+          <div>
+            <h2>Users:</h2>
             <ul>
               {users.map((user, index) => (
                 <li key={index}>
@@ -256,18 +281,18 @@ function DriverDashboard() {
                     </div>
                   ))}
                   <div>User Status: {user.UserStatus}</div>
-                  <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div> {/* Display Yes or No based on the value */}
+                  <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div>
                   <div>User Create Date: {user.UserCreateDate}</div>
                   <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
                   <button onClick={() => addToGroup(user.Username)}>Add to Admins</button>
                   <button onClick={() => removeFromGroup(user.Username)}>Remove from Admins</button>
                   <button onClick={() => disableUser(user.Username)}>Disable User</button>
                   <button onClick={() => enableUser(user.Username)}>Enable User</button>
-
                 </li>
               ))}
             </ul>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
