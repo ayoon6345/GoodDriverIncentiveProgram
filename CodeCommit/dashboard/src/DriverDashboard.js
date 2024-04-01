@@ -60,6 +60,7 @@ async function createUser(event) {
   event.preventDefault(); // Prevent the default form submission
 
   try {
+    // Create user in AWS Cognito
     let apiName = 'AdminQueries';
     let path = '/createUser';
     let options = {
@@ -73,42 +74,32 @@ async function createUser(event) {
         Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
       }
     };
-    
     await post({ apiName, path, options });
-      // Proceed to save additional user details in MySQL
-      saveUserDetails(username, email);
+
+    // Send user data to MySQL RDS
+    const response = await fetch('/api/createUserInMySQL', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: username, // Assuming 'username' will be the user_id in MySQL
+        email: email
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add user to MySQL database');
+    }
+
+    setSuccessMessage('User created successfully');
+    setErrorMessage('');
   } catch (error) {
     console.error('Failed to add user:', error);
     setErrorMessage('Failed to add user. Please try again.');
     setSuccessMessage('');
   }
 }
-async function saveUserDetails(username, email) {
-  try {
-    const response = await fetch('/api/createUserInMySQL', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        email, // Only send non-sensitive information
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const message = await response.text();
-    setSuccessMessage(`User ${username} added successfully in both Cognito and MySQL.`);
-  } catch (error) {
-    console.error('Failed to save user details to MySQL:', error);
-    // You might want to update the error message state here as well
-  }
-}
-
-
 
 
 
