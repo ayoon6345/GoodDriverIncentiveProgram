@@ -193,6 +193,12 @@ function DriverDashboard() {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           <label>Email:</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label>User Type:</label>
+          <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+            <option value="driver">Driver</option>
+            <option value="sponsor">Sponsor</option>
+            <option value="admin">Admin</option>
+          </select>
           <button type="submit">Create User</button>
         </form>
         {successMessage && <div className="success-message">{successMessage}</div>}
