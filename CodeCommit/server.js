@@ -37,6 +37,7 @@ app.post('/api/createUserInMySQL', (req, res) => {
   });
 });
 
+
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
