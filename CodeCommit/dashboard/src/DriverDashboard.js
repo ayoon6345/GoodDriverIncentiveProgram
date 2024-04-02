@@ -29,7 +29,7 @@ function DriverDashboard() {
       try {
         const user = await getCurrentUser();
         // Assuming the user type is stored in the 'usertype' attribute
-        setusertype(user.attributes.find(attr => attr.Name === 'usertype')?.Value || 'driver');
+        setUsertype((user.attributes || []).find(attr => attr.Name === 'usertype')?.Value || '');
       } catch (err) {
         console.log(err);
       }
