@@ -23,7 +23,6 @@ function DriverDashboard() {
 
   return (
     <div>
-      <Navbar />
       <div className="container">
         <h1>Driver Dashboard</h1>
         <nav>
