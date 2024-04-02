@@ -36,29 +36,17 @@ app.post('/api/createUserInMySQL', (req, res) => {
   });
 });
 
-app.get('/api/getUserType', (req, res) => {
-  const userId = req.query.user_id;
+app.get('/api/getAllUsers', (req, res) => {
+  const query = 'SELECT user_id, usertype FROM users';
 
-  if (!userId) {
-    return res.status(400).send('User ID is required');
-  }
-
-  const query = 'SELECT usertype FROM users WHERE user_id = ?';
-
-  connection.query(query, [userId], (err, results) => {
+  connection.query(query, (err, results) => {
     if (err) {
-      console.error('Error fetching user type:', err);
+      console.error('Error fetching users:', err);
       res.status(500).send('Internal Server Error');
       return;
     }
 
-    if (results.length === 0) {
-      res.status(404).send('User not found');
-      return;
-    }
-
-    const userType = results[0].usertype;
-    res.json({ userType });
+    res.json(results);
   });
 });
 
