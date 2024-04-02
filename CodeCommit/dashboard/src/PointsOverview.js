@@ -8,27 +8,25 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
 function CustomNavbar() {
-  const [userData, setUserData] = useState(null);
+  const [usersData, setUsersData] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchUserData() {
+    async function fetchUsersData() {
       try {
-        const user = await getCurrentUser();
-        const userId = user.username;
-        const response = await fetch(`/api/getUserType?user_id=${userId}`);
+        const response = await fetch('/api/getAllUsers');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        setUserData({ username: user.username, userType: data.userType });
+        setUsersData(data);
       } catch (error) {
-        console.error('Error fetching user data:', error);
-        setError('Error fetching user data');
+        console.error('Error fetching users data:', error);
+        setError('Error fetching users data');
       }
     }
 
-    fetchUserData();
+    fetchUsersData();
   }, []);
 
   return (
@@ -38,12 +36,12 @@ function CustomNavbar() {
           <span className="error">{error}</span>
         ) : (
           <>
-            {userData && (
-              <>
-                <span className="username">{userData.username}</span>
-                <span className="userType">{userData.userType}</span>
-              </>
-            )}
+            {usersData.map(user => (
+              <div key={user.user_id}>
+                <span className="username">{user.user_id}</span>
+                <span className="userType">{user.usertype}</span>
+              </div>
+            ))}
             {/* Add other navbar items here */}
           </>
         )}
