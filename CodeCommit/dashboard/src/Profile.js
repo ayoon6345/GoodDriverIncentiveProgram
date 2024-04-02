@@ -49,6 +49,8 @@ function PointsOverview() {
             <p>Email: {currentUserData.email}</p>
             <p>Phone Number: {currentUserData.phone_number}</p>
             <p>User Type: {currentUserData.usertype}</p>
+           <p>Your Sponsor is : {currentUserData.sponsor}</p>
+
           </div>
         ) : (
           <p>Loading...</p>
