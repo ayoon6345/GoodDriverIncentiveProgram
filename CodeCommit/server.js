@@ -43,10 +43,10 @@ app.get('/api/getUsers', (req, res) => {
       res.status(500).send('Internal Server Error');
       return;
     }
-    const userData = results[0];
-    res.json(userData);
+    res.json(results); // Return the entire array of user data
   });
 });
+
 
 
 
