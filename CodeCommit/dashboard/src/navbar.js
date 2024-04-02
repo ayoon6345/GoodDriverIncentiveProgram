@@ -57,7 +57,7 @@ function CustomNavbar() {
             <p>points</p>
             <div id="points">0</div>
           </div>
-          <div id="cart" onClick={() => {window.location.href='/home'}}>
+          <div id="cart" onClick={() => {window.location.href='/cart'}}>
             <img src={require('./images/emptyCart.png')} alt="Cart" width="50px" height="50px" />
             <h3 id="cartitems">4</h3>
             <span className="tooltiptext">Cart</span>
