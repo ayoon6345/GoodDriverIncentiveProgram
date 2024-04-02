@@ -4,7 +4,7 @@ import { fetchAuthSession } from 'aws-amplify/auth';
 import { post, get } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-
+import Navbar from './navbar';
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
@@ -82,6 +82,7 @@ function DriverDashboard() {
 
   return (
     <div>
+          <Navbar />
       <div className="container">
         <h1>Sponsor Dashboard</h1>
         <nav>
