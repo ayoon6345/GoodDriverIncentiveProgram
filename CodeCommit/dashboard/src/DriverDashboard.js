@@ -33,23 +33,31 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-  useEffect(() => {
-    async function fetchUserType() {
-      try {
-        const response = await fetch(`/api/getUserType?username=${username}`);
-        if (response.ok) {
-          const data = await response.json();
-          setusertype(data.userType);
-        } else {
-          console.error('Failed to fetch user type');
-        }
-      } catch (error) {
-        console.error('Error fetching user type:', error);
-      }
+useEffect(() => {
+  async function fetchUserType() {
+    console.log("Fetching user type for username:", username); // Debugging line
+    if (!username) {
+      console.error("Username is not set.");
+      return;
     }
+    try {
+      const response = await fetch(`/api/getUserType?username=${encodeURIComponent(username)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setusertype(data.userType);
+      } else {
+        console.error('Failed to fetch user type');
+      }
+    } catch (error) {
+      console.error('Error fetching user type:', error);
+    }
+  }
 
+  if (username) {
     fetchUserType();
-  }, [username]);
+  }
+}, [username]);
+
 
 
   async function listAll(limit = 25) {
