@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
-import { withAuthenticator, getCurrentUser } from '@aws-amplify/ui-react'; // Import getCurrentUser
+import { getCurrentUser } from 'aws-amplify/auth';
+import { withAuthenticator} from '@aws-amplify/ui-react'; // Import getCurrentUser
 import '@aws-amplify/ui-react/styles.css';
 
 import Navbar from './navbar';
