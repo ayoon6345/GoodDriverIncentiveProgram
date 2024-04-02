@@ -119,3 +119,36 @@ header {
 .modal-content button:last-child {
   margin-right: 0;
 }
+
+.about-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.about-header {
+  text-align: center;
+  color: #007bff; /* Adjust color to fit your app's theme */
+  margin-bottom: 30px;
+}
+
+.about-content {
+  background-color: #f9f9f9; /* Light background to make content pop */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
+}
+
+.about-item {
+  margin-bottom: 15px;
+}
+
+.about-title {
+  font-weight: bold;
+  color: #333; /* Darker text for the title */
+  margin-right: 10px;
+}
+
+.about-detail {
+  color: #666; /* Lighter text for details */
+}
