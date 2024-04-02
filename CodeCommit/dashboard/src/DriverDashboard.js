@@ -46,7 +46,7 @@ useEffect(() => {
         })
         .then(data => {
           console.log('User Type:', data.userType); // Log the user type to the console
-          setUserType(data.userType); // Optionally update the state if needed
+          setusertype(data.userType); // Optionally update the state if needed
         })
         .catch(error => console.error('Error fetching user type:', error));
     }
