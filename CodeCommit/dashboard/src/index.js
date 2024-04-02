@@ -39,14 +39,14 @@ const App = () => {
   // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
-  
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
-        {userType === 'admin' ? (
+        {currentUserData.usertype === 'admin' ? (
           <Route path="/dashboard" element={<AdminDashboard />} />
         ) : (
           <Route path="/dashboard" element={<DriverDashboard />} />
