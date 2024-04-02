@@ -238,3 +238,11 @@ li button:hover {
   background-color: #dc3545;
   color: #fff;
 }
+
+.mini-title {
+  font-size: 18px;
+  color: #555; /* Subtle and sophisticated color */
+  margin-bottom: 15px; /* Space before the main title */
+  text-align: center; /* Center the mini title */
+  font-weight: 500; /* Slightly bolder than normal text for emphasis */
+}
