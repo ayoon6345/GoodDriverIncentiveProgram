@@ -6,6 +6,7 @@ import Home from './home';
 import AboutUs from './about';
 import DriverDashboard from './DriverDashboard';
 import AdminDashboard from './AdminDashboard';
+import SponsorDashboard from './SponsorDashboard'; // Ensure this import is added
 import ProductSearch from './ProductSearch';
 import { getCurrentUser } from 'aws-amplify/auth'; // Import getCurrentUser
 
@@ -45,10 +46,12 @@ const App = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
-        {/* Conditionally render routes based on currentUserData and its usertype */}
+        {/* Adjusted routing logic to include SponsorDashboard */}
         {currentUserData ? (
           currentUserData.usertype === 'admin' ? (
             <Route path="/dashboard" element={<AdminDashboard />} />
+          ) : currentUserData.usertype === 'sponsor' ? (
+            <Route path="/dashboard" element={<SponsorDashboard />} /> // SponsorDashboard route
           ) : (
             <Route path="/dashboard" element={<DriverDashboard />} />
           )
