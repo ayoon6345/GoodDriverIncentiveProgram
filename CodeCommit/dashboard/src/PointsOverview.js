@@ -44,8 +44,7 @@ function PointsOverview() {
         <h1>User Details</h1>
         {currentUserData ? (
           <div>
-            <p>User ID: {currentUserData.user_id}</p>
-            <p>User Type: {currentUserData.usertype}</p>
+            <p>You Have : {currentUserData.points}</p>
           </div>
         ) : (
           <p>Loading...</p>
