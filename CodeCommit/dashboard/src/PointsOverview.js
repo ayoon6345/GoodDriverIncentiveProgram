@@ -12,11 +12,11 @@ Amplify.configure(config);
 function AboutUs() {
   const [userType, setUserType] = useState('');
   const navigate = useNavigate();
-
+  const userId = "joelm"; 
   useEffect(() => {
     // Placeholder for the actual user ID fetching logic
     // For example, you might be getting it from the auth session
-    const userId = "joelm"; // Replace with actual logic to obtain user ID
+    // Replace with actual logic to obtain user ID
 
     if (userId) {
       fetch(`/api/getUserType?user_id=${userId}`)
