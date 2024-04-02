@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Container, Row, Col} from "react-bootstrap";
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { post, get } from 'aws-amplify/api';
@@ -26,33 +27,10 @@ function DriverDashboard() {
   const [phoneNumber, setPhoneNumber] = useState(''); // Add phoneNumber state
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [users, setUsers] = useState([]);
  
  const changeView = (view) => {
     setActiveView(view);
   };
-
-console.log('test');
-useEffect(() => {
-    // Assume the API requires the username to fetch the user type
-    // Adjust the endpoint or parameters as needed
-    if (username) {
-      fetch(`/api/getUserType?user_id=${username}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('User Type:', data.userType); // Log the user type to the console
-          setusertype(data.userType); // Optionally update the state if needed
-        })
-        .catch(error => console.error('Error fetching user type:', error));
-    }
-  }, [username]); // Rerun the effect if the username changes
-
-
 
   async function listAll(limit = 25) {
     let apiName = 'AdminQueries';
@@ -237,7 +215,6 @@ useEffect(() => {
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
         </nav>
         <form onSubmit={createUser}>
-         
             <>
               <label>Username:</label>
               <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
