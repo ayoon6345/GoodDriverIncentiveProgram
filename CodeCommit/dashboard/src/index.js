@@ -8,7 +8,7 @@ import DriverDashboard from './DriverDashboard';
 import AdminDashboard from './AdminDashboard';
 import SponsorDashboard from './SponsorDashboard'; // Ensure this import is added
 import ProductSearch from './ProductSearch';
-import shopCart from './cart';
+import ShopCart from './cart';
 
 import { getCurrentUser } from 'aws-amplify/auth'; // Import getCurrentUser
 
@@ -48,7 +48,7 @@ const App = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/cart" element={<shopCart />} />
+        <Route path="/cart" element={<ShopCart />} />
         {/* Adjusted routing logic to include SponsorDashboard */}
         {currentUserData ? (
           currentUserData.usertype === 'admin' ? (
