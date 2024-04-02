@@ -72,7 +72,6 @@ header {
 }
 
 .container {
-  margin: 90px auto; /* Adjusted to accommodate the navbar height */
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
