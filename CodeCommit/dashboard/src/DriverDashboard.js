@@ -14,21 +14,19 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-
-
 function DriverDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState(''); // Add name state
-  const [userType, setusertype] = useState('driver'); // Default value: sponsor
+  const [usertype, setusertype] = useState('driver'); // Default value: sponsor
   const [phoneNumber, setPhoneNumber] = useState(''); // Add phoneNumber state
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
  
- const changeView = (view) => {
+  const changeView = (view) => {
     setActiveView(view);
   };
 
@@ -58,60 +56,55 @@ function DriverDashboard() {
   }, []);
 
   async function createUser(event) {
-  event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); // Prevent the default form submission
 
-  try {
-    // Create user in AWS Cognito
-    let apiName = 'AdminQueries';
-    let path = '/createUser';
-    let options = {
-      body: {
-        "username": username,
-        "password": password,
-        "email": email,
-        "name": name, // Add name field
-        "phone_number": phoneNumber, // Add phone_number field
-        "userType": userType
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+    try {
+      // Create user in AWS Cognito
+      let apiName = 'AdminQueries';
+      let path = '/createUser';
+      let options = {
+        body: {
+          "username": username,
+          "password": password,
+          "email": email,
+          "name": name, // Add name field
+          "phone_number": phoneNumber, // Add phone_number field
+          "usertype": usertype
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`
+        }
+      };
+      await post({ apiName, path, options });
+
+      const response = await fetch('/api/createUserInMySQL', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: username,
+          email: email,
+          name: name, // Add name field
+          phone_number: phoneNumber, // Add phone_number field
+          usertype: usertype // Include user type
+
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add user to MySQL database');
       }
-    };
-    await post({ apiName, path, options });
 
-    // Add the user to the MySQL database
-    const response = await fetch('/api/createUserInMySQL', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        user_id: username,
-        email: email,
-        name: name,
-        phone_number: phoneNumber,
-        userType: userType // Include user type
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to add user to MySQL database');
+      setSuccessMessage('User created successfully');
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Failed to add user:', error);
+      setErrorMessage('Failed to add user. Please try again.');
+      setSuccessMessage('');
     }
-
-    // Automatically add user to Admins group if userType is Admin
-    if (userType === 'admin') {
-      await addToGroup(username);
-    }
-
-    setSuccessMessage('User created successfully');
-    setErrorMessage('');
-  } catch (error) {
-    console.error('Failed to add user:', error);
-    setErrorMessage('Failed to add user. Please try again.');
-    setSuccessMessage('');
   }
-}
 
 
   async function addToGroup(username) {
@@ -205,45 +198,47 @@ function DriverDashboard() {
     }
   }
 
-    return (
+  return (
     <div>
-      <Navbar />
+      <Navbar /> {/* Render the Navbar component */}
       <div className="container">
+        <h1>Driver Dashboard</h1>
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
+
+
         </nav>
-        <form onSubmit={createUser}>
-            <>
-              <label>Username:</label>
-              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-              <label>Password:</label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              <label>Email:</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              <label>Name:</label> 
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-              <label>Phone Number:</label> 
-              <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-              <label>User Type:</label>
-              <select value={userType} onChange={(e) => setusertype(e.target.value)}>
-                <option value="sponsor">Sponsor</option>
-                <option value="driver">Driver</option>
-                <option value="admin">Admin</option>
-              </select>
-              <button type="submit">Create User</button>
-            </>
-          
-        </form>
+         <form onSubmit={createUser}>
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <label>Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <label>Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label>Name:</label> 
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+          <label>Phone Number:</label> 
+          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
+
+            <label>User Type:</label>
+          <select value={usertype} onChange={(e) => setusertype(e.target.value)}>
+            <option value="sponsor">Sponsor</option>
+            <option value="driver">Driver</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <button type="submit">Create User</button>
+
+          </form>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
-        {activeView === 'profile' && userType === 'driver' && <Profile />}
-        {activeView === 'points' && userType === 'driver' && <PointsOverview />}
-        {activeView === 'catalog' && userType === 'driver' && <ProductCatalog />}
-        {userType !== 'driver' && (
-          <div>
-            <h2>Users:</h2>
+        {activeView === 'profile' && <Profile />}
+        {activeView === 'points' && <PointsOverview />}
+        {activeView === 'catalog' && <ProductCatalog />}
+        <div>
+          <h2>Users:</h2>
             <ul>
               {users.map((user, index) => (
                 <li key={index}>
@@ -256,18 +251,18 @@ function DriverDashboard() {
                     </div>
                   ))}
                   <div>User Status: {user.UserStatus}</div>
-                  <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div>
+                  <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div> {/* Display Yes or No based on the value */}
                   <div>User Create Date: {user.UserCreateDate}</div>
                   <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
                   <button onClick={() => addToGroup(user.Username)}>Add to Admins</button>
                   <button onClick={() => removeFromGroup(user.Username)}>Remove from Admins</button>
                   <button onClick={() => disableUser(user.Username)}>Disable User</button>
                   <button onClick={() => enableUser(user.Username)}>Enable User</button>
+
                 </li>
               ))}
             </ul>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
