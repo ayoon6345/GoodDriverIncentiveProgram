@@ -48,7 +48,7 @@ function AboutUs() {
     <div>
       <Navbar />
       <div className="about-container">
-        <h1>About Us</h1>
+        <div className="mini-title">About Us</div>
         <div className="about-card">
           {Object.entries(aboutData).map(([key, value]) => (
             <div key={key} className="about-item">
