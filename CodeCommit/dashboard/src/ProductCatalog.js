@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-function ProductCatalog(onAddToCart) {
+// Destructure onAddToCart from props
+function ProductCatalog({ onAddToCart }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -40,4 +41,5 @@ function ProductCatalog(onAddToCart) {
     </div>
   );
 }
+
 export default ProductCatalog;
