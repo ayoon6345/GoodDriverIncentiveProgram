@@ -32,7 +32,7 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-
+console.log('test');
 useEffect(() => {
     // Assume the API requires the username to fetch the user type
     // Adjust the endpoint or parameters as needed
