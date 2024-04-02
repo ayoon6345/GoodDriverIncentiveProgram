@@ -6,9 +6,6 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 import Navbar from './navbar';
-import Profile from './Profile';
-import PointsOverview from './PointsOverview';
-import ProductCatalog from './ProductCatalog';
 import './App.css';
 
 import amplifyconfig from './amplifyconfiguration.json';
@@ -202,12 +199,7 @@ function DriverDashboard() {
     <div>
       <Navbar />
       <div className="container">
-        <h1>Driver Dashboard</h1>
-        <nav>
-          <button onClick={() => changeView('profile')}>Profile</button>
-          <button onClick={() => changeView('points')}>Points Overview</button>
-          <button onClick={() => changeView('catalog')}>Product Catalog</button>
-        </nav>
+        <h1>Admin Dashboard</h1>
 
         <form onSubmit={createUser} className="user-form">
           <label>Username:</label>
@@ -231,11 +223,6 @@ function DriverDashboard() {
 
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
-
-        {activeView === 'profile' && <Profile />}
-        {activeView === 'points' && <PointsOverview />}
-        {activeView === 'catalog' && <ProductCatalog />}
-
         <div>
           <h2>Users:</h2>
           <ul>
