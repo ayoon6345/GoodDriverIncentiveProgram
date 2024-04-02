@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {Container, Row, Col} from "react-bootstrap";
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { post, get } from 'aws-amplify/api';
@@ -33,32 +32,25 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
+
 useEffect(() => {
-  async function fetchUserType() {
-    console.log("Fetching user type for username:", username); // Ensure username is correctly passed
-    if (!username) {
-      console.error("Username is not set.");
-      return;
+    // Assume the API requires the username to fetch the user type
+    // Adjust the endpoint or parameters as needed
+    if (username) {
+      fetch(`/api/getUserType?user_id=${username}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('User Type:', data.userType); // Log the user type to the console
+          setUserType(data.userType); // Optionally update the state if needed
+        })
+        .catch(error => console.error('Error fetching user type:', error));
     }
-    try {
-      const response = await fetch(`/api/getUserType?username=${encodeURIComponent(username)}`);
-      if (response.ok) {
-        const data = await response.json();
-        setusertype(data.userType);
-        console.log("Fetched user type:", data.userType); // Log the user type to the console
-      } else {
-        console.error('Failed to fetch user type');
-      }
-    } catch (error) {
-      console.error('Error fetching user type:', error);
-    }
-  }
-
-  if (username) {
-    fetchUserType();
-  }
-}, [username]);
-
+  }, [username]); // Rerun the effect if the username changes
 
 
 
@@ -239,14 +231,13 @@ useEffect(() => {
     <div>
       <Navbar />
       <div className="container">
-        <h1>{userType === 'driver' ? 'Driver Dashboard' : 'Admin Dashboard'}</h1>
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
         </nav>
         <form onSubmit={createUser}>
-          {userType !== 'driver' && (
+         
             <>
               <label>Username:</label>
               <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
@@ -266,7 +257,6 @@ useEffect(() => {
               </select>
               <button type="submit">Create User</button>
             </>
-          )}
         </form>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
