@@ -16,6 +16,7 @@ Amplify.configure(amplifyconfig);
 
 function SponsorDashboard() {
   const [usertype, setUsertype] = useState('');
+  const [activeView, setActiveView] = useState('profile'); // Add activeView state
 
   useEffect(() => {
     async function fetchCurrentUser() {
