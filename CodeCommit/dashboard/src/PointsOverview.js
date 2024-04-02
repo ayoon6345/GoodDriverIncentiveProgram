@@ -1,49 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { Amplify } from 'aws-amplify';
-import { useNavigate } from 'react-router-dom';
-import { withAuthenticator } from '@aws-amplify/ui-react'; // Import Auth for getCurrentUser
+import './navbar.css';
+import { getCurrentUser } from 'aws-amplify/auth';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
-import Navbar from './navbar'; // Import the Navbar component
-import './App.css';
 
+import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
-function AboutUs() {
-  const [userType, setUserType] = useState('');
-  const [username, setUsername] = useState('');
-  const navigate = useNavigate();
+function CustomNavbar() {
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchCurrentUser() {
       try {
-        const user = await Auth.getCurrentUser(); // Use getCurrentUser
+        const user = await getCurrentUser();
         setUsername(user.username);
-        const userId = user.username; // Assuming username is the user_id
-        const response = await fetch(`/api/getUserType?user_id=${userId}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setUserType(data.userType);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      } catch (err) {
+        console.log(err);
       }
     }
 
-    fetchData();
+    fetchCurrentUser();
   }, []);
 
   return (
-    <div>
-      <Navbar />
-      <div className="container">
-        <h1>About Us</h1>
-        <p>User Name: {username}</p>
-        <p>User Type: {userType}</p>
+    <nav className="navbar">
+      <div className="navbar-brand">My App</div>
+      <div className="navbar-items">
+        <span className="username">{username}</span>
+        {/* Add other navbar items here */}
       </div>
-    </div>
+    </nav>
   );
 }
 
-export default withAuthenticator(AboutUs);
+export default CustomNavbar;
