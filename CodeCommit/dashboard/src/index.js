@@ -7,8 +7,7 @@ import AboutUs from './about';
 import DriverDashboard from './DriverDashboard';
 import AdminDashboard from './AdminDashboard';
 import ProductSearch from './ProductSearch';
-import PointsOverview from './PointsOverview'; // Import PointsOverview component
-import { getCurrentUser } from 'aws-amplify/auth'; // Import getCurrentUser function
+import { getCurrentUser } from 'aws-amplify/auth'; // Import getCurrentUser
 
 const App = () => {
   const [userType, setUserType] = useState(null);
@@ -17,7 +16,7 @@ const App = () => {
     async function fetchUserType() {
       try {
         const user = await getCurrentUser();
-        setUserType(user.attributes.find(attr => attr.Name === 'usertype')?.Value || 'driver');
+        setUserType(user?.attributes.find(attr => attr.Name === 'usertype')?.Value || 'driver');
       } catch (error) {
         console.error('Error fetching user type:', error);
       }
@@ -32,15 +31,16 @@ const App = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/dashboard" element={userType === 'admin' ? <AdminDashboard /> : <DriverDashboard />} />
+        {userType === 'admin' ? (
+          <Route path="/dashboard" element={<AdminDashboard />} />
+        ) : (
+          <Route path="/dashboard" element={<DriverDashboard />} />
+        )}
         <Route path="/search" element={<ProductSearch />} />
-        <Route path="/points" element={<PointsOverview />} /> {/* Add PointsOverview route */}
       </Routes>
     </BrowserRouter>
   );
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <App />
-);
+root.render(<App />);
