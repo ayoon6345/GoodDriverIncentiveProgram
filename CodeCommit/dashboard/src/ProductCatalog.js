@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function ProductCatalog() {
+function ProductCatalog(onAddToCart) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -33,12 +33,11 @@ function ProductCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            {/* Placeholder for future "purchase" button */}
+            <button onClick={() => onAddToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>
     </div>
   );
 }
-
 export default ProductCatalog;
