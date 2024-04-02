@@ -12,7 +12,6 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
 function DriverDashboard() {
-  const [activeView, setActiveView] = useState('profile');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -23,9 +22,7 @@ function DriverDashboard() {
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
 
-  const changeView = (view) => {
-    setActiveView(view);
-  };
+
 
   async function listAll(limit = 25) {
     try {
