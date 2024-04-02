@@ -1,4 +1,9 @@
-function ShoppingCart({ cartItems, onRemoveFromCart }) {
+import React from 'react';
+import { useCart } from './CartContext'; // Adjust the import path based on where your context is located
+
+function ShoppingCartPage() {
+  const { cartItems, removeFromCart } = useCart();
+
   return (
     <div style={{ padding: '20px' }}>
       <h2>Shopping Cart</h2>
@@ -8,9 +13,11 @@ function ShoppingCart({ cartItems, onRemoveFromCart }) {
           <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
           <span>{item.name}</span> - 
           <span> Points: {item.price}</span>
-          <button onClick={() => onRemoveFromCart(index)}>Remove</button>
+          <button onClick={() => removeFromCart(index)}>Remove</button>
         </div>
       ))}
     </div>
   );
 }
+
+export default ShoppingCartPage;
