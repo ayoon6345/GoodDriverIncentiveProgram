@@ -11,7 +11,7 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-function DriverDashboard() {
+function AdminDashboard() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -257,4 +257,4 @@ function DriverDashboard() {
   );
 }
 
-export default withAuthenticator(DriverDashboard);
+export default withAuthenticator(AdminDashboard);
