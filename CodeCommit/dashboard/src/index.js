@@ -36,9 +36,8 @@ const App = () => {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  // Filter out the current user from the user list
+  // Assuming user_id is the correct identifier and matches currentUser
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
-
 
   return (
     <BrowserRouter>
@@ -46,10 +45,16 @@ const App = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
-        {currentUserData.usertype === 'admin' ? (
-          <Route path="/dashboard" element={<AdminDashboard />} />
+        {/* Conditionally render routes based on currentUserData and its usertype */}
+        {currentUserData ? (
+          currentUserData.usertype === 'admin' ? (
+            <Route path="/dashboard" element={<AdminDashboard />} />
+          ) : (
+            <Route path="/dashboard" element={<DriverDashboard />} />
+          )
         ) : (
-          <Route path="/dashboard" element={<DriverDashboard />} />
+          // Optional: Render a loading component or null while user data is being fetched
+          <Route path="/dashboard" element={<div>Loading...</div>} />
         )}
         <Route path="/search" element={<ProductSearch />} />
       </Routes>
