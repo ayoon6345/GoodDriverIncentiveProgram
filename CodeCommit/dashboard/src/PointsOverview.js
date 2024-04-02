@@ -1,7 +1,5 @@
-// Client-side code (React)
-
 import React, { useEffect, useState } from 'react';
-import { Amplify } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -14,27 +12,32 @@ Amplify.configure(config);
 function AboutUs() {
   const [userType, setUserType] = useState('');
   const navigate = useNavigate();
-  const userId = "joelm"; // Assuming userId is static for this example
 
   useEffect(() => {
-    fetch(`/api/getUserType?user_id=${userId}`)
-      .then(response => {
+    async function fetchUserType() {
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        const userId = user.username; // Assuming username is the user_id
+        const response = await fetch(`/api/getUserType?user_id=${userId}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        return response.json();
-      })
-      .then(data => {
+        const data = await response.json();
         setUserType(data.userType);
-      })
-      .catch(error => console.error('Error fetching user type:', error));
-  }, [userId]); // Only fetch once on component mount
+      } catch (error) {
+        console.error('Error fetching user type:', error);
+      }
+    }
+
+    fetchUserType();
+  }, []);
 
   return (
     <div>
       <Navbar />
       <div className="container">
         <h1>About Us</h1>
+        <p>User Name: {user.username}</p>
         <p>User Type: {userType}</p>
       </div>
     </div>
