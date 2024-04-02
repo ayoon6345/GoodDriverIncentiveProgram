@@ -8,26 +8,37 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
 function CustomNavbar() {
-  const [username, setUsername] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    async function fetchCurrentUser() {
+    async function fetchUserData() {
       try {
         const user = await getCurrentUser();
-        setUsername(user.username);
-      } catch (err) {
-        console.log(err);
+        const userId = user.username;
+        const response = await fetch(`/api/getUserType?user_id=${userId}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setUserData({ username: user.username, userType: data.userType });
+      } catch (error) {
+        console.error('Error fetching user data:', error);
       }
     }
 
-    fetchCurrentUser();
+    fetchUserData();
   }, []);
 
   return (
     <nav className="navbar">
       <div className="navbar-brand">My App</div>
       <div className="navbar-items">
-        <span className="username">{username}</span>
+        {userData && (
+          <>
+            <span className="username">{userData.username}</span>
+            <span className="userType">{userData.userType}</span>
+          </>
+        )}
         {/* Add other navbar items here */}
       </div>
     </nav>
