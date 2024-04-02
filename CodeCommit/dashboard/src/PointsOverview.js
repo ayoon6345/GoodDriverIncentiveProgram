@@ -44,7 +44,7 @@ function PointsOverview() {
         <h1>User Details</h1>
         {currentUserData ? (
           <div>
-            <p>You Have : {currentUserData.points}</p>
+            <p>You Have : {currentUserData.points} points </p>
           </div>
         ) : (
           <p>Loading...</p>
