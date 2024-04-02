@@ -31,18 +31,12 @@ function PointsOverview() {
           aboutData.map(user => (
             <div key={user.user_id}>
               <p>User ID: {user.user_id}</p>
-              <p>Name: {user.name}</p>
-              <p>Email: {user.email}</p>
-              <p>Phone Number: {user.phone_number}</p>
               <p>User Type: {user.usertype}</p>
             </div>
           ))
         ) : (
           <div>
             <p>User ID: {aboutData.user_id}</p>
-            <p>Name: {aboutData.name}</p>
-            <p>Email: {aboutData.email}</p>
-            <p>Phone Number: {aboutData.phone_number}</p>
             <p>User Type: {aboutData.usertype}</p>
           </div>
         )}
