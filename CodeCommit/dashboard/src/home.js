@@ -7,35 +7,6 @@ import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 Amplify.configure(config);
 
-// Define a custom theme for the authentication UI
-const authTheme = {
-  // Customize the global style
-  container: {
-    textAlign: 'center',
-    backgroundColor: '#f5f5f5'
-  },
-  // Customize the sign in form
-  signIn: {
-    backgroundColor: '#ffffff',
-    padding: '20px',
-    borderRadius: '5px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
-  },
-  // Customize the sign up form
-  signUp: {
-    backgroundColor: '#ffffff',
-    padding: '20px',
-    borderRadius: '5px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
-  },
-  // Customize the forgot password form
-  forgotPassword: {
-    backgroundColor: '#ffffff',
-    padding: '20px',
-    borderRadius: '5px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
-  }
-};
 
 function HomePage() {
 
@@ -57,4 +28,4 @@ function HomePage() {
   );
 }
 
-export default withAuthenticator(HomePage, { theme: authTheme });
+export default withAuthenticator(HomePage);
