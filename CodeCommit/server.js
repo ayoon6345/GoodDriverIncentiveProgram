@@ -36,19 +36,18 @@ app.post('/api/createUserInMySQL', (req, res) => {
   });
 });
 
-app.get('/api/getAllUsers', (req, res) => {
-  const query = 'SELECT user_id, usertype FROM users';
-
-  connection.query(query, (err, results) => {
+app.get('/api/getUsers', (req, res) => {
+  connection.query('SELECT * FROM users', (err, results) => {
     if (err) {
-      console.error('Error fetching users:', err);
+      console.error('Error fetching data: ' + err.stack);
       res.status(500).send('Internal Server Error');
       return;
     }
-
-    res.json(results);
+    const userData = results[0];
+    res.json(userData);
   });
 });
+
 
 
 // Serve static files from the 'build' directory
