@@ -72,7 +72,8 @@ header {
 }
 
 .container {
-  margin: 90px auto; /* Adjusted to accommodate the navbar height */
+  max-width: 800px;
+  margin: 90px auto; /* was originally 20px. but added 70px. The navbar is 70px long so added 70px to make the container below nav */
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
