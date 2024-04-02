@@ -5,10 +5,9 @@ import config from './amplifyconfiguration.json';
 import Navbar from './navbar'; // Import the Navbar component
 import './App.css';
 
-
 Amplify.configure(config);
 
-function getUsers() {
+function PointsOverview() {
   const [aboutData, setAboutData] = useState({});
 
   useEffect(() => {
@@ -18,21 +17,26 @@ function getUsers() {
       })
       .then(data => setAboutData(data))
       .catch(error => console.error('Error fetching data:', error));
-  }, [navigate]);
+  }, []); // Removed 'navigate' dependency since it's not defined
 
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
       <div className="container">
         <h1>Users</h1>
-        <p>Team #: {aboutData.user_id}</p>
-        <p>Version #: {aboutData.name}</p>
-        <p>Release Date: {aboutData.email}</p>
-        <p>Product Name: {aboutData.phone_number}</p>
-        <p>Product Description: {aboutData.usertype}</p>
+        {/* Iterate over each user in aboutData array */}
+        {aboutData.map(user => (
+          <div key={user.user_id}>
+            <p>User ID: {user.user_id}</p>
+            <p>Name: {user.name}</p>
+            <p>Email: {user.email}</p>
+            <p>Phone Number: {user.phone_number}</p>
+            <p>User Type: {user.usertype}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
-export default (getUsers);
+export default PointsOverview;
