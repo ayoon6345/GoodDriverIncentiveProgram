@@ -5,7 +5,6 @@ import { post, get } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-import Navbar from './navbar';
 import './App.css';
 
 import amplifyconfig from './amplifyconfiguration.json';
@@ -194,7 +193,6 @@ function DriverDashboard() {
 
   return (
     <div>
-      <Navbar />
       <div className="container">
         <h1>Admin Dashboard</h1>
 
