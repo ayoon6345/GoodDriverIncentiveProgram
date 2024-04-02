@@ -1,23 +1,16 @@
+// App.js
 import React from 'react';
-import { useCart } from './CartContext'; // Adjust the import path based on where your context is located
+import './App.css';
 
-function ShoppingCartPage() {
-  const { cartItems, removeFromCart } = useCart();
-
+function App() {
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Shopping Cart</h2>
-      {cartItems.length === 0 && <p>Your cart is empty</p>}
-      {cartItems.map((item, index) => (
-        <div key={item.id} style={{ marginBottom: '10px' }}>
-          <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
-          <span>{item.name}</span> - 
-          <span> Points: {item.price}</span>
-          <button onClick={() => removeFromCart(index)}>Remove</button>
-        </div>
-      ))}
+    <div className="App">
+      <header className="App-header">
+        <h1>Hello, React!</h1>
+        <p>This is a simple React page.</p>
+      </header>
     </div>
   );
 }
 
-export default ShoppingCartPage;
+export default App;
