@@ -37,35 +37,27 @@ app.post('/api/createUserInMySQL', (req, res) => {
 });
 
 app.get('/api/getUserType', (req, res) => {
-  // Assuming the user_id is passed as a query parameter
   const userId = req.query.user_id;
 
-  // Validate that userId is provided
   if (!userId) {
     return res.status(400).send('User ID is required');
   }
 
-  // Adjust the query to select the usertype for a specific user
   const query = 'SELECT usertype FROM users WHERE user_id = ?';
 
   connection.query(query, [userId], (err, results) => {
     if (err) {
-      console.error('Error fetching user type:', err);
-      res.status(500).send('Internal Server Error');
-      return;
+      return res.status(500).send('Internal Server Error');
     }
 
-    // Check if the user was found
     if (results.length === 0) {
-      res.status(404).send('User not found');
-      return;
+      return res.status(404).send('User not found');
     }
 
-    const userType = results[0].usertype; // Assuming usertype is the column name
-    res.json({ userType: userType });
+    const userType = results[0].usertype;
+    res.send(userType);
   });
 });
-
 
 
 
