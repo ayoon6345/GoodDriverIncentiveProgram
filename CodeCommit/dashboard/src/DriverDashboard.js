@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {Container, Row, Col} from "react-bootstrap";
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { post, get } from 'aws-amplify/api';
@@ -27,6 +26,7 @@ function DriverDashboard() {
   const [phoneNumber, setPhoneNumber] = useState(''); // Add phoneNumber state
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [users, setUsers] = useState([]);
  
  const changeView = (view) => {
     setActiveView(view);
@@ -234,6 +234,7 @@ function DriverDashboard() {
               </select>
               <button type="submit">Create User</button>
             </>
+          
         </form>
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
