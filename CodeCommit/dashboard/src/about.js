@@ -7,7 +7,7 @@ import config from './amplifyconfiguration.json';
 import Navbar from './navbar'; // Import the Navbar component
 import './App.css';
 
-
+// AWS Amplify Configuration
 Amplify.configure(config);
 
 function AboutUs() {
@@ -31,13 +31,30 @@ function AboutUs() {
   return (
     <div>
       <Navbar /> {/* Render the Navbar component */}
-      <div className="container">
-        <h1>About Us</h1>
-        <p>Team #: {aboutData.team_number}</p>
-        <p>Version #: {aboutData.version_number}</p>
-        <p>Release Date: {aboutData.release_date}</p>
-        <p>Product Name: {aboutData.product_name}</p>
-        <p>Product Description: {aboutData.product_description}</p>
+      <div className="about-container">
+        <h1 className="about-header">About Us</h1>
+        <div className="about-content">
+          <div className="about-item">
+            <span className="about-title">Team #:</span>
+            <span className="about-detail">{aboutData.team_number}</span>
+          </div>
+          <div className="about-item">
+            <span className="about-title">Version #:</span>
+            <span className="about-detail">{aboutData.version_number}</span>
+          </div>
+          <div className="about-item">
+            <span className="about-title">Release Date:</span>
+            <span className="about-detail">{aboutData.release_date}</span>
+          </div>
+          <div className="about-item">
+            <span className="about-title">Product Name:</span>
+            <span className="about-detail">{aboutData.product_name}</span>
+          </div>
+          <div className="about-item">
+            <span className="about-title">Product Description:</span>
+            <span className="about-detail">{aboutData.product_description}</span>
+          </div>
+        </div>
       </div>
     </div>
   );
