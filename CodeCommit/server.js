@@ -36,18 +36,31 @@ app.post('/api/createUserInMySQL', (req, res) => {
   });
 });
 
-app.get('/api/getUsers', (req, res) => {
-  connection.query('SELECT * FROM users', (err, results) => {
+app.get('/api/getUserType', (req, res) => {
+  const userId = req.query.user_id;
+
+  if (!userId) {
+    return res.status(400).send('User ID is required');
+  }
+
+  const query = 'SELECT usertype FROM users WHERE user_id = ?';
+
+  connection.query(query, [userId], (err, results) => {
     if (err) {
-      console.error('Error fetching data: ' + err.stack);
+      console.error('Error fetching user type:', err);
       res.status(500).send('Internal Server Error');
       return;
     }
-    const userData = results[0];
-    res.json(userData);
+
+    if (results.length === 0) {
+      res.status(404).send('User not found');
+      return;
+    }
+
+    const userType = results[0].usertype;
+    res.json({ userType });
   });
 });
-
 
 
 // Serve static files from the 'build' directory
