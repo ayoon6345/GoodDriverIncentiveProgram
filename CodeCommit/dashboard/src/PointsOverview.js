@@ -1,53 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import './navbar.css';
-import { getCurrentUser } from 'aws-amplify/auth';
+import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
+import Navbar from './navbar'; // Import the Navbar component
+import './App.css';
 
-import { Amplify } from 'aws-amplify';
+
 Amplify.configure(config);
 
-function CustomNavbar() {
-  const [usersData, setUsersData] = useState([]);
-  const [error, setError] = useState(null);
+function getUsers() {
+  const [aboutData, setAboutData] = useState({});
 
   useEffect(() => {
-    async function fetchUsersData() {
-      try {
-        const response = await fetch('/api/getAllUsers');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setUsersData(data);
-      } catch (error) {
-        console.error('Error fetching users data:', error);
-        setError('Error fetching users data');
-      }
-    }
-
-    fetchUsersData();
-  }, []);
+    fetch('/api/getUsers')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => setAboutData(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, [navigate]);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-items">
-        {error ? (
-          <span className="error">{error}</span>
-        ) : (
-          <>
-            {usersData.map(user => (
-              <div key={user.user_id}>
-                <span className="username">{user.user_id}</span>
-                <span className="userType">{user.usertype}</span>
-              </div>
-            ))}
-            {/* Add other navbar items here */}
-          </>
-        )}
+    <div>
+      <Navbar /> {/* Render the Navbar component */}
+      <div className="container">
+        <h1>Users</h1>
+        <p>Team #: {aboutData.user_id}</p>
+        <p>Version #: {aboutData.name}</p>
+        <p>Release Date: {aboutData.email}</p>
+        <p>Product Name: {aboutData.phone_number}</p>
+        <p>Product Description: {aboutData.usertype}</p>
       </div>
-    </nav>
+    </div>
   );
 }
 
-export default CustomNavbar;
+export default (getUsers);
