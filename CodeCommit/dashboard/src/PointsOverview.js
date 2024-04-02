@@ -15,28 +15,35 @@ function PointsOverview() {
       .then(response => {
         return response.json();
       })
-      .then(data => setAboutData(data))
+      .then(data => {
+        console.log(data); // Log the received data
+        setAboutData(data);
+      })
       .catch(error => console.error('Error fetching data:', error));
-  }, []); // Removed 'navigate' dependency since it's not defined
+  }, []);
 
   return (
     <div>
-      <Navbar /> {/* Render the Navbar component */}
+      <Navbar />
       <div className="container">
         <h1>Users</h1>
-        {/* Iterate over each user in aboutData array */}
-        {aboutData.map(user => (
-          <div key={user.user_id}>
-            <p>User ID: {user.user_id}</p>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Phone Number: {user.phone_number}</p>
-            <p>User Type: {user.usertype}</p>
-          </div>
-        ))}
+        {Array.isArray(aboutData) ? (
+          aboutData.map(user => (
+            <div key={user.user_id}>
+              <p>User ID: {user.user_id}</p>
+              <p>Name: {user.name}</p>
+              <p>Email: {user.email}</p>
+              <p>Phone Number: {user.phone_number}</p>
+              <p>User Type: {user.usertype}</p>
+            </div>
+          ))
+        ) : (
+          <p>No user data available</p>
+        )}
       </div>
     </div>
   );
 }
 
 export default PointsOverview;
+
