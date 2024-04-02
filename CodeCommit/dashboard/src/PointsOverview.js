@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Amplify } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
-import { withAuthenticator, Auth } from '@aws-amplify/ui-react'; // Import Auth for getCurrentUser
+import { withAuthenticator } from '@aws-amplify/ui-react'; // Import Auth for getCurrentUser
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import Navbar from './navbar'; // Import the Navbar component
