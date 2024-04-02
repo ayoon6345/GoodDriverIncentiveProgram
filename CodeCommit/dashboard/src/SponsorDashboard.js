@@ -9,7 +9,6 @@ import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
 import AdminDashboard from './AdminDashboard'; // Import AdminDashboard component
-import SponsorDashboard from './SponsorDashboard'; // Import SponsorDashboard component
 import './App.css';
 
 import amplifyconfig from './amplifyconfiguration.json';
