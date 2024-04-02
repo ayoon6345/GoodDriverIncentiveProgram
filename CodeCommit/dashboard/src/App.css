@@ -1,3 +1,5 @@
+
+
 body {
   margin: 0;
   padding: 0;
@@ -9,6 +11,8 @@ body {
 .App {
   text-align: center;
 }
+
+/* App.css */
 
 /* Button styles */
 button {
@@ -149,81 +153,4 @@ header {
 
 .about-detail {
   color: #666; /* Lighter text for details */
-}
-
-
-.user-form input,
-.user-form select {
-  width: calc(100% - 22px); /* Adjusted width to accommodate the margins */
-  padding: 10px; /* Updated padding */
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.user-form button {
-  width: calc(100% - 22px); /* Adjusted width to accommodate the margins */
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #28a745;
-  color: #fff;
-}
-
-.user-form button:hover {
-  background-color: #218838;
-}
-
-.success-message,
-.error-message {
-  margin-bottom: 20px;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.success-message {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 20px;
-}
-
-li > div {
-  margin-bottom: 5px;
-}
-
-li button {
-  margin-right: 10px;
-  padding: 5px 10px;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-}
-
-li button:hover {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-.mini-title {
-  font-size: 18px;
-  color: #555; /* Subtle and sophisticated color */
-  margin-bottom: 15px; /* Space before the main title */
-  text-align: center; /* Center the mini title */
-  font-weight: 500; /* Slightly bolder than normal text for emphasis */
 }
