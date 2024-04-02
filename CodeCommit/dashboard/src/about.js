@@ -49,9 +49,9 @@ function AboutUs() {
       <Navbar />
       <div className="about-container">
         <div className="about-card">
-        <div className="mini-title">About Us</div>
           {Object.entries(aboutData).map(([key, value]) => (
             <div key={key} className="about-item">
+              <div className="mini-title">About Us</div>
               <span className="icon">{getIcon(key)}</span>
               <div className="about-info">
                 <span className="about-title">{key.replace(/_/g, ' ')}:</span>
