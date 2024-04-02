@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator, getCurrentUser } from '@aws-amplify/ui-react'; // Import getCurrentUser
 import '@aws-amplify/ui-react/styles.css';
 
 import Navbar from './navbar';
@@ -17,26 +17,16 @@ Amplify.configure(amplifyconfig);
 function DriverDashboard() {
   
   const [usertype, setusertype] = useState('driver');
+  const [activeView, setActiveView] = useState('profile');
 
   const changeView = (view) => {
     setActiveView(view);
   };
 
   useEffect(() => {
-    listAll()
-      .then((response) => response.response)
-      .then((result) => result.body.json())
-      .then((data) => {
-        setUsers(data.Users);
-      })
-      .catch((error) => console.error('Error:', error));
-  }, []);
-
-  useEffect(() => {
     async function fetchCurrentUser() {
       try {
         const user = await getCurrentUser();
-        setUsername(user.username);
         // Assuming the user type is stored in the 'usertype' attribute
         setusertype(user.attributes.find(attr => attr.Name === 'usertype')?.Value || 'driver');
       } catch (err) {
@@ -61,7 +51,6 @@ function DriverDashboard() {
         )}
         {usertype === 'admin' && <AdminDashboard />} {/* Render AdminDashboard if user is admin */}
         {usertype === 'sponsor' && <SponsorDashboard />} {/* Render SponsorDashboard if user is sponsor */}
-
       </div>
     </div>
   );
