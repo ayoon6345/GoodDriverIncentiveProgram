@@ -1,28 +1,47 @@
-// PointsOverview.js
-import React from 'react';
-import {Container, Row, Col} from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Amplify } from 'aws-amplify';
+import { useNavigate } from 'react-router-dom';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
+import Navbar from './navbar'; // Import the Navbar component
+import './App.css';
 
-function PointsOverview() {
+Amplify.configure(config);
+
+function AboutUs() {
+  const [userType, setUserType] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Placeholder for the actual user ID fetching logic
+    // For example, you might be getting it from the auth session
+    const userId = "joelm"; // Replace with actual logic to obtain user ID
+
+    if (userId) {
+      fetch(`/api/getUserType?user_id=${userId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setUserType(data.userType); // Assuming the API returns an object with a userType property
+        })
+        .catch(error => console.error('Error fetching user type:', error));
+    }
+  }, [navigate, userId]); // If userId is dynamic, it needs to be a state or prop
+
   return (
     <div>
-      <h2>Points Overview</h2>
-      {/* Display points balance and history */}
-      <Container>
-          <Row>
-              <Col id="point-div" className="text-center border">
-                  <p id="point-value">100</p>
-                  <p>points</p>
-              </Col>
-          </Row>
-          <Row>
-              <Col className='border'>
-              </Col>
-              <Col className='border'>2 of 3</Col>
-              <Col className='border'>3 of 3</Col>
-          </Row>
-      </Container>
+      <Navbar /> {/* Render the Navbar component */}
+      <div className="container">
+        <h1>About Us</h1>
+        <p>User Type: {userType}</p> {/* Display the fetched user type */}
+      </div>
     </div>
   );
 }
 
-export default PointsOverview;
+export default withAuthenticator(AboutUs);
