@@ -9,6 +9,7 @@ Amplify.configure(config);
 
 function CustomNavbar() {
   const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -23,6 +24,7 @@ function CustomNavbar() {
         setUserData({ username: user.username, userType: data.userType });
       } catch (error) {
         console.error('Error fetching user data:', error);
+        setError('Error fetching user data');
       }
     }
 
@@ -31,15 +33,20 @@ function CustomNavbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar-brand">My App</div>
       <div className="navbar-items">
-        {userData && (
+        {error ? (
+          <span className="error">{error}</span>
+        ) : (
           <>
-            <span className="username">{userData.username}</span>
-            <span className="userType">{userData.userType}</span>
+            {userData && (
+              <>
+                <span className="username">{userData.username}</span>
+                <span className="userType">{userData.userType}</span>
+              </>
+            )}
+            {/* Add other navbar items here */}
           </>
         )}
-        {/* Add other navbar items here */}
       </div>
     </nav>
   );
