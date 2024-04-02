@@ -35,7 +35,7 @@ function DriverDashboard() {
 
 useEffect(() => {
   async function fetchUserType() {
-    console.log("Fetching user type for username:", username); // Debugging line
+    console.log("Fetching user type for username:", username); // Ensure username is correctly passed
     if (!username) {
       console.error("Username is not set.");
       return;
@@ -45,6 +45,7 @@ useEffect(() => {
       if (response.ok) {
         const data = await response.json();
         setusertype(data.userType);
+        console.log("Fetched user type:", data.userType); // Log the user type to the console
       } else {
         console.error('Failed to fetch user type');
       }
@@ -57,6 +58,7 @@ useEffect(() => {
     fetchUserType();
   }
 }, [username]);
+
 
 
 
