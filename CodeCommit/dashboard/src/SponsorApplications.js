@@ -36,7 +36,7 @@ function SponsorApplications() {
 
   // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
-
+/*
   useEffect(() => {
     fetch('/api/applications')
       .then(response => response.json())
@@ -46,7 +46,7 @@ function SponsorApplications() {
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-
+*/
   return (
     <div>
       <div className="container">
