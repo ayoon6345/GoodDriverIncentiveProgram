@@ -48,6 +48,17 @@ app.get('/api/getUsers', (req, res) => {
 });
 
 
+app.get('/api/applications', (req, res) => {
+  connection.query('SELECT * FROM applications', (err, results) => {
+    if (err) {
+      console.error('Error fetching data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    const applicationData = results[0];
+    res.json(applicationData);
+  });
+});
 
 
 // Serve static files from the 'build' directory
