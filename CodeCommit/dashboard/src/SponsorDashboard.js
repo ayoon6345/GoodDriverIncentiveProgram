@@ -8,6 +8,7 @@ import Navbar from './navbar';
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
+import SponsorApplications from './SponsorApplications';
 import './App.css';
 
 import amplifyconfig from './amplifyconfiguration.json';
@@ -89,6 +90,7 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
+          <button onClick={() => changeView('applications')}>Applications</button>
         </nav>
 
         <form onSubmit={createUser} className="user-form">
@@ -115,6 +117,7 @@ function DriverDashboard() {
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
+        {activeView === 'applications' && <SponsorApplications />}
 
        
       </div>
