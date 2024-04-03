@@ -55,8 +55,7 @@ app.get('/api/applications', (req, res) => {
       res.status(500).send('Internal Server Error');
       return;
     }
-    const applicationData = results[0];
-    res.json(applicationData);
+    res.json(results);
   });
 });
 
