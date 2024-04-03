@@ -8,6 +8,7 @@ Amplify.configure(config);
 
 function SponsorApplications() {
   const [aboutData, setAboutData] = useState([]);
+  const [applicationData, setApplicationData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -35,6 +36,16 @@ function SponsorApplications() {
 
   // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
+
+  useEffect(() => {
+    fetch('/api/applications')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data); // Log the received data
+        setApplicationData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
   return (
     <div>
