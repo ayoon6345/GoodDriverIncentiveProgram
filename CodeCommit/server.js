@@ -47,7 +47,6 @@ app.get('/api/getUsers', (req, res) => {
   });
 });
 
-/*
 app.get('/api/applications', (req, res) => {
   connection.query('SELECT * FROM applications', (err, results) => {
     if (err) {
@@ -58,7 +57,6 @@ app.get('/api/applications', (req, res) => {
     res.json(results);
   });
 });
-*/
 
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
