@@ -52,6 +52,9 @@ function SponsorApplications() {
     <div>
       <div className="container">
         <h1>Application List</h1>
+        <div className="container">
+          testdata
+        </div>
       </div>
     </div>
   );
