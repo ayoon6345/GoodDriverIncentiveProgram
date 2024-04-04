@@ -48,13 +48,15 @@ app.get('/api/getUsers', (req, res) => {
 });
 
 app.get('/api/applications', (req, res) => {
-  connection.query('SELECT * FROM applications', (err, results) => {
+  connection.query('SELECT * FROM users', (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
       res.status(500).send('Internal Server Error');
       return;
     }
-    res.json(results);
+    res.json(results); // Return the entire array of user data
+    console.log("here are results");
+    console.log(results);
   });
 });
 
