@@ -53,27 +53,16 @@ function SponsorApplications() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  
+  console.log("rows and headers");
+  console.log(rows);
+  console.log(headers);
 
   return (
     <div>
       <div className="container">
         <h1>Application List</h1>
         <div className="container">
-          <table>
-          <thead>
-              <tr>
-              {headers.map(header => <th key={header}>{header}</th>)}
-              </tr>
-          </thead>
-          <tbody>
-              {rows.map((row, index) => (
-              <tr key={index}>
-                  {row.map((cell, index) => <td key={index}>{cell}</td>)}
-              </tr>
-              ))}
-          </tbody>
-          </table>
+          
         </div>
       </div>
     </div>
