@@ -13,7 +13,6 @@ function PointsOverview() {
     fetch('/api/getUsers')
       .then(response => response.json())
       .then(data => {
-        console.log(data); // Log the received data
         setUserData(data);
       })
       .catch(error => console.error('Error fetching data:', error));
