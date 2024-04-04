@@ -25,30 +25,40 @@ function PointsOverview() {
 
   const driverUsers = userData.filter(user => user.usertype === 'driver');
 
-  const handleAdjustPoints = (userId, newPoints) => {
-    fetch('/api/updatePoints', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId, newPoints }),
-    })
-    .then(response => {
-      if (!response.ok) {
-        return response.text().then(text => { throw new Error(text || 'Failed to update points') });
+ const handleAdjustPoints = (userId, newPoints) => {
+  fetch('/api/updatePoints', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userId, newPoints }),
+  })
+  .then(response => {
+    const contentType = response.headers.get("content-type");
+    if (!response.ok) {
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        return response.json().then(data => Promise.reject(data));
+      } else {
+        return response.text().then(text => Promise.reject(text));
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Update response:', data);
-      setUpdateStatus({ success: true, message: 'Points updated successfully.' });
-      fetchUserData(); // Refetch user data only on success
-    })
-    .catch(error => {
-      console.error('Error updating points:', error);
-      setUpdateStatus({ success: false, message: error.message || 'Error updating points.' });
-    });
-  };
+    }
+    return contentType && contentType.indexOf("application/json") !== -1
+      ? response.json()
+      : response.text();
+  })
+  .then(data => {
+    console.log('Update response:', data);
+    setUpdateStatus({ success: true, message: 'Points updated successfully.' });
+    fetchUserData(); // Refetch user data only on success
+  })
+  .catch(error => {
+    console.error('Error updating points:', error);
+    // Determine if error is an object (from JSON) or text, and set message accordingly
+    const errorMessage = typeof error === 'string' ? error : error.message || 'Error updating points.';
+    setUpdateStatus({ success: false, message: errorMessage });
+  });
+};
+
 
   return (
     <div className="container">
