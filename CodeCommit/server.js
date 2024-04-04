@@ -55,8 +55,6 @@ app.get('/api/getApplications', (req, res) => {
       return;
     }
     res.json(results); // Return the entire array of user data
-    console.log("here are results");
-    console.log(results);
   });
 });
 
