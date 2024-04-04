@@ -7,7 +7,48 @@ import './App.css';
 import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
-function DriverApplicationList() {
+const [updateStatus, setUpdateStatus] = useState({ success: false, message: '' });
+
+const submitApplication = (sponsorId, driverId, firstName, lastName, phone, email) => {
+  fetch('/api/addApplication', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sponsorId, driverId, firstName, lastName, phone, email }),
+  })
+  .then(response => {
+    const contentType = response.headers.get("content-type");
+    if (!response.ok) {
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        return response.json().then(data => Promise.reject(data));
+      } else {
+        return response.text().then(text => Promise.reject(text));
+      }
+    }
+    return contentType && contentType.indexOf("application/json") !== -1
+      ? response.json()
+      : response.text();
+  })
+  .then(data => {
+    console.log('Submission response:', data);
+    const successStatus = { success: true, message: 'Points updated successfully.' };
+    setUpdateStatus(successStatus);
+    localStorage.setItem('updateStatus', JSON.stringify(successStatus)); // Persist the success status
+    fetchUserData(); // Refetch user data only on success
+  })
+  .catch(error => {
+    console.error('Error submitting application:', error);
+    // Determine if error is an object (from JSON) or text, and set message accordingly
+    const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
+    setUpdateStatus(errorMessage);
+    localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
+  });
+};
+
+submitApplication( '789', '123', 'Justin', 'Smith', '4103028154', 'email@email.com');
+
+function DriverApplication() {
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -47,4 +88,4 @@ function DriverApplicationList() {
   );
 }
 
-export default DriverApplicationList;
+export default DriverApplication;
