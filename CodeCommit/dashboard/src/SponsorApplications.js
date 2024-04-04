@@ -38,7 +38,7 @@ function SponsorApplications() {
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
   useEffect(() => {
-    fetch('/api/applications')
+    fetch('/api/getApplications')
       .then(response => response.json())
       .then(data => {
         console.log("LOGGING APPLICATION DATA");
