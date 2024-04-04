@@ -7,6 +7,7 @@ import Navbar from './navbar';
 import Profile from './Profile';
 import PointsOverview from './PointsOverview';
 import ProductCatalog from './ProductCatalog';
+import DriverApplication from './DriverApplication';
 import './App.css';
 
 import amplifyconfig from './amplifyconfiguration.json';
@@ -19,7 +20,6 @@ function DriverDashboard() {
     setActiveView(view);
   };
 
-
   return (
     <div>
           <Navbar />
@@ -29,10 +29,12 @@ function DriverDashboard() {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Points Overview</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
+          <button onClick={() => changeView('driver_application')}>Driver Application</button>
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <PointsOverview />}
         {activeView === 'catalog' && <ProductCatalog />}
+        {activeView === 'driver_application' && <DriverApplication />}
     </div>
       </div>
   );
