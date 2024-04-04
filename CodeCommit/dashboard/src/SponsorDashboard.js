@@ -6,7 +6,7 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Navbar from './navbar';
 import Profile from './Profile';
-import PointsOverview from './PointsOverview';
+import Points from './DriverPoints';
 import ProductCatalog from './ProductCatalog';
 import SponsorApplications from './SponsorApplications';
 import './App.css';
@@ -115,7 +115,7 @@ function DriverDashboard() {
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
         {activeView === 'profile' && <Profile />}
-        {activeView === 'points' && <PointsOverview />}
+        {activeView === 'points' && <Points />}
         {activeView === 'catalog' && <ProductCatalog />}
         {activeView === 'applications' && <SponsorApplications />}
 
