@@ -11,13 +11,6 @@ function PointsOverview() {
 
   useEffect(() => {
     fetchUserData();
-    // Attempt to retrieve the update status from local storage on component mount
-    const storedStatus = localStorage.getItem('updateStatus');
-    if (storedStatus) {
-      setUpdateStatus(JSON.parse(storedStatus));
-      // Optionally clear the message from local storage if you don't want it to persist across multiple refreshes
-      localStorage.removeItem('updateStatus');
-    }
   }, []);
 
   const fetchUserData = () => {
@@ -25,61 +18,37 @@ function PointsOverview() {
       .then(response => response.json())
       .then(data => {
         setUserData(data);
-        // Optionally reset update status here if you prefer it to clear on data fetch instead of on mount
+        setUpdateStatus({ success: false, message: '' }); // Reset update status after fetching
       })
       .catch(error => console.error('Error fetching data:', error));
   };
 
   const driverUsers = userData.filter(user => user.usertype === 'driver');
 
- const handleAdjustPoints = (userId, newPoints) => {
-  const pointsValue = parseInt(newPoints, 10); // Ensure newPoints is treated as an integer
-
-  // Validate points to ensure they do not go negative
-  if (pointsValue < 0) {
-    // Set an error message and return early to avoid making the API call
-    const errorMessage = { success: false, message: 'Error: Points cannot go negative.' };
-    setUpdateStatus(errorMessage);
-    localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
-    return; // Prevent the fetch call if validation fails
-  }
-
-  fetch('/api/updatePoints', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ userId, pointsValue }),
-  })
-  .then(response => {
-    const contentType = response.headers.get("content-type");
-    if (!response.ok) {
-      if (contentType && contentType.indexOf("application/json") !== -1) {
-        return response.json().then(data => Promise.reject(data));
-      } else {
-        return response.text().then(text => Promise.reject(text));
+  const handleAdjustPoints = (userId, newPoints) => {
+    fetch('/api/updatePoints', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId, newPoints }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => { throw new Error(text || 'Failed to update points') });
       }
-    }
-    return contentType && contentType.indexOf("application/json") !== -1
-      ? response.json()
-      : response.text();
-  })
-  .then(data => {
-    console.log('Update response:', data);
-    const successStatus = { success: true, message: 'Points updated successfully.' };
-    setUpdateStatus(successStatus);
-    localStorage.setItem('updateStatus', JSON.stringify(successStatus)); // Persist the success status
-    fetchUserData(); // Refetch user data only on success
-  })
-  .catch(error => {
-    console.error('Error updating points:', error);
-    // Determine if error is an object (from JSON) or text, and set message accordingly
-    const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error updating points.' };
-    setUpdateStatus(errorMessage);
-    localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
-  });
-};
-
+      return response.json();
+    })
+    .then(data => {
+      console.log('Update response:', data);
+      setUpdateStatus({ success: true, message: 'Points updated successfully.' });
+      fetchUserData(); // Refetch user data only on success
+    })
+    .catch(error => {
+      console.error('Error updating points:', error);
+      setUpdateStatus({ success: false, message: error.message || 'Error updating points.' });
+    });
+  };
 
   return (
     <div className="container">
