@@ -33,16 +33,11 @@ const submitApplication = (sponsorId, driverId, firstName, lastName, phone, emai
   .then(data => {
     console.log('Submission response:', data);
     const successStatus = { success: true, message: 'Points updated successfully.' };
-    setUpdateStatus(successStatus);
-    localStorage.setItem('updateStatus', JSON.stringify(successStatus)); // Persist the success status
-    fetchUserData(); // Refetch user data only on success
   })
   .catch(error => {
     console.error('Error submitting application:', error);
     // Determine if error is an object (from JSON) or text, and set message accordingly
     const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
-    setUpdateStatus(errorMessage);
-    localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
   });
 };
 
