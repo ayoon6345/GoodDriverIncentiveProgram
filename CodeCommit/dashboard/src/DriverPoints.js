@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
-import './App.css';
 import { Amplify } from 'aws-amplify';
+import './App.css';
 Amplify.configure(config);
 
 function PointsOverview() {
@@ -18,13 +18,11 @@ function PointsOverview() {
       .then(response => response.json())
       .then(data => {
         setUserData(data);
-        // Reset update status after fetching so it does not show old messages
-        setUpdateStatus({ success: false, message: '' });
+        setUpdateStatus({ success: false, message: '' }); // Reset update status after fetching
       })
       .catch(error => console.error('Error fetching data:', error));
   };
 
-  // Filter drivers
   const driverUsers = userData.filter(user => user.usertype === 'driver');
 
   const handleAdjustPoints = (userId, newPoints) => {
@@ -37,28 +35,24 @@ function PointsOverview() {
     })
     .then(response => {
       if (!response.ok) {
-        throw new Error('Failed to update points');
+        return response.text().then(text => { throw new Error(text || 'Failed to update points') });
       }
       return response.json();
     })
     .then(data => {
-      console.log(data);
-      // Show a success message
+      console.log('Update response:', data);
       setUpdateStatus({ success: true, message: 'Points updated successfully.' });
-      // Refetch user data to refresh the points displayed
-      fetchUserData();
+      fetchUserData(); // Refetch user data only on success
     })
     .catch(error => {
       console.error('Error updating points:', error);
-      // Show an error message
-      setUpdateStatus({ success: false, message: 'Error updating points.' });
+      setUpdateStatus({ success: false, message: error.message || 'Error updating points.' });
     });
   };
 
   return (
     <div className="container">
       <h1>Driver List</h1>
-      {/* Display update status message */}
       {updateStatus.message && (
         <p className={updateStatus.success ? 'success-message' : 'error-message'}>{updateStatus.message}</p>
       )}
@@ -67,13 +61,11 @@ function PointsOverview() {
           <li key={driver.user_id}>
             <p>Name: {driver.name}</p>
             <p>Points: {driver.points}</p>
-            <form
-              onSubmit={e => {
-                e.preventDefault();
-                const newPoints = e.target.points.value;
-                handleAdjustPoints(driver.user_id, newPoints);
-              }}
-            >
+            <form onSubmit={e => {
+              e.preventDefault();
+              const newPoints = e.target.points.value;
+              handleAdjustPoints(driver.user_id, newPoints);
+            }}>
               <input type="number" name="points" defaultValue={driver.points} />
               <button type="submit">Adjust Points</button>
             </form>
