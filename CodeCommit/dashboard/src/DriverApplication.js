@@ -7,7 +7,6 @@ import './App.css';
 import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
-const [updateStatus, setUpdateStatus] = useState({ success: false, message: '' });
 
 const submitApplication = (sponsorId, driverId, firstName, lastName, phone, email) => {
   fetch('/api/addApplication', {
