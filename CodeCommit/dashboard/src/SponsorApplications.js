@@ -53,7 +53,11 @@ function SponsorApplications() {
       <div className="container">
         <h1>Application List</h1>
         <div className="container">
-          testdata
+          {Object.entries(applicationData).map(([key, value]) => (
+            <div key={key}>
+              <strong>{key}:</strong> {value}
+            </div>
+          ))}
         </div>
       </div>
     </div>
