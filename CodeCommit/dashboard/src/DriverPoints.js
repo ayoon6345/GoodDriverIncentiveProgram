@@ -32,25 +32,18 @@ function PointsOverview() {
 
   const driverUsers = userData.filter(user => user.usertype === 'driver');
 
-  const handleAdjustPoints = (userId, newPoints) => {
+ const handleAdjustPoints = (userId, newPoints) => {
   const pointsValue = parseInt(newPoints, 10); // Ensure newPoints is treated as an integer
 
-  // Validate points to ensure they do not go negative and do not exceed 1,000,000
+  // Validate points to ensure they do not go negative
   if (pointsValue < 0) {
-    // Set an error message for negative points and return early to avoid making the API call
+    // Set an error message and return early to avoid making the API call
     const errorMessage = { success: false, message: 'Error: Points cannot go negative.' };
-    setUpdateStatus(errorMessage);
-    localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
-    return; // Prevent the fetch call if validation fails
-  } else if (pointsValue > 1000000) {
-    // Set an error message for points exceeding the maximum limit and return early
-    const errorMessage = { success: false, message: 'Error: Points cannot exceed 1,000,000.' };
     setUpdateStatus(errorMessage);
     localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
     return; // Prevent the fetch call if validation fails
   }
 
-  // Proceed with the API call if the points value is within the valid range
   fetch('/api/updatePoints', {
     method: 'POST',
     headers: {
