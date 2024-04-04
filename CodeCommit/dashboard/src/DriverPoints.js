@@ -33,41 +33,60 @@ function PointsOverview() {
   const driverUsers = userData.filter(user => user.usertype === 'driver');
 
   const handleAdjustPoints = (userId, newPoints) => {
-    fetch('/api/updatePoints', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId, newPoints }),
-    })
-    .then(response => {
-      const contentType = response.headers.get("content-type");
-      if (!response.ok) {
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-          return response.json().then(data => Promise.reject(data));
-        } else {
-          return response.text().then(text => Promise.reject(text));
-        }
+  const pointsValue = parseInt(newPoints, 10); // Ensure newPoints is treated as an integer
+
+  // Validate points to ensure they do not go negative and do not exceed 1,000,000
+  if (pointsValue < 0) {
+    // Set an error message for negative points and return early to avoid making the API call
+    const errorMessage = { success: false, message: 'Error: Points cannot go negative.' };
+    setUpdateStatus(errorMessage);
+    localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
+    return; // Prevent the fetch call if validation fails
+  } else if (pointsValue > 1000000) {
+    // Set an error message for points exceeding the maximum limit and return early
+    const errorMessage = { success: false, message: 'Error: Points cannot exceed 1,000,000.' };
+    setUpdateStatus(errorMessage);
+    localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
+    return; // Prevent the fetch call if validation fails
+  }
+
+  // Proceed with the API call if the points value is within the valid range
+  fetch('/api/updatePoints', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userId, pointsValue }),
+  })
+  .then(response => {
+    const contentType = response.headers.get("content-type");
+    if (!response.ok) {
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        return response.json().then(data => Promise.reject(data));
+      } else {
+        return response.text().then(text => Promise.reject(text));
       }
-      return contentType && contentType.indexOf("application/json") !== -1
-        ? response.json()
-        : response.text();
-    })
-    .then(data => {
-      console.log('Update response:', data);
-      const successStatus = { success: true, message: 'Points updated successfully.' };
-      setUpdateStatus(successStatus);
-      localStorage.setItem('updateStatus', JSON.stringify(successStatus)); // Persist the success status
-      fetchUserData(); // Refetch user data only on success
-    })
-    .catch(error => {
-      console.error('Error updating points:', error);
-      // Determine if error is an object (from JSON) or text, and set message accordingly
-      const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error updating points.' };
-      setUpdateStatus(errorMessage);
-      localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
-    });
-  };
+    }
+    return contentType && contentType.indexOf("application/json") !== -1
+      ? response.json()
+      : response.text();
+  })
+  .then(data => {
+    console.log('Update response:', data);
+    const successStatus = { success: true, message: 'Points updated successfully.' };
+    setUpdateStatus(successStatus);
+    localStorage.setItem('updateStatus', JSON.stringify(successStatus)); // Persist the success status
+    fetchUserData(); // Refetch user data only on success
+  })
+  .catch(error => {
+    console.error('Error updating points:', error);
+    // Determine if error is an object (from JSON) or text, and set message accordingly
+    const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error updating points.' };
+    setUpdateStatus(errorMessage);
+    localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
+  });
+};
+
 
   return (
     <div className="container">
