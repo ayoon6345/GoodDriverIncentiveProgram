@@ -48,7 +48,7 @@ app.get('/api/getUsers', (req, res) => {
 });
 
 app.get('/api/getApplications', (req, res) => {
-  connection.query('SELECT * FROM applications', (err, results) => {
+  connection.query('SELECT * FROM users', (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
       res.status(500).send('Internal Server Error');
