@@ -10,6 +10,8 @@ function SponsorApplications() {
   const [aboutData, setAboutData] = useState([]);
   const [applicationData, setApplicationData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [headers, setHeaders] = useState([]);
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -45,8 +47,8 @@ function SponsorApplications() {
         console.log(data); // Log the received data
         setApplicationData(data);
 
-        const headers = Object.keys(applicationData[0]);
-        const rows = applicationData.map(item => Object.values(item));
+        setHeaders(Object.keys(applicationData[0]));
+        setRows(applicationData.map(item => Object.values(item)));
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
