@@ -60,7 +60,7 @@ app.get('/api/getApplications', (req, res) => {
 
 // Endpoint to add a driver application to the DB
 app.post('/api/addApplication', (req, res) => {
-  const { userId, sponsorId, driverId, firstName, lastName, phone, email } = req.body;
+  const { sponsorId, driverId, firstName, lastName, phone, email } = req.body;
   const query = 'INSERT INTO applications (sponsor_id, driver_id, first_name, last_name, phone, email) VALUES (?, ?, ?, ?, ?, ?)';
 
   connection.query(query, [sponsorId, driverId, firstName, lastName, phone, email, userId], (err, results) => {
