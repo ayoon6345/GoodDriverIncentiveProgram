@@ -10,8 +10,8 @@ function SponsorApplications() {
   const [aboutData, setAboutData] = useState([]);
   const [applicationData, setApplicationData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [headers, setHeaders] = useState("waiting...");
-  const [rows, setRows] = useState("waiting...");
+  const [headers, setHeaders] = useState([]);
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -61,9 +61,20 @@ function SponsorApplications() {
     <div>
       <div className="container">
         <h1>Application List</h1>
-        <div className="container">
-          
-        </div>
+        <table>
+        <thead>
+            <tr>
+            {headers.map(header => <th key={header}>{header}</th>)}
+            </tr>
+        </thead>
+        <tbody>
+            {rows.map((row, index) => (
+            <tr key={index}>
+                {row.map((cell, index) => <td key={index}>{cell}</td>)}
+            </tr>
+            ))}
+        </tbody>
+        </table>
       </div>
     </div>
   );
