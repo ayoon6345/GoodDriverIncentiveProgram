@@ -58,6 +58,25 @@ app.get('/api/getApplications', (req, res) => {
   });
 });
 
+// Endpoint to add a driver application to the DB
+app.post('/api/addApplication', (req, res) => {
+  const { userId, sponsorId, driverId, firstName, lastName, phone, email } = req.body;
+  const query = 'INSERT INTO applications (sponsor_id, driver_id, first_name, last_name, phone, email) VALUES (?, ?, ?, ?, ?, ?)';
+
+  connection.query(query, [sponsorId, driverId, firstName, lastName, phone, email, userId], (err, results) => {
+    if (err) {
+      console.error('Error updating user points in MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    if (results.affectedRows === 0) {
+      // No user found with the provided ID
+      return res.status(404).send('User not found');
+    }
+    res.status(200).send(`Application added successfully`);
+  });
+});
+
+
 // Endpoint to update user points
 app.post('/api/updatePoints', (req, res) => {
   const { userId, newPoints } = req.body;
