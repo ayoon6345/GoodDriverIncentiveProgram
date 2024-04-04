@@ -7,38 +7,61 @@ Amplify.configure(config);
 
 function PointsOverview() {
   const [userData, setUserData] = useState([]);
+  const [updateStatus, setUpdateStatus] = useState({ success: false, message: '' });
 
   useEffect(() => {
-    // Fetch all users data
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = () => {
     fetch('/api/getUsers')
       .then(response => response.json())
       .then(data => {
         setUserData(data);
+        // Reset update status after fetching so it does not show old messages
+        setUpdateStatus({ success: false, message: '' });
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
+  };
 
   // Filter drivers
   const driverUsers = userData.filter(user => user.usertype === 'driver');
 
   const handleAdjustPoints = (userId, newPoints) => {
-    // Perform logic to adjust points and update the backend
-    console.log(`Adjust points for user ${userId} to ${newPoints}`);
-     fetch('/api/updatePoints', {
+    fetch('/api/updatePoints', {
       method: 'POST',
-     headers: {
-         'Content-Type': 'application/json',
+      headers: {
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ userId, newPoints }),
-     })
-     .then(response => response.json())
-     .then(data => console.log(data))
-     .catch(error => console.error('Error updating points:', error));
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to update points');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      // Show a success message
+      setUpdateStatus({ success: true, message: 'Points updated successfully.' });
+      // Refetch user data to refresh the points displayed
+      fetchUserData();
+    })
+    .catch(error => {
+      console.error('Error updating points:', error);
+      // Show an error message
+      setUpdateStatus({ success: false, message: 'Error updating points.' });
+    });
   };
 
   return (
     <div className="container">
       <h1>Driver List</h1>
+      {/* Display update status message */}
+      {updateStatus.message && (
+        <p className={updateStatus.success ? 'success-message' : 'error-message'}>{updateStatus.message}</p>
+      )}
       <ul>
         {driverUsers.map(driver => (
           <li key={driver.user_id}>
