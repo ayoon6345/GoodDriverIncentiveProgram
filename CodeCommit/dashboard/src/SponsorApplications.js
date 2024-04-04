@@ -11,6 +11,9 @@ function SponsorApplications() {
   const [applicationData, setApplicationData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
+  const headers = Object.keys(applicationData[0]);
+  const rows = applicationData.map(item => Object.values(item));
+
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
@@ -53,11 +56,20 @@ function SponsorApplications() {
       <div className="container">
         <h1>Application List</h1>
         <div className="container">
-          {Object.entries(applicationData).map(([key, value]) => (
-            <div key={key}>
-              <strong>{key}:</strong> {value}
-            </div>
-          ))}
+          <table>
+          <thead>
+              <tr>
+              {headers.map(header => <th key={header}>{header}</th>)}
+              </tr>
+          </thead>
+          <tbody>
+              {rows.map((row, index) => (
+              <tr key={index}>
+                  {row.map((cell, index) => <td key={index}>{cell}</td>)}
+              </tr>
+              ))}
+          </tbody>
+          </table>
         </div>
       </div>
     </div>
