@@ -58,6 +58,25 @@ app.get('/api/getApplications', (req, res) => {
   });
 });
 
+// Endpoint to update user points
+app.post('/api/updatePoints', (req, res) => {
+  const { userId, newPoints } = req.body;
+  const query = 'UPDATE users SET points = ? WHERE user_id = ?';
+
+  connection.query(query, [newPoints, userId], (err, results) => {
+    if (err) {
+      console.error('Error updating user points in MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    if (results.affectedRows === 0) {
+      // No user found with the provided ID
+      return res.status(404).send('User not found');
+    }
+    res.status(200).send(`Points updated successfully for user ${userId}.`);
+  });
+});
+
+
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, 'dashboard/build')));
 
