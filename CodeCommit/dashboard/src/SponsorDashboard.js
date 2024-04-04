@@ -88,7 +88,7 @@ function DriverDashboard() {
         <h1>Sponsor Dashboard</h1>
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
-          <button onClick={() => changeView('points')}>Points Overview</button>
+          <button onClick={() => changeView('points')}>Assign Points To Drivers</button>
           <button onClick={() => changeView('catalog')}>Product Catalog</button>
           <button onClick={() => changeView('applications')}>Applications</button>
         </nav>
