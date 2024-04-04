@@ -10,8 +10,8 @@ function SponsorApplications() {
   const [aboutData, setAboutData] = useState([]);
   const [applicationData, setApplicationData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [headers, setHeaders] = useState([]);
-  const [rows, setRows] = useState([]);
+  const [headers, setHeaders] = useState("waiting...");
+  const [rows, setRows] = useState("waiting...");
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -45,14 +45,15 @@ function SponsorApplications() {
         console.log("LOGGING APPLICATION DATA");
         console.log(data); // Log the received data
         setApplicationData(data);
+
+        setHeaders(Object.keys(data[0]));
+        setRows(data.map(item => Object.values(item)));
+        console.log("This worked");
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  console.log("Works here");
-  setHeaders(Object.keys(applicationData[0]));
-  setRows(applicationData.map(item => Object.values(item)));
-  console.log("WORKS HERE");
+  
 
   return (
     <div>
