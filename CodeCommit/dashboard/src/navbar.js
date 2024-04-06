@@ -18,6 +18,7 @@ async function handleSignOut() {
 
 function CustomNavbar() {
   const [username, setUsername] = useState(null);
+  const [aboutData, setAboutData] = useState([]);
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -31,6 +32,18 @@ function CustomNavbar() {
 
     fetchCurrentUser();
   }, []);
+  useEffect(() => {
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data); // Log the received data
+        setAboutData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  // Filter out the current user from the user list
+  const currentUserData = aboutData.find(user => user.user_id === username);
 
   return (
     <div className="wrapper">
@@ -55,7 +68,11 @@ function CustomNavbar() {
           </div>
           <div id="pointDiv">
             <p>points</p>
-            <div id="points">0</div>
+            {currentUserData ? (
+              <div id="points">{currentUserData.points}</div>
+            ) : (
+              <div>loading..</div>
+            )}
           </div>
           <div id="cart" onClick={() => {window.location.href='/cart'}}>
             <img src={require('./images/emptyCart.png')} alt="Cart" width="50px" height="50px" />
