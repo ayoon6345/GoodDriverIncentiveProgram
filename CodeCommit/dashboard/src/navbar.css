@@ -52,9 +52,8 @@ right:10px;
 color:white;
 }
 #searchbar{
-position:absolute;
+position:relative;
 display: flex;
-left:23%;
 top:20px;
 }
 #searchbar input{
@@ -64,6 +63,7 @@ padding-left: 5px;
 }
 #searchbar button{
 width: 30px;
+height: 30px;
 cursor: pointer;
 }
 #circle {
@@ -203,7 +203,7 @@ transition: all 0.3s ease;
 
 @media screen and (max-width: 1250px) {
   #searchbar {
-    display: none; /* Hide the search bar on smaller screens */
+    display: none;
   }
 
   .links {
