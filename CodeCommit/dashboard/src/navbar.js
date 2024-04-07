@@ -66,14 +66,20 @@ function CustomNavbar() {
           <div className="navlinks">
             <h4>returns <br /> & orders</h4>
           </div>
-          <div id="pointDiv">
-            <p>points</p>
+
             {currentUserData ? (
+              currentUserData.usertype === 'driver' ? (
+              <div id="pointDiv">
+                  <p>points</p>
               <div id="points">{currentUserData.points}</div>
+              </div>
+              ):(
+                <div></div>
+              )
             ) : (
-              <div>loading..</div>
-            )}
-          </div>
+              <div></div>
+            )} 
+            
           <div id="cart" onClick={() => {window.location.href='/cart'}}>
             <img src={require('./images/emptyCart.png')} alt="Cart" width="50px" height="50px" />
             <h3 id="cartitems">4</h3>
