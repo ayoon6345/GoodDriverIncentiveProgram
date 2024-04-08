@@ -63,7 +63,7 @@ app.post('/api/addApplication', (req, res) => {
   const { sponsorId, driverId, firstName, lastName, phone, email } = req.body;
   const query = 'INSERT INTO applications (sponsor_id, driver_id, first_name, last_name, phone, email) VALUES (?, ?, ?, ?, ?, ?)';
 
-  connection.query(query, [sponsorId, driverId, firstName, lastName, phone, email, userId], (err, results) => {
+  connection.query(query, [sponsorId, driverId, firstName, lastName, phone, email], (err, results) => {
     if (err) {
       console.error('Error updating user points in MySQL database:', err);
       return res.status(500).send('Internal Server Error');
