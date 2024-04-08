@@ -74,7 +74,6 @@ function DriverApplication() {
 
   return (
     <div>
-      <Navbar />
       <div className="container">
         <h1>Applications</h1>
       </div>
