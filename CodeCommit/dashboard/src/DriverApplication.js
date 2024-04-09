@@ -8,6 +8,7 @@ Amplify.configure(config);
 
 
 const submitApplication = (sponsorId, driverId, firstName, lastName, phone, email) => {
+  console.log('Submitting application with the following data:', { sponsorId, driverId, firstName, lastName, phone, email });
   fetch('/api/addApplication', {
     method: 'POST',
     headers: {
@@ -89,11 +90,13 @@ function DriverApplication() {
     submitApplication(sponsorId, driverId, firstName, lastName, phone, email);
   };
 
+/*
   function submitApplication(sponsorId, driverId, firstName, lastName, phone, email) {
     // Implementation of submitApplication function
     console.log('Submitting application with the following data:', { sponsorId, driverId, firstName, lastName, phone, email });
     // Add your fetch logic here
   }
+*/
 
   return (
     <div>
