@@ -51,6 +51,10 @@ function ChooseItemsForCatalog() {
       });
   }, []);
 
+  const addToCatalog = () => {
+    console.log("adding");
+  }
+
   return (
     <div>
       <h1>Your Catalog</h1>
@@ -62,7 +66,7 @@ function ChooseItemsForCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={() => onAddToCatalog(product.id,)}>Add to Catalog</button>
+            <button onClick={() => addToCatalog(product.id)}>Add to Catalog</button>
           </div>
         ))}
       </div>
