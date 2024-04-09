@@ -76,6 +76,20 @@ app.post('/api/addApplication', (req, res) => {
   });
 });
 
+app.get('/api/getCatalog/:sponsorId', (req, res) => {
+
+  const sponsorId = req.params.sponsorId;
+
+  connection.query('SELECT * FROM catalogs WHERE sponsor_id = ?', [sponsorId], (err, results) => {
+    if (err) {
+      console.error('Error fetching data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.json(results); // Return the entire array of user data
+  });
+});
+
 app.post('/api/addToCatalog', (req, res) => {
   const { sponsorId, productId } = req.body;
   const query = 'INSERT IGNORE INTO catalogs (sponsor_id, product_id) VALUES (?, ?)';
