@@ -52,17 +52,6 @@ function DriverApplication() {
     phone: '',
     email: ''
   });
-  
-
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const { sponsorId, driverId, firstName, lastName, phone, email } = formData;
-    submitApplication(sponsorId, driverId, firstName, lastName, phone, email);
-  };
 
   useEffect(() => {
     async function fetchCurrentUser() {
