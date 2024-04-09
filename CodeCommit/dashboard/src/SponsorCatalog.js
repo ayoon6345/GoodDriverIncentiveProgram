@@ -24,9 +24,7 @@ function GetSponsorCatalog() {
 
 function ChooseItemsForCatalog() {
   
-  useEffect(() => {
-    GetSponsorCatalog(); 
-  }, []);
+  GetSponsorCatalog();
 
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
