@@ -78,7 +78,7 @@ app.post('/api/addApplication', (req, res) => {
 
 app.post('/api/addToCatalog', (req, res) => {
   const { sponsorId, productId } = req.body;
-  const query = 'INSERT IGNORE INTO sponsor_products (sponsor_id, product_id) VALUES (?, ?)';
+  const query = 'INSERT IGNORE INTO catalogs (sponsor_id, product_id) VALUES (?, ?)';
 
   connection.query(query, [sponsorId, productId], (err, results) => {
     if (err) {
