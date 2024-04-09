@@ -108,7 +108,11 @@ function SponsorCatalog() {
   const [activeView, setActiveView] = useState('profile');
   const [products, setProducts] = useState([]);
 
+/*
   useEffect(() => {
+    const productIds = [1, 2, 3];
+    
+    const requests = productIds.map(id =>  
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
       .then((data) => {
@@ -126,6 +130,39 @@ function SponsorCatalog() {
         console.error('Error fetching products:', error);
       });
   }, []);
+  */
+
+  useEffect(() => {
+    const productIds = [1, 2, 3];
+
+    const requests = productIds.map(id => 
+        fetch(`https://fakestoreapi.com/products/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                const transformedData = {
+                    id: data.id,
+                    name: data.title,
+                    price: Math.round(data.price * 100), // Convert price to points (assuming 1 point = $0.01)
+                    availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
+                    description: data.description,
+                    image: data.image
+                };
+                return transformedData;
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+            })
+    );
+
+    Promise.all(requests)
+        .then(products => {
+            setProducts(products); // Assuming setProducts is your state update function
+        })
+        .catch(error => {
+            console.error('Error in fetching one or more products:', error);
+        });
+  }, []);
+
 
   const changeView = (view) => {
     setActiveView(view);
