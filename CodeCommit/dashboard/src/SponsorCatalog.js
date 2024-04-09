@@ -15,8 +15,6 @@ function GetSponsorCatalog() {
       .then(response => response.json())
       .then(data => {
         setCatalogData(data);
-        console.log("getting catalog");
-        console.log(catalogData);
       })
       .catch(error => console.error('Error fetching data:', error));
   return catalogData;
