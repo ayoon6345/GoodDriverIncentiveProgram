@@ -76,6 +76,22 @@ app.post('/api/addApplication', (req, res) => {
   });
 });
 
+app.post('/api/addToCatalog', (req, res) => {
+  const { sponsorId, productId } = req.body;
+  const query = 'INSERT IGNORE INTO sponsor_products (sponsor_id, product_id) VALUES (?, ?)';
+
+  connection.query(query, [sponsorId, productId], (err, results) => {
+    if (err) {
+      console.error('Error adding sponsor product to MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    if (results.affectedRows === 0) {
+      return res.status(200).send('Sponsor product already exists');
+    }
+    res.status(201).send('Sponsor product added successfully');
+  });
+});
+
 
 // Endpoint to update user points
 app.post('/api/updatePoints', (req, res) => {
