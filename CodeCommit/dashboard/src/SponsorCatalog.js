@@ -72,7 +72,7 @@ function ChooseItemsForCatalog() {
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
       .then((data) => {
-        const filteredData = data.filter(product => !desiredProductIds.includes(product.id));
+        const filteredData = data.filter(product => desiredProductIds.includes(product.id));
         const transformedData = filteredData.map((product) => ({
           id: product.id,
           name: product.title,
@@ -118,7 +118,7 @@ function UniqueCatalog() {
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
       .then((data) => {
-        const filteredData = data.filter(product => !desiredProductIds.includes(product.id));
+        const filteredData = data.filter(product => desiredProductIds.includes(product.id));
         const transformedData = filteredData.map((product) => ({
           id: product.id,
           name: product.title,
@@ -136,7 +136,7 @@ function UniqueCatalog() {
 
   return (
     <div>
-      <h1>Choose Items for Catalog</h1>
+      <h1>Your Catalog</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
         {products.map((product) => (
           <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
