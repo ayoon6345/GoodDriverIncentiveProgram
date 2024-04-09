@@ -33,10 +33,13 @@ function ChooseItemsForCatalog() {
 
 
   useEffect(() => {
+    const desiredProductIds = [1, 2, 3];
+    
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
       .then((data) => {
-        const transformedData = data.map((product) => ({
+        const filteredData = data.filter(product => desiredProductIds.includes(product.id));
+        const transformedData = filteredData.map((product) => ({
           id: product.id,
           name: product.title,
           price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
