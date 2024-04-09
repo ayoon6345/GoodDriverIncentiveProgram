@@ -95,7 +95,7 @@ function PointsOverview() {
             }}>
               <input type="number" name="points" defaultValue={driver.points} />
               <button type="submit">Adjust Points</button>
-              <button type="button" onClick={() => openPointConsultation(driver.user_id)}>Consult Points</button>
+              /*<button type="button" onClick={() => openPointConsultation(driver.user_id)}>Consult Points</button>*/
             </form>
           </li>
         ))}
