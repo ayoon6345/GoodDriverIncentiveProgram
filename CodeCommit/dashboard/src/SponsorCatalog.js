@@ -34,7 +34,7 @@ function ChooseItemsForCatalog() {
 
   useEffect(() => {
     const desiredProductIds = [1, 2, 3];
-    
+
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
       .then((data) => {
@@ -53,40 +53,6 @@ function ChooseItemsForCatalog() {
         console.error('Error fetching products:', error);
       });
   }, []);
-
-  const addToCatalog = (productId,sponsorId) => {
-    console.log("adding" + productId);
-    
-    fetch('/api/addToCatalog', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ sponsorId, productId }),
-    })
-    .then(response => {
-      const contentType = response.headers.get("content-type");
-      if (!response.ok) {
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-          return response.json().then(data => Promise.reject(data));
-        } else {
-          return response.text().then(text => Promise.reject(text));
-        }
-      }
-      return contentType && contentType.indexOf("application/json") !== -1
-        ? response.json()
-        : response.text();
-    })
-    .then(data => {
-      console.log('Response:', data);
-      const successStatus = { success: true, message: 'Catalog updated successfully.' };
-    })
-    .catch(error => {
-      console.error('Error adding to catalog:', error);
-      // Determine if error is an object (from JSON) or text, and set message accordingly
-      const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
-    });
-  }
 
   return (
     <div>
@@ -110,6 +76,8 @@ function ChooseItemsForCatalog() {
 function SponsorCatalog() {
   const [activeView, setActiveView] = useState('profile');
   const [products, setProducts] = useState([]);
+
+  
 
   useEffect(() => {
     const productIds = [1, 2, 3];
@@ -145,7 +113,7 @@ function SponsorCatalog() {
           <button onClick={() => changeView('catalog')}>All Items</button>
           <button onClick={() => changeView('choose_catalog')}>Your Catalog</button>
         </nav>
-        {activeView === 'catalog' && <ProductCatalog />}
+        {activeView === 'catalog' && <SponsorCatalog />}
         {activeView === 'choose_catalog' && <ChooseItemsForCatalog />}
         </div>
     </div>
