@@ -145,7 +145,7 @@ function UniqueCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={() => addToCatalog(product.id,'14321')}>Add to Catalog</button>
+            <button>Remove from Catalog</button>
           </div>
         ))}
       </div>
