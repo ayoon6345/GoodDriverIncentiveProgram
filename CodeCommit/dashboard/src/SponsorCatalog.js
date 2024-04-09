@@ -118,7 +118,7 @@ function UniqueCatalog() {
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
       .then((data) => {
-        const filteredData = data.filter(product => desiredProductIds.includes(product.id));
+        const filteredData = data.filter(product => !desiredProductIds.includes(product.id));
         const transformedData = filteredData.map((product) => ({
           id: product.id,
           name: product.title,
@@ -134,9 +134,9 @@ function UniqueCatalog() {
       });
   }, []);
 
-  return ( 
+  return (
     <div>
-      <h1>Your Catalog</h1>
+      <h1>Choose Items for Catalog</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
         {products.map((product) => (
           <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
@@ -145,7 +145,7 @@ function UniqueCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button>Remove from Catalog</button>
+            <button onClick={() => addToCatalog(product.id,'14321')}>Add to Catalog</button>
           </div>
         ))}
       </div>
