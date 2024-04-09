@@ -19,11 +19,9 @@ function PointsOverview() {
 
   useEffect(() => {
     fetchUserData();
-    // Attempt to retrieve the update status from local storage on component mount
     const storedStatus = localStorage.getItem('updateStatus');
     if (storedStatus) {
       setUpdateStatus(JSON.parse(storedStatus));
-      // Optionally clear the message from local storage if you don't want it to persist across multiple refreshes
       localStorage.removeItem('updateStatus');
     }
   }, []);
@@ -31,22 +29,22 @@ function PointsOverview() {
   const fetchUserData = () => {
     fetch('/api/getUsers')
       .then(response => response.json())
-      .then(data => {
-        setUserData(data);
-        // Optionally reset update status here if you prefer it to clear on data fetch instead of on mount
-      })
+      .then(data => setUserData(data))
       .catch(error => console.error('Error fetching data:', error));
   };
 
   const driverUsers = userData.filter(user => user.usertype === 'driver');
 
   const handleAdjustPoints = (userId, newPoints) => {
+    // Ensure newPoints is within the allowed range before sending it to the server
+    const adjustedPoints = Math.min(Math.max(parseInt(newPoints, 10), 0), 1000000);
+
     fetch('/api/updatePoints', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId, newPoints }),
+      body: JSON.stringify({ userId, newPoints: adjustedPoints }),
     })
     .then(response => {
       const contentType = response.headers.get("content-type");
@@ -65,15 +63,14 @@ function PointsOverview() {
       console.log('Update response:', data);
       const successStatus = { success: true, message: 'Points updated successfully.' };
       setUpdateStatus(successStatus);
-      localStorage.setItem('updateStatus', JSON.stringify(successStatus)); // Persist the success status
-      fetchUserData(); // Refetch user data only on success
+      localStorage.setItem('updateStatus', JSON.stringify(successStatus));
+      fetchUserData();
     })
     .catch(error => {
       console.error('Error updating points:', error);
-      // Determine if error is an object (from JSON) or text, and set message accordingly
       const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error updating points.' };
       setUpdateStatus(errorMessage);
-      localStorage.setItem('updateStatus', JSON.stringify(errorMessage)); // Persist the error status
+      localStorage.setItem('updateStatus', JSON.stringify(errorMessage));
     });
   };
 
@@ -95,7 +92,8 @@ function PointsOverview() {
             }}>
               <input type="number" name="points" defaultValue={driver.points} />
               <button type="submit">Adjust Points</button>
-              <button type="button" onClick="{() =>handleOpenConsultModal(driver.user_id)}">Consult Points</button>
+              {/* Corrected onClick handler syntax */}
+              <button type="button" onClick={() => handleOpenConsultModal(driver.user_id)}>Consult Points</button>
             </form>
           </li>
         ))}
