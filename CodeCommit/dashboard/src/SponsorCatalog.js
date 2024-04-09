@@ -4,7 +4,7 @@ import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Navbar from './navbar';
-import ProductCatalog from './ProductCatalog';
+//import ProductCatalog from './ProductCatalog';
 import './App.css';
 
 import amplifyconfig from './amplifyconfiguration.json';
@@ -31,6 +31,86 @@ function ChooseItemsForCatalog() {
     }
   );
 
+  const addToCatalog = (productId,sponsorId) => {
+    console.log("adding" + productId);
+    
+    fetch('/api/addToCatalog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sponsorId, productId }),
+    })
+    .then(response => {
+      const contentType = response.headers.get("content-type");
+      if (!response.ok) {
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          return response.json().then(data => Promise.reject(data));
+        } else {
+          return response.text().then(text => Promise.reject(text));
+        }
+      }
+      return contentType && contentType.indexOf("application/json") !== -1
+        ? response.json()
+        : response.text();
+    })
+    .then(data => {
+      console.log('Response:', data);
+      const successStatus = { success: true, message: 'Catalog updated successfully.' };
+    })
+    .catch(error => {
+      console.error('Error adding to catalog:', error);
+      // Determine if error is an object (from JSON) or text, and set message accordingly
+      const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
+    });
+  }
+
+
+  useEffect(() => {
+    const desiredProductIds = [1, 2, 3];
+
+    fetch('https://fakestoreapi.com/products')
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredData = data.filter(product => !desiredProductIds.includes(product.id));
+        const transformedData = filteredData.map((product) => ({
+          id: product.id,
+          name: product.title,
+          price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
+          availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
+          description: product.description,
+          image: product.image,
+        }));
+        setProducts(transformedData);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+  }, []);
+
+  return (
+    <div>
+      <h1>Choose Items for Catalog</h1>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
+        {products.map((product) => (
+          <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
+            <img src={product.image} alt={product.name} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px' }} />
+            <h3>{product.name}</h3>
+            <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
+            <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
+            <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
+            <button onClick={() => addToCatalog(product.id,'14321')}>Add to Catalog</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+
+function UniqueCatalog() {
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const desiredProductIds = [1, 2, 3];
@@ -54,7 +134,7 @@ function ChooseItemsForCatalog() {
       });
   }, []);
 
-  return (
+  return ( 
     <div>
       <h1>Your Catalog</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
@@ -65,7 +145,7 @@ function ChooseItemsForCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={() => addToCatalog(product.id,'14321')}>Add to Catalog</button>
+            <button>Remove from Catalog</button>
           </div>
         ))}
       </div>
@@ -73,32 +153,9 @@ function ChooseItemsForCatalog() {
   );
 }
 
+
 function SponsorCatalog() {
   const [activeView, setActiveView] = useState('profile');
-  const [products, setProducts] = useState([]);
-
-  
-
-  useEffect(() => {
-    const productIds = [1, 2, 3];
-     
-    fetch('https://fakestoreapi.com/products')
-      .then((response) => response.json())
-      .then((data) => {
-        const transformedData = data.map((product) => ({
-          id: product.id,
-          name: product.title,
-          price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
-          availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
-          description: product.description,
-          image: product.image,
-        }));
-        setProducts(transformedData);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
-  }, []);
 
   const changeView = (view) => {
     setActiveView(view);
@@ -110,10 +167,10 @@ function SponsorCatalog() {
         <div className="container">
         <h1>Sponsor Catalog</h1>
         <nav>
-          <button onClick={() => changeView('catalog')}>All Items</button>
-          <button onClick={() => changeView('choose_catalog')}>Your Catalog</button>
+          <button onClick={() => changeView('uniqe_catalog')}>Your Catalog</button>
+          <button onClick={() => changeView('choose_catalog')}>Choose Items</button>
         </nav>
-        {activeView === 'catalog' && <SponsorCatalog />}
+        {activeView === 'unique_catalog' && <UniqueCatalog />}
         {activeView === 'choose_catalog' && <ChooseItemsForCatalog />}
         </div>
     </div>
