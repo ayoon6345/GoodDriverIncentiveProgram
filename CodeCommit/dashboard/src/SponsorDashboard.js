@@ -7,7 +7,7 @@ import '@aws-amplify/ui-react/styles.css';
 import Navbar from './navbar';
 import Profile from './Profile';
 import Points from './DriverPoints';
-import ProductCatalog from './ProductCatalog';
+import SponsorCatalog from './SponsorCatalog';
 import SponsorApplications from './SponsorApplications';
 import './App.css';
 
@@ -89,7 +89,7 @@ function DriverDashboard() {
         <nav>
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Assign Points To Drivers</button>
-          <button onClick={() => changeView('catalog')}>Product Catalog</button>
+          <button onClick={() => changeView('catalog')}>Sponsor Catalog</button>
           <button onClick={() => changeView('applications')}>Applications</button>
         </nav>
 
@@ -116,7 +116,7 @@ function DriverDashboard() {
 
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <Points />}
-        {activeView === 'catalog' && <ProductCatalog />}
+        {activeView === 'catalog' && <SponsorCatalog />}
         {activeView === 'applications' && <SponsorApplications />}
 
        
