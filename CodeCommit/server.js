@@ -112,6 +112,13 @@ app.get('/api/about', (req, res) => {
   });
 });
 
+// Calling Assistant API function
+app.post('/api/consultPoint', async (req, res) => {
+  const { driverActionDescription, sponsorPointRatio } = req.body;
+  const advice = await getPointAdvice(driverActionDescription, sponsorPointRatio);
+  res.json({ advice });
+});
+
 
 // For all other routes, serve the index.html file
 app.get('*', (req, res) => {

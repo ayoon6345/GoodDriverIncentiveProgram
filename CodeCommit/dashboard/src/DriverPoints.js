@@ -3,11 +3,19 @@ import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import { Amplify } from 'aws-amplify';
 import './App.css';
+import PointConsultation from './PointConsultation';
 Amplify.configure(config);
 
 function PointsOverview() {
   const [userData, setUserData] = useState([]);
   const [updateStatus, setUpdateStatus] = useState({ success: false, message: '' });
+  const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
+  const [currentDriverId, setCurrentDriverId] = useState(null);
+
+  const handleOpenConsultModal = (driverId) => {
+    setCurrentDriverId(driverId);
+    setIsConsultModalOpen(true);
+  };
 
   useEffect(() => {
     fetchUserData();
@@ -87,10 +95,20 @@ function PointsOverview() {
             }}>
               <input type="number" name="points" defaultValue={driver.points} />
               <button type="submit">Adjust Points</button>
+              <button type="button" onClick={() => openPointConsultation(driver.user_id)}>Consult Points</button>
             </form>
           </li>
         ))}
       </ul>
+      {isConsultModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close-button" onClick={() => setIsConsultModalOpen(false)}>&times;</span>
+            <h2>Consult Points for Driver ID: {currentDriverId}</h2>
+            <PointConsultation />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
