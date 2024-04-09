@@ -9,16 +9,14 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-const [catalogData, setCatalogData] = useState([]);
-
 function GetSponsorCatalog() {
+  const [catalogData, setCatalogData] = useState([]);
+  
   fetch('/api/getCatalog/14321')
       .then(response => response.json())
       .then(data => {
         setCatalogData(data);
         console.log("getting catalog");
-        setHeaders(Object.keys(data[0]));
-        setRows(data.map(item => Object.values(item)));
       })
       .catch(error => console.error('Error fetching data:', error));
 }
