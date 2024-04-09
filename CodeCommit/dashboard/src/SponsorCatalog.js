@@ -19,12 +19,15 @@ function GetSponsorCatalog() {
         console.log(catalogData);
       })
       .catch(error => console.error('Error fetching data:', error));
+  return catalogData;
 }
 
 
 function ChooseItemsForCatalog() {
   
-  GetSponsorCatalog();
+  const catalogData = GetSponsorCatalog();
+  console.log("This is the catalogData");
+  console.log(catalogData);
 
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
