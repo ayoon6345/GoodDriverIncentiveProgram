@@ -11,19 +11,23 @@ Amplify.configure(amplifyconfig);
 
 function GetSponsorCatalog() {
   const [catalogData, setCatalogData] = useState([]);
-  
+
   fetch('/api/getCatalog/14321')
       .then(response => response.json())
       .then(data => {
         setCatalogData(data);
         console.log("getting catalog");
+        console.log(catalogData);
       })
       .catch(error => console.error('Error fetching data:', error));
 }
 
 
 function ChooseItemsForCatalog() {
-  GetSponsorCatalog(); 
+  
+  useEffect(() => {
+    GetSponsorCatalog(); 
+  }, []);
 
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
