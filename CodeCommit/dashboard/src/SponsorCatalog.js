@@ -10,7 +10,7 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-function chooseItemsForCatalog() {
+function ChooseItemsForCatalog() {
 
   const [products, setProducts] = useState([]);
 
@@ -43,7 +43,7 @@ function chooseItemsForCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={() => onAddToCart(product)}>Add to Cart</button>
+            <button>Add to Cart</button>
           </div>
         ))}
       </div>
@@ -68,7 +68,7 @@ function SponsorCatalog() {
           <button onClick={() => changeView('choose_catalog')}>Your Catalog</button>
         </nav>
         {activeView === 'catalog' && <ProductCatalog />}
-        {activeView === 'choose_catalog' && <chooseItemsForCatalog />}
+        {activeView === 'choose_catalog' && <ChooseItemsForCatalog />}
         </div>
     </div>
   );
