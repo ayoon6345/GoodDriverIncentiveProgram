@@ -167,7 +167,7 @@ function SponsorCatalog() {
         <div className="container">
         <h1>Sponsor Catalog</h1>
         <nav>
-          <button onClick={() => changeView('uniqe_catalog')}>Your Catalog</button>
+          <button onClick={() => changeView('unique_catalog')}>Your Catalog</button>
           <button onClick={() => changeView('choose_catalog')}>Choose Items</button>
         </nav>
         {activeView === 'unique_catalog' && <UniqueCatalog />}
