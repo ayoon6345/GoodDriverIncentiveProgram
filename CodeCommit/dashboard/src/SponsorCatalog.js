@@ -53,6 +53,36 @@ function ChooseItemsForCatalog() {
 
   const addToCatalog = (productId,sponsorId) => {
     console.log("adding" + productId + sponsorId);
+    
+    fetch('/api/addToCatalog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sponsorId, productId }),
+    })
+    .then(response => {
+      const contentType = response.headers.get("content-type");
+      if (!response.ok) {
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          return response.json().then(data => Promise.reject(data));
+        } else {
+          return response.text().then(text => Promise.reject(text));
+        }
+      }
+      return contentType && contentType.indexOf("application/json") !== -1
+        ? response.json()
+        : response.text();
+    })
+    .then(data => {
+      console.log('Response:', data);
+      const successStatus = { success: true, message: 'Catalog updated successfully.' };
+    })
+    .catch(error => {
+      console.error('Error adding to catalog:', error);
+      // Determine if error is an object (from JSON) or text, and set message accordingly
+      const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
+    });
   }
 
   return (
