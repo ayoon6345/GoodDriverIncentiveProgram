@@ -52,7 +52,7 @@ function ChooseItemsForCatalog() {
   }, []);
 
   const addToCatalog = (productId,sponsorId) => {
-    console.log("adding" + productId + sponsorId);
+    console.log("adding" + productId);
     
     fetch('/api/addToCatalog', {
       method: 'POST',
