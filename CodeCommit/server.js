@@ -46,7 +46,16 @@ app.get('/api/getUsers', (req, res) => {
     res.json(results); // Return the entire array of user data
   });
 });
-
+app.get('/api/getCart', (req, res) => {
+  connection.query('SELECT * FROM cart', (err, results) => {
+    if (err) {
+      console.error('Error fetching data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.json(results); // Return the entire array of cart data
+  });
+});
 app.get('/api/getApplications', (req, res) => {
   connection.query('SELECT * FROM applications', (err, results) => {
     if (err) {
