@@ -10,9 +10,27 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
+
 function ChooseItemsForCatalog() {
 
   const [products, setProducts] = useState([]);
+  const [userData, setUserData] = useState([]);
+
+  const fetchUserData = () => {
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        setUserData(data);
+        // Optionally reset update status here if you prefer it to clear on data fetch instead of on mount
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  };
+  useEffect(() => {
+    fetchUserData();
+    console.log(userData);
+    }
+  );
+
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -35,6 +53,7 @@ function ChooseItemsForCatalog() {
 
   return (
     <div>
+      <h1>Your Catalog</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
         {products.map((product) => (
           <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
@@ -43,7 +62,7 @@ function ChooseItemsForCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button>Add to Cart</button>
+            <button onClick={() => onAddToCatalog(product.id,)}>Add to Catalog</button>
           </div>
         ))}
       </div>
