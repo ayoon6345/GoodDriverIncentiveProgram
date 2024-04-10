@@ -24,7 +24,7 @@ function DriverDashboard() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [users, setUsers] = useState([]);
+  const [sponsor, setsponsorname] = useState('amazon');
 
   const changeView = (view) => {
     setActiveView(view);
@@ -65,6 +65,7 @@ function DriverDashboard() {
           name: name,
           phone_number: phoneNumber,
           usertype: usertype,
+          sponsor: sponsor,
         }),
       });
 
@@ -106,7 +107,14 @@ function DriverDashboard() {
           <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
           <label>User Type:</label>
           <select value={usertype} onChange={(e) => setusertype(e.target.value)}>
-            <option value="sponsor">Sponsor</option>
+            <option value="sponsor">Sponsor User</option>
+            <option value="driver">Sponsored Driver</option>
+          </select>
+          <label>Sponsor Name:</label>
+          <select value={sponsor} onChange={(e) => setsponsorname(e.target.value)}>
+            <option value="amazon">AMAZON</option>
+            <option value="walmart">WALMART</option>
+            <option value="costco">COSTCO</option>
           </select>
           <button type="submit">Create Sponsor User</button>
         </form>
