@@ -5,7 +5,7 @@ import Navbar from './navbar'; // Import the Navbar component
 import { getCurrentUser } from 'aws-amplify/auth';
 var userOrder = [];
 var productsList = [];
-
+var userOrders = [];
 
 function getProduct(prodID){
   fetch('https://fakestoreapi.com/products/' + prodID)
@@ -19,7 +19,7 @@ function getProduct(prodID){
   });
 }
 function Orders() {
-    const [userOrders, setOrderData] = useState([]);
+
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
@@ -40,14 +40,15 @@ function Orders() {
         .then(response => response.json())
         .then(data => {
           // Transform the data to match your application's data structure
-          const allItems = data.map((product) => ({
+          userOrders = data.map((product) => ({
             id: product.id,
             user: product.user_id,
             product: product.product_id,
           }));
-          setOrderData(allItems);
+          console.log(userOrders);
           userOrder = userOrders.filter(function (el) {
             if ( el.user ===  currentUser) {
+              console.log(el.product);
               getProduct(el.product);
               return el;
             } 
@@ -55,6 +56,7 @@ function Orders() {
         })
         .catch(error => console.error('Error fetching data:', error));
     }, []);
+  
 
     
   return (
