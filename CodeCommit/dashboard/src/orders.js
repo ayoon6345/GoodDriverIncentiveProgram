@@ -1,4 +1,3 @@
-
 // App.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
@@ -8,7 +7,7 @@ var userOrder = [];
 var productsList = [];
 
 function getProduct(prodID){
-  fetch('https://fakestoreapi.com/products/' + prodID)
+  fetch('https://fakestoreapi.com/products' + prodID)
   .then((response) => response.json())
   .then((data) => {
             // Transform the data to match your application's data structure
@@ -20,6 +19,7 @@ function getProduct(prodID){
               description: product.description,
               image: product.image,
             }));
+            console.log(order);
             productsList.push(order);
   })
   .catch((error) => {
@@ -67,9 +67,10 @@ function Orders() {
       } 
     });
     userOrder.forEach(function (arrayItem) {
+      console.log(arrayItem.product);
       getProduct(arrayItem.product);
   });
-    console.log(productsList);
+    
   return (
     <div>
         <Navbar /> 
@@ -87,3 +88,4 @@ function Orders() {
 }
 
 export default Orders;
+
