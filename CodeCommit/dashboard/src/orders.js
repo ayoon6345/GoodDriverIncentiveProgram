@@ -11,8 +11,8 @@ function getProduct(prodID){
   fetch('https://fakestoreapi.com/products/' + prodID)
   .then((response) => response.json())
   .then((data) => {
-      productsList.push(data);   
-            
+    productsList.push(data);     
+    console.log(productsList); 
   })
   .catch((error) => {
     console.error('Error fetching products:', error);
