@@ -51,12 +51,14 @@ function Orders() {
     }, []);
   
     // Filter out the current user from the user list
+    if(userOrders.length > 0){
     userOrder = userOrders.filter(function (el) {
       if ( el.user ===  currentUser) {
        return el;
       } 
     })
     console.log(userOrder);
+  }
 
     
   return (
