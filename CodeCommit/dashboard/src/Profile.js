@@ -3,7 +3,7 @@ import { getCurrentUser } from 'aws-amplify/auth';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import './App.css';
-import { post } from 'aws-amplify'; // Make sure to import Auth
+import { post } from 'aws-amplify/api';
 import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
