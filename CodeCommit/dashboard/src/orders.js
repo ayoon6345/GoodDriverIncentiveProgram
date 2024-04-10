@@ -5,14 +5,14 @@ import Navbar from './navbar'; // Import the Navbar component
 import { getCurrentUser } from 'aws-amplify/auth';
 var userOrder = [];
 var productsList = [];
-const [products, setProducts] = useState([]);
+
 
 function getProduct(prodID){
   fetch('https://fakestoreapi.com/products' + prodID)
   .then((response) => response.json())
   .then((data) => {
             // Transform the data to match your application's data structure
-            const allItems = data.map((product) => ({
+            productsList = data.map((product) => ({
               id: product.id,
               name: product.title,
               price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
@@ -20,7 +20,7 @@ function getProduct(prodID){
               description: product.description,
               image: product.image,
             }));
-            setProducts(allItems)  
+            
   })
   .catch((error) => {
     console.error('Error fetching products:', error);
@@ -74,7 +74,7 @@ function Orders() {
     <div>
         <Navbar /> 
         <div className="container">
-        {products.map((product) => (
+        {productsList.map((product) => (
       <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
         <img src={product.image} alt={product.name} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px' }} />
         <h3>{product.name}</h3>
@@ -90,3 +90,4 @@ function Orders() {
 }
 
 export default Orders;
+
