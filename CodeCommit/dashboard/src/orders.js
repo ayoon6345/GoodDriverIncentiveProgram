@@ -11,15 +11,7 @@ function getProduct(prodID){
   fetch('https://fakestoreapi.com/products/' + prodID)
   .then((response) => response.json())
   .then((data) => {
-            // Transform the data to match your application's data structure
-            productsList = data.map((product) => ({
-              id: product.id,
-              name: product.title,
-              price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
-              availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
-              description: product.description,
-              image: product.image,
-            }));
+      console.log(data);     
             
   })
   .catch((error) => {
