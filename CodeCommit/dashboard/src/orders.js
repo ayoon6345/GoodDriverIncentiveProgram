@@ -58,6 +58,9 @@ function Orders() {
       } 
     })
     console.log(userOrder);
+    userOrder.forEach(function (arrayItem) {
+      getProduct(arrayItem.product);
+  });
   }
 
     
