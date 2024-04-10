@@ -63,7 +63,7 @@ function CustomNavbar() {
           <div className="navlinks" onClick={() => {window.location.href='/about'}}>
             <h4>about</h4>
           </div>
-          <div className="navlinks">
+          <div className="navlinks" onClick={() => {window.location.href='/orders'}}>
             <h4>returns <br /> & orders</h4>
           </div>
 
