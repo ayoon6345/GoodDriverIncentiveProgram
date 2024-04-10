@@ -5,13 +5,22 @@ import Navbar from './navbar'; // Import the Navbar component
 import { getCurrentUser } from 'aws-amplify/auth';
 var userOrder = [];
 var productsList = [];
+const [products, setProducts] = useState([]);
 
 function getProduct(prodID){
-  fetch('https://fakestoreapi.com/products/' + prodID)
+  fetch('https://fakestoreapi.com/products' + prodID)
   .then((response) => response.json())
   .then((data) => {
             // Transform the data to match your application's data structure
-            console.log(data);
+            const allItems = data.map((product) => ({
+              id: product.id,
+              name: product.title,
+              price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
+              availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
+              description: product.description,
+              image: product.image,
+            }));
+            setProducts(allItems)  
   })
   .catch((error) => {
     console.error('Error fetching products:', error);
@@ -20,7 +29,6 @@ function getProduct(prodID){
 function Orders() {
     const [userOrders, setOrderData] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
-    const [products, setProducts] = useState([]);
 
     useEffect(() => {
       async function fetchCurrentUser() {
@@ -66,10 +74,13 @@ function Orders() {
     <div>
         <Navbar /> 
         <div className="container">
-        {userOrder.map((product) => (
-      <div > 
-        <h3>{product.user}</h3>
-        <h3>{product.product}</h3>
+        {products.map((product) => (
+      <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
+        <img src={product.image} alt={product.name} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px' }} />
+        <h3>{product.name}</h3>
+        <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
+        <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
+        <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
         <button >Add to Cart</button>
       </div>
     ))}
@@ -79,4 +90,3 @@ function Orders() {
 }
 
 export default Orders;
-
