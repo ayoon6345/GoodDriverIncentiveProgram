@@ -1,13 +1,34 @@
+
 // App.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './navbar'; // Import the Navbar component
 import { getCurrentUser } from 'aws-amplify/auth';
-var newList = [];
+var userOrder = [];
+var productsList = [];
 function Orders() {
-    const [cartData, setOrderData] = useState([]);
+    const [userOrders, setOrderData] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
-  
+    const [products, setProducts] = useState([]);
+    useEffect(() => {
+      fetch('https://fakestoreapi.com/products')
+        .then((response) => response.json())
+        .then((data) => {
+                  // Transform the data to match your application's data structure
+                  const allItems = data.map((product) => ({
+                    id: product.id,
+                    name: product.title,
+                    price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
+                    availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
+                    description: product.description,
+                    image: product.image,
+                  }));
+                  setProducts(allItems)  
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+    }, []);
     useEffect(() => {
       async function fetchCurrentUser() {
         try {
@@ -38,17 +59,18 @@ function Orders() {
   
     // Filter out the current user from the user list
 
-    newList = cartData.filter(function (el) {
+    userOrder = userOrders.filter(function (el) {
       if ( el.user ===  currentUser) {
         return el;
       } 
     });
-    console.log(newList);
+    res = products.id.filter(item => !userOrder.id.includes(item.id));
+    console.log(res);
   return (
     <div>
         <Navbar /> 
         <div className="container">
-        {newList.map((product) => (
+        {userOrder.map((product) => (
       <div > 
         <h3>{product.user}</h3>
         <h3>{product.product}</h3>
