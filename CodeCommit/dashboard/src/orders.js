@@ -8,12 +8,20 @@ var userOrder = [];
 var userOrders = [];
 var productsList = [];
 
-function getProduct(prodID){
-  fetch('https://fakestoreapi.com/products/' + prodID)
+function getProduct(prodId){
+  fetch('https://fakestoreapi.com/products/'+prodId)
   .then((response) => response.json())
   .then((data) => {
-    productsList.push(data);     
-    console.log(productsList); 
+      // Transform the data to match your application's data structure
+      var order = data.map((product) => ({
+        id: product.id,
+        name: product.title,
+        price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
+        availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
+        description: product.description,
+        image: product.image,
+      }));
+      productsList.push(order);
   })
   .catch((error) => {
     console.error('Error fetching products:', error);
@@ -21,7 +29,7 @@ function getProduct(prodID){
 }
 
 function Orders() {
-
+  getProduct();
     const [currentUser, setCurrentUser] = useState(null);
 
 
@@ -65,8 +73,11 @@ function Orders() {
     console.log(userOrder);
 
     userOrder.forEach(function (arrayItem) {
-        getProduct(arrayItem.product);
-    });
+      getProduct(arrayItem.product);
+      console.log(productsList);
+  });
+
+
     
 
   }
@@ -76,7 +87,7 @@ function Orders() {
         <div className="container">
         {productsList.map((product) => (
       <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
-        <h3>{product.product}</h3>
+        <h3>{product.name}</h3>
         <button >Add to Cart</button>
       </div>
     ))}
@@ -86,4 +97,5 @@ function Orders() {
 }
 
 export default Orders;
+
 
