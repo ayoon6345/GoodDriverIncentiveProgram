@@ -57,10 +57,12 @@ function Orders() {
         return el;
       } 
     });
-    userOrder.forEach(function (arrayItem) {
-      console.log(arrayItem.product);
-      getProduct(arrayItem.product);
-  });
+    useEffect(() => {
+        userOrder.forEach(function (arrayItem) {
+          console.log(arrayItem.product);
+          getProduct(arrayItem.product);
+      });
+    }, []);
     
   return (
     <div>
