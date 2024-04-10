@@ -8,7 +8,7 @@ var userOrder = [];
 var productsList = [];
 
 function getProduct(prodID){
-  fetch('https://fakestoreapi.com/products' + prodID)
+  fetch('https://fakestoreapi.com/products/' + prodID)
   .then((response) => response.json())
   .then((data) => {
             // Transform the data to match your application's data structure
