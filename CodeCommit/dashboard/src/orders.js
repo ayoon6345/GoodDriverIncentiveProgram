@@ -48,8 +48,7 @@ function Orders() {
           console.log(userOrders);
           userOrder = userOrders.filter(function (el) {
             if ( el.user ===  currentUser) {
-              console.log(el.product);
-              getProduct(el.product);
+              console.log(el.user);
               return el;
             } 
           })
