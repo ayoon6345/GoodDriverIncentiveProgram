@@ -9,7 +9,6 @@ var userOrders = [];
 function Orders() {
 
     const [currentUser, setCurrentUser] = useState(null);
-    const [currentUser, setCurrentUser] = useState(null);
     var productsList = [];
 
     function getProduct(prodID){
