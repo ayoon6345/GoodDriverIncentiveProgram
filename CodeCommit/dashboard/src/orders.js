@@ -4,24 +4,25 @@ import './App.css';
 import Navbar from './navbar'; // Import the Navbar component
 import { getCurrentUser } from 'aws-amplify/auth';
 var userOrder = [];
-var productsList = [];
 var userOrders = [];
 
-function getProduct(prodID){
-  fetch('https://fakestoreapi.com/products/' + prodID)
-  .then((response) => response.json())
-  .then((data) => {
-    productsList.push(data);     
-    console.log(productsList); 
-  })
-  .catch((error) => {
-    console.error('Error fetching products:', error);
-  });
-}
 function Orders() {
 
     const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
+    var productsList = [];
 
+    function getProduct(prodID){
+      fetch('https://fakestoreapi.com/products/' + prodID)
+      .then((response) => response.json())
+      .then((data) => {
+        productsList.push(data);     
+        console.log(productsList); 
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+    }
     useEffect(() => {
       async function fetchCurrentUser() {
         try {
