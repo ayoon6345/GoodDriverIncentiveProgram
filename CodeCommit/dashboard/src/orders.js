@@ -23,12 +23,12 @@ function Orders() {
   
     useEffect(() => {
       fetch('/api/getCart')
-        .then(response => response.json())
         .then(data => {
           console.log(data); // Log the received data
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => console.error('Error fetching Data:', error));
     }, []);
+  
   
     // Filter out the current user from the user list
     const currentUserData = cartData.find(user => user.user_id === currentUser);
