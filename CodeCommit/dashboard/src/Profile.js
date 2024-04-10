@@ -7,15 +7,10 @@ import { post } from 'aws-amplify/api';
 import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
-function Profile() {
+function PointsOverview() {
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  // Form state
-  const [formData, setFormData] = useState({
-    address: '',
-    birthdate: '',
-    name: '',
-  });
+  const [newName, setNewName] = useState(''); // New state for form input
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -39,23 +34,9 @@ function Profile() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await cognitoUpdateAttributes(formData);
-  };
-
-async function cognitoUpdateAttributes(formData) {
+  async function cognitoUpdateAttributes() { // Remove formData parameter
     const apiName = 'AdminQueries';
     const path = '/updateAttributes';
     const options = {
@@ -63,42 +44,51 @@ async function cognitoUpdateAttributes(formData) {
         'Content-Type': 'application/json',
         Authorization: `${(await fetchAuthSession()).tokens?.accessToken}`
       },
-      body: {
+      body: JSON.stringify({ // Ensure proper stringification
         "AccessToken": `${(await fetchAuthSession()).tokens?.accessToken}`,
-        
-        name: formData.name
-      }
+        name: newName // Use state value
+      })
     };
-      await post({ apiName, path, options });
+    await post(apiName, path, options);
+  }
+
+  function handleNameChange(event) { // Add handleNameChange function
+    setNewName(event.target.value);
+  }
+
+  async function handleSubmit(event) { // Add handleSubmit function
+    event.preventDefault();
+    await cognitoUpdateAttributes();
+    setNewName(''); // Optional: Reset the name field after submission
   }
 
   return (
-    <div className="container">
-      <h1>User Details</h1>
-      {currentUserData ? (
-        <div>
-          <p>Name: {currentUserData.name}</p>
-          <p>UserName: {currentUserData.user_id}</p>
-          <p>Email: {currentUserData.email}</p>
-          <p>Phone Number: {currentUserData.phone_number}</p>
-          <p>User Type: {currentUserData.usertype}</p>
-          <p>Your Sponsor is: {currentUserData.sponsor}</p>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="family_name"
-              placeholder="Family Name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <button type="submit">Update Profile</button>
-          </form>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div>
+      <div className="container">
+        <h1>User Details</h1>
+        {currentUserData ? (
+          <div>
+            <p>Name: {currentUserData.name}</p>
+            <p>UserName: {currentUserData.user_id}</p>
+            <p>Email: {currentUserData.email}</p>
+            <p>Phone Number: {currentUserData.phone_number}</p>
+            <p>User Type: {currentUserData.usertype}</p>
+            <p>Your Sponsor is : {currentUserData.sponsor}</p>
+            {/* Add form for name change */}
+            <form onSubmit={handleSubmit}>
+              <label>
+                New Name:
+                <input type="text" value={newName} onChange={handleNameChange} />
+              </label>
+              <button type="submit">Change Name</button>
+            </form>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </div>
   );
 }
 
-export default Profile;
+export default PointsOverview;
