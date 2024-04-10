@@ -1,4 +1,3 @@
-
 // App.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
@@ -33,7 +32,6 @@ function Orders() {
             product: product.product_id,
           }));
           setOrderData(allItems) 
-          console.log(allItems);
         })
         .catch(error => console.error('Error fetching data:', error));
     }, []);
@@ -42,18 +40,18 @@ function Orders() {
 
     newList = cartData.filter(function (el) {
       if ( el.user ===  currentUser) {
-        console.log(newList);
         return el;
       } 
     });
+    console.log(newList);
   return (
     <div>
         <Navbar /> 
         <div className="container">
         {newList.map((product) => (
-      <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}> 
+      <div > 
+        <h3>{product.user_id}</h3>
         <h3>{product.product_id}</h3>
-
         <button >Add to Cart</button>
       </div>
     ))}
