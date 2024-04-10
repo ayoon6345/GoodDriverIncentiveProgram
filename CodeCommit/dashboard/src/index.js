@@ -9,6 +9,7 @@ import AdminDashboard from './AdminDashboard';
 import SponsorDashboard from './SponsorDashboard'; // Ensure this import is added
 import ProductSearch from './ProductSearch';
 import ShopCart from './cart';
+import Orders from './orders';
 
 import { getCurrentUser } from 'aws-amplify/auth'; // Import getCurrentUser
 
@@ -63,6 +64,7 @@ const App = () => {
           <Route path="/dashboard" element={<div>Loading...</div>} />
         )}
         <Route path="/search" element={<ProductSearch />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
     </BrowserRouter>
   );
