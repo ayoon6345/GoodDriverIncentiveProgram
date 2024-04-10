@@ -1,116 +1,117 @@
-import React, { useEffect, useState } from 'react';
-import { getCurrentUser } from 'aws-amplify/auth';
+import React, { useState, useEffect } from 'react';
+import { getCurrentUser, updateCurrentUserAttributes } from 'aws-amplify/auth';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import './App.css';
-import { API } from 'aws-amplify';
 import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
 function Profile() {
-  const [aboutData, setAboutData] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
   const [formData, setFormData] = useState({
-    address: '',
-    birthdate: '',
-    family_name: '',
-    given_name: '',
+    name: '',
+    email: '',
+    phone_number: '',
+    usertype: '',
+    sponsor: '',
   });
+  const [currentUserData, setCurrentUserData] = useState(null);
 
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
         const user = await getCurrentUser();
-        setCurrentUser(user.username);
+        const userData = { name: user.username, ...user.attributes }; // Assume user.attributes contains the rest of the fields
+        setCurrentUserData(userData);
+        setFormData(userData);
       } catch (err) {
-        console.log(err);
+        console.error('Error fetching user:', err);
       }
     }
 
     fetchCurrentUser();
   }, []);
 
-  useEffect(() => {
-    fetch('/api/getUsers')
-      .then(response => response.json())
-      .then(data => {
-        setAboutData(data);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
-  const currentUserData = aboutData.find(user => user.user_id === currentUser);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleUpdateProfile = async () => {
+    console.log("Updating user profile with data:", formData);
+  
     try {
-      const accessToken = await getCurrentUser().getSession().then(session => session.accessToken.jwtToken);
-      const updateResponse = await API.post('apiName', '/updateAttributes', {
-        body: {
-          AccessToken: accessToken,
-          ...formData
-        },
-      });
-      console.log(updateResponse);
-      alert('Profile updated successfully!');
-    } catch (err) {
-      console.error('Error updating profile:', err);
-      alert('Failed to update profile.');
+      await updateCurrentUserAttributes(formData); // Assumes this function exists or similar functionality
+      setCurrentUserData(formData); // Update the displayed user data with the new form data
+    } catch (error) {
+      console.error("Error updating user profile:", error);
     }
   };
 
   return (
     <div className="container">
-      <h1>User Details</h1>
+      <h1>Edit Profile</h1>
       {currentUserData ? (
-        <div>
-          <p>Name: {currentUserData.name}</p>
-          <p>UserName: {currentUserData.user_id}</p>
-          <p>Email: {currentUserData.email}</p>
-          <p>Phone Number: {currentUserData.phone_number}</p>
-          <p>User Type: {currentUserData.usertype}</p>
-          <p>Your Sponsor is : {currentUserData.sponsor}</p>
-        </div>
+        <form>
+          <div>
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>Phone Number:</label>
+            <input
+              type="text"
+              name="phone_number"
+              value={formData.phone_number}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>User Type:</label>
+            <input
+              type="text"
+              name="usertype"
+              value={formData.usertype}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>Your Sponsor:</label>
+            <input
+              type="text"
+              name="sponsor"
+              value={formData.sponsor}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <button type="button" onClick={handleUpdateProfile}>
+            Update Profile
+          </button>
+        </form>
       ) : (
         <p>Loading...</p>
       )}
-
-      <form onSubmit={handleSubmit}>
-        <h2>Update Profile</h2>
-        <input
-          type="text"
-          name="given_name"
-          value={formData.given_name}
-          onChange={handleChange}
-          placeholder="Given Name"
-        />
-        <input
-          type="text"
-          name="family_name"
-          value={formData.family_name}
-          onChange={handleChange}
-          placeholder="Family Name"
-        />
-        <input
-          type="date"
-          name="birthdate"
-          value={formData.birthdate}
-          onChange={handleChange}
-          placeholder="Birthdate"
-        />
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          placeholder="Address"
-        />
-        <button type="submit">Update Profile</button>
-      </form>
     </div>
   );
 }
