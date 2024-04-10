@@ -1,3 +1,4 @@
+
 // App.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
@@ -32,6 +33,7 @@ function Orders() {
             product: product.product_id,
           }));
           setOrderData(allItems) 
+          console.log(allItems);
         })
         .catch(error => console.error('Error fetching data:', error));
     }, []);
@@ -40,6 +42,7 @@ function Orders() {
 
     newList = cartData.filter(function (el) {
       if ( el.user ===  currentUser) {
+        console.log(newList);
         return el;
       } 
     });
@@ -60,4 +63,3 @@ function Orders() {
 }
 
 export default Orders;
-
