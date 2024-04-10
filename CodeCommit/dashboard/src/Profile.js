@@ -1,119 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { getCurrentUser, updateCurrentUserAttributes } from 'aws-amplify/auth';
+import React, { useEffect, useState } from 'react';
+import { getCurrentUser } from 'aws-amplify/auth';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import './App.css';
 import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
-function Profile() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone_number: '',
-    usertype: '',
-    sponsor: '',
-  });
-  const [currentUserData, setCurrentUserData] = useState(null);
+function PointsOverview() {
+  const [aboutData, setAboutData] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
         const user = await getCurrentUser();
-        const userData = { name: user.username, ...user.attributes }; // Assume user.attributes contains the rest of the fields
-        setCurrentUserData(userData);
-        setFormData(userData);
+        setCurrentUser(user.username);
       } catch (err) {
-        console.error('Error fetching user:', err);
+        console.log(err);
       }
     }
 
     fetchCurrentUser();
   }, []);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
+  useEffect(() => {
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        setAboutData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
-  const handleUpdateProfile = async () => {
-    console.log("Updating user profile with data:", formData);
-  
-    try {
-      await updateCurrentUserAttributes(formData); // Assumes this function exists or similar functionality
-      setCurrentUserData(formData); // Update the displayed user data with the new form data
-    } catch (error) {
-      console.error("Error updating user profile:", error);
-    }
-  };
+  // Filter out the current user from the user list
+  const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
   return (
-    <div className="container">
-      <h1>Edit Profile</h1>
-      {currentUserData ? (
-        <form>
+    <div>
+      <div className="container">
+        <h1>User Details</h1>
+        {currentUserData ? (
           <div>
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          </div>
+            <p>Name: {currentUserData.name}</p>
+            <p>UserName: {currentUserData.user_id}</p>
+            <p>Email: {currentUserData.email}</p>
+            <p>Phone Number: {currentUserData.phone_number}</p>
+            <p>User Type: {currentUserData.usertype}</p>
+           <p>Your Sponsor is : {currentUserData.sponsor}</p>
 
-          <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
           </div>
-
-          <div>
-            <label>Phone Number:</label>
-            <input
-              type="text"
-              name="phone_number"
-              value={formData.phone_number}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div>
-            <label>User Type:</label>
-            <input
-              type="text"
-              name="usertype"
-              value={formData.usertype}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div>
-            <label>Your Sponsor:</label>
-            <input
-              type="text"
-              name="sponsor"
-              value={formData.sponsor}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <button type="button" onClick={handleUpdateProfile}>
-            Update Profile
-          </button>
-        </form>
-      ) : (
-        <p>Loading...</p>
-      )}
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </div>
   );
 }
 
-export default Profile;
+export default PointsOverview;
