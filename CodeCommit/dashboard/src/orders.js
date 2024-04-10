@@ -64,8 +64,8 @@ function Orders() {
         return el;
       } 
     });
-    res = products.id.filter(item => !userOrder.id.includes(item.id));
-    console.log(res);
+    productsList = products.id.filter(item => !userOrder.id.includes(item.id));
+    console.log(productsList);
   return (
     <div>
         <Navbar /> 
