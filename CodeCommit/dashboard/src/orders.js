@@ -48,7 +48,6 @@ function Orders() {
           console.log(userOrders);
           userOrder = userOrders.filter(function (el) {
             if ( el.user ===  currentUser) {
-              console.log(el.user);
               return el;
             } 
           })
@@ -56,6 +55,8 @@ function Orders() {
         .catch(error => console.error('Error fetching data:', error));
     }, []);
   
+    // Filter out the current user from the user list
+    console.log(userOrder);
 
     
   return (
