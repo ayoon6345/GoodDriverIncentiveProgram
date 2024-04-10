@@ -50,8 +50,8 @@ function Orders() {
         <div className="container">
         {newList.map((product) => (
       <div > 
-        <h3>{product.user_id}</h3>
-        <h3>{product.product_id}</h3>
+        <h3>{product.user}</h3>
+        <h3>{product.product}</h3>
         <button >Add to Cart</button>
       </div>
     ))}
