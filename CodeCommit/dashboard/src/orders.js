@@ -52,16 +52,16 @@ function Orders() {
   
     // Filter out the current user from the user list
 
-    userOrder = userOrders.filter(function (el) {
-      if ( el.user ===  currentUser) {
-        return el;
-      } 
-    });
     useEffect(() => {
+      userOrder = userOrders.filter(function (el) {
+        if ( el.user ===  currentUser) {
+          return el;
+        } 
+      }).then(
         userOrder.forEach(function (arrayItem) {
           console.log(arrayItem.product);
           getProduct(arrayItem.product);
-      });
+      }))
     }, []);
     
   return (
