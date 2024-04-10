@@ -55,26 +55,21 @@ function Profile() {
     await cognitoUpdateAttributes(formData);
   };
 
-  async function cognitoUpdateAttributes(formData) {
+async function cognitoUpdateAttributes(formData) {
     const apiName = 'AdminQueries';
     const path = '/updateAttributes';
     const options = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: accessToken,
+        Authorization: `${(await fetchAuthSession()).tokens?.accessToken}`
       },
-      body: JSON.stringify({
-        "AccessToken": accessToken,
-        ...formData,
-      }),
+      body: {
+        "AccessToken": `${(await fetchAuthSession()).tokens?.accessToken}`,
+        
+        name: formData.name
+      }
     };
-    try {
-      await post(apiName, path, options);
-      alert('Profile updated successfully');
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      alert('Failed to update profile');
-    }
+      await post({ apiName, path, options });
   }
 
   return (
