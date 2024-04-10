@@ -47,13 +47,12 @@ app.get('/api/getUsers', (req, res) => {
   });
 });
 app.get('/api/getCart', (req, res) => {
-  connection.query('SELECT * FROM users', (err, results) => {
+  connection.query('SELECT * FROM cart', (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
       res.status(500).send('Internal Server Error');
       return;
     }
-    console.log(results);
     res.json(results); // Return the entire array of cart data
   });
 });
