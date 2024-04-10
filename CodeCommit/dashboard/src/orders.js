@@ -6,7 +6,7 @@ import { getCurrentUser } from 'aws-amplify/auth';
 function Orders() {
     const [cartData, setCartData] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
-
+  
     useEffect(() => {
       async function fetchCurrentUser() {
         try {
@@ -20,15 +20,15 @@ function Orders() {
       fetchCurrentUser();
     }, []);
   
-  
     useEffect(() => {
       fetch('/api/getCart')
+        .then(response => response.json())
         .then(data => {
           console.log(data); // Log the received data
+          setCartData(data);
         })
-        .catch(error => console.error('Error fetching Data:', error));
+        .catch(error => console.error('Error fetching data:', error));
     }, []);
-  
   
     // Filter out the current user from the user list
     const currentUserData = cartData.find(user => user.user_id === currentUser);
@@ -42,3 +42,4 @@ function Orders() {
 }
 
 export default Orders;
+
