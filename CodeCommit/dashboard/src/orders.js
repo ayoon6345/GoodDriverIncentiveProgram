@@ -45,24 +45,17 @@ function Orders() {
             user: product.user_id,
             product: product.product_id,
           }));
-          setOrderData(allItems) 
+          setOrderData(allItems);
+          userOrder = userOrders.filter(function (el) {
+            if ( el.user ===  currentUser) {
+              getProduct(el.product);
+              return el;
+            } 
+          })
         })
         .catch(error => console.error('Error fetching data:', error));
     }, []);
-  
-    // Filter out the current user from the user list
 
-    useEffect(() => {
-      userOrder = userOrders.filter(function (el) {
-        if ( el.user ===  currentUser) {
-          return el;
-        } 
-      }).then(
-        userOrder.forEach(function (arrayItem) {
-          console.log(arrayItem.product);
-          getProduct(arrayItem.product);
-      }))
-    }, []);
     
   return (
     <div>
