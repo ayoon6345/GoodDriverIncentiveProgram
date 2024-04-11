@@ -24,7 +24,11 @@ function GetSponsorCatalog() {
 
 
 function ChooseItemsForCatalog() {
-  const catalogData = GetSponsorCatalog();
+  useEffect(() => {
+    const catalogData = GetSponsorCatalog();
+    const desiredProductIds = catalogData;
+  }, [])
+  
 
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -62,10 +66,7 @@ function ChooseItemsForCatalog() {
       const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
     });
   }
-
-
-  useEffect(() => {
-    const desiredProductIds = catalogData;
+    
 
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
