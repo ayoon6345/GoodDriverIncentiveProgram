@@ -25,7 +25,7 @@ function SponsorDashboard() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [sponsor, setsponsorname] = useState('amazon');
+  const [sponsor, setsponsorname] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
 
