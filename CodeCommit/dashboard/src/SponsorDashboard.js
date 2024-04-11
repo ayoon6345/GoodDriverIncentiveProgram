@@ -168,7 +168,7 @@ async function addToGroup(username) {
             <option value="driver">Sponsored Driver</option>
           </select>
           <label>Sponsor Name:</label>
-          <select value={currentUserData.sponsor} onChange={(e) => setsponsorname(e.target.value)}>
+          <select value={sponsor} onChange={(e) => setsponsorname(e.target.value)}>
             <option value={currentUserData.sponsor}>{currentUserData.sponsor}</option>
           </select>
           <button type="submit">Create Sponsor User</button>
