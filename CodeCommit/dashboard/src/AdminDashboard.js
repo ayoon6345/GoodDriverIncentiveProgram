@@ -87,7 +87,7 @@ function DriverDashboard() {
           email: email,
           name: name,
           phone_number: phoneNumber,
-          usertype: usertype,
+          userType: userType,
           sponsor: sponsor,
 
         }),
