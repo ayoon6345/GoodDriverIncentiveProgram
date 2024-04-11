@@ -33,19 +33,69 @@ function DriverDashboard() {
 
 
   async function createUser(event) {
-    event.preventDefault();
+  event.preventDefault();
 
+  try {
+    const apiName = 'AdminQueries';
+    const path = '/createUser';
+    const options = {
+      body: {
+        username: username,
+        password: password,
+        email: email,
+        name: name,
+        phone_number: phoneNumber,
+        userType: userType,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`,
+      },
+    };
+    await post({ apiName, path, options });
+
+    const response = await fetch('/api/createUserInMySQL', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_id: username,
+        email: email,
+        name: name,
+        phone_number: phoneNumber,
+        userType: userType,
+        sponsor: sponsor,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add user to MySQL database');
+    }
+
+    // Check userType and add to group if necessary
+    if (userType === 'sponsor' || userType === 'admin') {
+      await addToGroup(username); // Make sure this function handles setting success or error messages appropriately
+    } else {
+      setSuccessMessage('User created successfully');
+    }
+    setErrorMessage('');
+  } catch (error) {
+    console.error('Failed to add user:', error);
+    setErrorMessage('Failed to add user. Please try again.');
+    setSuccessMessage('');
+  }
+}
+
+
+async function addToGroup(username) {
     try {
       const apiName = 'AdminQueries';
-      const path = '/createUser';
+      const path = '/addUserToGroup';
       const options = {
         body: {
           username: username,
-          password: password,
-          email: email,
-          name: name,
-          phone_number: phoneNumber,
-          userType: userType,
+          groupname: 'Admins',
         },
         headers: {
           'Content-Type': 'application/json',
@@ -53,34 +103,14 @@ function DriverDashboard() {
         },
       };
       await post({ apiName, path, options });
-
-      const response = await fetch('/api/createUserInMySQL', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_id: username,
-          email: email,
-          name: name,
-          phone_number: phoneNumber,
-          userType: userType,
-          sponsor: sponsor,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add user to MySQL database');
-      }
-
-      setSuccessMessage('User created successfully');
+      setSuccessMessage(`User ${username} added to Admins.`);
       setErrorMessage('');
     } catch (error) {
-      console.error('Failed to add user:', error);
-      setErrorMessage('Failed to add user. Please try again.');
+      setErrorMessage('Failed to add user to Admins. Please try again.');
       setSuccessMessage('');
     }
   }
+
 
   return (
     <div>
