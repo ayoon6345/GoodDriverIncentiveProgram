@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
+import { getCurrentUser } from 'aws-amplify/auth';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { post, get } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
@@ -26,7 +27,7 @@ function SponsorDashboard() {
   const [errorMessage, setErrorMessage] = useState('');
   const [sponsor, setsponsorname] = useState('amazon');
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [aboutData, setAboutData] = useState([]);
 
   const changeView = (view) => {
     setActiveView(view);
