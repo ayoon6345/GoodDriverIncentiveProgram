@@ -27,7 +27,7 @@ function ChooseItemsForCatalog() {
   useEffect(() => {
     const catalogData = GetSponsorCatalog();
     const desiredProductIds = catalogData;
-  }, [])
+  
   
 
   const [products, setProducts] = useState([]);
