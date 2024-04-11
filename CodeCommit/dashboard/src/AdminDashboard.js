@@ -224,6 +224,8 @@ function DriverDashboard() {
             <option value="amazon">AMAZON</option>
             <option value="walmart">WALMART</option>
             <option value="costco">COSTCO</option>
+            <option value="none">No Sponsor</option>
+
           </select>
           <button type="submit">Create User</button>
         </form>
