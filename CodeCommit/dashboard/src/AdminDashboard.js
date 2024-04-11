@@ -21,6 +21,8 @@ function DriverDashboard() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
+  const [sponsor, setsponsorname] = useState('amazon');
+
 
 
 
@@ -85,7 +87,9 @@ function DriverDashboard() {
           email: email,
           name: name,
           phone_number: phoneNumber,
-          userType: userType,
+          usertype: usertype,
+          sponsor: sponsor,
+
         }),
       });
 
@@ -214,6 +218,12 @@ function DriverDashboard() {
             <option value="sponsor">Sponsor</option>
             <option value="driver">Driver</option>
             <option value="admin">Admin</option>
+          </select>
+          <label>Sponsor Name:</label>
+          <select value={sponsor} onChange={(e) => setsponsorname(e.target.value)}>
+            <option value="amazon">AMAZON</option>
+            <option value="walmart">WALMART</option>
+            <option value="costco">COSTCO</option>
           </select>
           <button type="submit">Create User</button>
         </form>
