@@ -20,7 +20,7 @@ function DriverDashboard() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [usertype, setusertype] = useState('driver');
+  const [userType, setusertype] = useState('driver');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -45,7 +45,7 @@ function DriverDashboard() {
           email: email,
           name: name,
           phone_number: phoneNumber,
-          usertype: usertype,
+          userType: userType,
         },
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ function DriverDashboard() {
           email: email,
           name: name,
           phone_number: phoneNumber,
-          usertype: usertype,
+          userType: userType,
           sponsor: sponsor,
         }),
       });
@@ -106,7 +106,7 @@ function DriverDashboard() {
           <label>Phone Number:</label>
           <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
           <label>User Type:</label>
-          <select value={usertype} onChange={(e) => setusertype(e.target.value)}>
+          <select value={userType} onChange={(e) => setusertype(e.target.value)}>
             <option value="sponsor">Sponsor User</option>
             <option value="driver">Sponsored Driver</option>
           </select>
@@ -115,6 +115,8 @@ function DriverDashboard() {
             <option value="amazon">AMAZON</option>
             <option value="walmart">WALMART</option>
             <option value="costco">COSTCO</option>
+            <option value="none">No Sponsor</option>
+
           </select>
           <button type="submit">Create Sponsor User</button>
         </form>
