@@ -66,7 +66,7 @@ function DriverDashboard() {
           email: email,
           name: name,
           phone_number: phoneNumber,
-          usertype: usertype,
+          userType: usertype,
         },
         headers: {
           'Content-Type': 'application/json',
@@ -210,7 +210,7 @@ function DriverDashboard() {
           <label>Phone Number:</label>
           <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
           <label>User Type:</label>
-          <select value={usertype} onChange={(e) => setusertype(e.target.value)}>
+          <select value={userype} onChange={(e) => setusertype(e.target.value)}>
             <option value="sponsor">Sponsor</option>
             <option value="driver">Driver</option>
             <option value="admin">Admin</option>
