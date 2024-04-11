@@ -52,6 +52,7 @@ const currentUserData = aboutData.find(user => user.user_id === currentUser);
       .then(data => setUserData(data))
       .catch(error => console.error('Error fetching data:', error));
   };
+  const driverUsers = userData.filter(user => user.usertype === 'driver');
 
 const filteredDrivers = driverUsers.filter(driver => driver.sponsor === currentUserData.sponsor);
 
