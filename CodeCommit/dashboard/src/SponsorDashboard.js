@@ -14,7 +14,7 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-function DriverDashboard() {
+function SponsorDashboard() {
   const [activeView, setActiveView] = useState('profile');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,11 +25,37 @@ function DriverDashboard() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [sponsor, setsponsorname] = useState('amazon');
+  const [currentUser, setCurrentUser] = useState(null);
+
 
   const changeView = (view) => {
     setActiveView(view);
   };
 
+useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.username);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        setAboutData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  // Filter out the current user from the user list
+  const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
 
   async function createUser(event) {
@@ -141,12 +167,7 @@ async function addToGroup(username) {
             <option value="driver">Sponsored Driver</option>
           </select>
           <label>Sponsor Name:</label>
-          <select value={sponsor} onChange={(e) => setsponsorname(e.target.value)}>
-            <option value="amazon">AMAZON</option>
-            <option value="walmart">WALMART</option>
-            <option value="costco">COSTCO</option>
-            <option value="none">No Sponsor</option>
-
+          <select value={currentUserData.sponsor} onChange={(e) => setsponsorname(e.target.value)}>
           </select>
           <button type="submit">Create Sponsor User</button>
         </form>
@@ -165,4 +186,4 @@ async function addToGroup(username) {
   );
 }
 
-export default withAuthenticator(DriverDashboard);
+export default withAuthenticator(SponsorDashboard);
