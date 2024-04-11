@@ -168,20 +168,14 @@ async function addToGroup(username) {
             <option value="driver">Sponsored Driver</option>
           </select>
           <label>Sponsor Name:</label>
-          {/* Ensuring that currentUserData and its sponsor property are defined */}
           <select value={currentUserData.sponsor} onChange={(e) => setsponsorname(e.target.value)}>
-            {/* Assuming you have a list of sponsors in your state to map from, 
-                this is where you would dynamically create options based on available sponsors */}
             <option value={currentUserData.sponsor}>{currentUserData.sponsor}</option>
-            {/* You can add more options here as needed, dynamically generated based on your state */}
           </select>
-
           <button type="submit">Create Sponsor User</button>
         </form>
       ) : (
         <p>Loading sponsor information...</p>
       )}
-
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
