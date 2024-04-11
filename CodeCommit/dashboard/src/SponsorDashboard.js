@@ -92,7 +92,7 @@ useEffect(() => {
         name: name,
         phone_number: phoneNumber,
         userType: userType,
-        sponsor: sponsor,
+        sponsor: currentUserData.sponsor,
       }),
     });
 
