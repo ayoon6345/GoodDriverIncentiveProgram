@@ -26,8 +26,8 @@ function GetSponsorCatalog() {
 function ChooseItemsForCatalog() {
   useEffect(() => {
     const catalogData = GetSponsorCatalog();
-    //const desiredProductIds = catalogData;
-  })
+    const desiredProductIds = catalogData;
+  }, [])
   
 
   const [products, setProducts] = useState([]);
@@ -87,7 +87,7 @@ function ChooseItemsForCatalog() {
       .catch((error) => {
         console.error('Error fetching products:', error);
       });
-  
+  }, []);
 
   return (
     <div>
