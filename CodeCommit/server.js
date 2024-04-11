@@ -95,7 +95,7 @@ app.post('/api/addApplication', (req, res) => {
   });
 });
 
-app.get('/api/getCatalog:sponsorId', (req, res) => {
+app.get('/api/getCatalog/:sponsorId', (req, res) => {
 
   const sponsorId = req.params.sponsorId;
 
