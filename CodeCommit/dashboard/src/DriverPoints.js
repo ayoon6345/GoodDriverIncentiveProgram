@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import '@aws-amplify/ui-react/styles.css';
-import config from './amplifyconfiguration.json';
 import { Amplify } from 'aws-amplify';
 import './App.css';
 import PointConsultation from './PointConsultation';
+import config from './amplifyconfiguration.json';
+
 Amplify.configure(config);
 
 function PointsOverview() {
   const [userData, setUserData] = useState([]);
+  const [currentUserSponsor, setCurrentUserSponsor] = useState(null); // State to store the current user's sponsor
   const [updateStatus, setUpdateStatus] = useState({ success: false, message: '' });
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [currentDriverId, setCurrentDriverId] = useState(null);
-
-  const handleOpenConsultModal = (driverId) => {
-    setCurrentDriverId(driverId);
-    setIsConsultModalOpen(true);
-  };
 
   useEffect(() => {
     fetchUserData();
@@ -29,11 +26,19 @@ function PointsOverview() {
   const fetchUserData = () => {
     fetch('/api/getUsers')
       .then(response => response.json())
-      .then(data => setUserData(data))
+      .then(data => {
+        setUserData(data);
+        // Example: Find the current user based on some condition. Adjust according to your actual data structure.
+        const currentUser = data.find(user => user.isCurrentUser);
+        if (currentUser) {
+          setCurrentUserSponsor(currentUser.sponsor); // Assuming 'sponsor' is the property name
+        }
+      })
       .catch(error => console.error('Error fetching data:', error));
   };
 
-  const driverUsers = userData.filter(user => user.usertype === 'driver');
+  // Filter to show only drivers with the same sponsor as the current user
+  const driverUsers = userData.filter(user => user.usertype === 'driver' && user.sponsor === currentUserSponsor);
 
   const handleAdjustPoints = (userId, newPoints) => {
     // Ensure newPoints is within the allowed range before sending it to the server
@@ -47,36 +52,26 @@ function PointsOverview() {
       body: JSON.stringify({ userId, newPoints: adjustedPoints }),
     })
     .then(response => {
-      const contentType = response.headers.get("content-type");
       if (!response.ok) {
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-          return response.json().then(data => Promise.reject(data));
-        } else {
-          return response.text().then(text => Promise.reject(text));
-        }
+        throw new Error('Failed to update points');
       }
-      return contentType && contentType.indexOf("application/json") !== -1
-        ? response.json()
-        : response.text();
+      return response.json();
     })
-    .then(data => {
-      console.log('Update response:', data);
-      const successStatus = { success: true, message: 'Points updated successfully.' };
-      setUpdateStatus(successStatus);
-      localStorage.setItem('updateStatus', JSON.stringify(successStatus));
-      fetchUserData();
+    .then(() => {
+      setUpdateStatus({ success: true, message: 'Points updated successfully.' });
+      localStorage.setItem('updateStatus', JSON.stringify({ success: true, message: 'Points updated successfully.' }));
+      fetchUserData(); // Refetch to update the list
     })
     .catch(error => {
       console.error('Error updating points:', error);
-      const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error updating points.' };
-      setUpdateStatus(errorMessage);
-      localStorage.setItem('updateStatus', JSON.stringify(errorMessage));
+      setUpdateStatus({ success: false, message: 'Error updating points.' });
+      localStorage.setItem('updateStatus', JSON.stringify({ success: false, message: 'Error updating points.' }));
     });
   };
 
   return (
     <div className="container">
-      <h1>Driver List</h1>
+      <h1>currentUser.sponsor Driver List</h1>
       {updateStatus.message && (
         <p className={updateStatus.success ? 'success-message' : 'error-message'}>{updateStatus.message}</p>
       )}
@@ -92,7 +87,6 @@ function PointsOverview() {
             }}>
               <input type="number" name="points" defaultValue={driver.points} />
               <button type="submit">Adjust Points</button>
-              {/* Corrected onClick handler syntax */}
               <button type="button" onClick={() => handleOpenConsultModal(driver.user_id)}>Consult Points</button>
             </form>
           </li>
