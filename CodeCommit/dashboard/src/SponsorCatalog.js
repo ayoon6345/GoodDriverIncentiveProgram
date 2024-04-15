@@ -25,6 +25,8 @@ function GetSponsorCatalog() {
 
 function ChooseItemsForCatalog() {
 
+  const desiredProductIds = [1,2,3];
+  
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
 
