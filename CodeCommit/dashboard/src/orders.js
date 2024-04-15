@@ -77,12 +77,7 @@ function Orders() {
     <div>
         <Navbar /> 
         <div className="container">
-        {productsList.map((product) => (
-      <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
-        <h3>{product.title}</h3>
-        <button >Add to Cart</button>
-      </div>
-    ))}
+        <h3>{productsList[0].title}</h3>
         </div>
     </div>
   );
