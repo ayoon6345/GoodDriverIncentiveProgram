@@ -36,7 +36,6 @@ function SponsorDashboard() {
           <button onClick={() => changeView('report')}>Generate A Report</button>
           <button onClick={() => changeView('applications')}>Applications</button>
           <button onClick={() => changeView('SponsorCreateUser')}>Create A User</button>
-         // <button onClick={() => changeView('SponsorPointRatio')}>Update Point Ratio</button>
         </nav>
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <Points />}
@@ -44,7 +43,6 @@ function SponsorDashboard() {
         {activeView === 'report' && <Report />}
         {activeView === 'applications' && <SponsorApplications />}
         {activeView === 'SponsorCreateUser' && <SponsorCreateUser />}
-       // {activeView === 'SponsorPointRatio' && <SponsorPointRatio />}
       </div>
     </div>
   );
