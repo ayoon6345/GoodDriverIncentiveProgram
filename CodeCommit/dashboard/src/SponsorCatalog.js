@@ -31,24 +31,25 @@ function GetSponsorCatalog() {
 
 
 function ChooseItemsForCatalog() {
-  
+
   const getSponsorCatalog = () => {
-    const [catalogData, setCatalogData] = useState([]);
+    //const [catalogData, setCatalogData] = useState([]);
 
     useEffect(() => {
       fetch('/api/getCatalog/14321')
         .then(response => response.json())
         .then(data => {
-          setCatalogData(data);
-          console.log("Catalog data");
-          console.log(catalogData);
+          //setCatalogData(data);
+          //console.log("Catalog data");
+          //console.log(catalogData);
+          return data; 
         })
         .catch(error => console.error('Error fetching data:', error));
     }, []);
     
-    const idsArray = catalogData.map(product => product.id);
+    //const idsArray = catalogData.map(product => product.id);
 
-    return idsArray;
+    //return idsArray;
   }
   
   const [products, setProducts] = useState([]);
@@ -139,7 +140,7 @@ function ChooseItemsForCatalog() {
 function UniqueCatalog() {
   const [products, setProducts] = useState([]);
 
-  const desiredProductIds = GetSponsorCatalog();
+  const desiredProductIds =  [1,2,3,4,5]; //GetSponsorCatalog();
   console.log(desiredProductIds);
 
   useEffect(() => {
