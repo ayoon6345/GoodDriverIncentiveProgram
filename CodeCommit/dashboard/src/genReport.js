@@ -97,7 +97,6 @@ function Report() {
         </div>
 
         <h1>Application List</h1>
-        <button onClick={handleDownloadCSV}>Save as .csv</button>
         <table>
           <thead>
             <tr>
@@ -113,6 +112,7 @@ function Report() {
           </tbody>
         </table>
       </div>
+    <button onClick={handleDownloadCSV}>Save as .csv</button>
     </div>
   );
 }
