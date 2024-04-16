@@ -8,6 +8,8 @@ import '@aws-amplify/ui-react/styles.css';
 import Navbar from './navbar';
 import './App.css';
 import Report from './genReport';
+import AdminCreate from './adminCreateUser';
+
 
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
@@ -60,88 +62,6 @@ const changeView = (view) => {
   }, []);
 
 
-
-
- async function createUser(event) {
-  event.preventDefault();
-
-  try {
-    const apiName = 'AdminQueries';
-    const path = '/createUser';
-    const options = {
-      body: {
-        username: username,
-        password: password,
-        email: email,
-        name: name,
-        phone_number: phoneNumber,
-        userType: userType,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${(await fetchAuthSession()).tokens.accessToken}`,
-      },
-    };
-    await post({ apiName, path, options });
-
-    const response = await fetch('/api/createUserInMySQL', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user_id: username,
-        email: email,
-        name: name,
-        phone_number: phoneNumber,
-        userType: userType,
-        sponsor: sponsor,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to add user to MySQL database');
-    }
-
-    // Check userType and add to group if necessary
-    if (userType === 'sponsor' || userType === 'admin') {
-      await addToGroup(username); // Make sure this function handles setting success or error messages appropriately
-    } else {
-      setSuccessMessage('User created successfully');
-    }
-    setErrorMessage('');
-  } catch (error) {
-    console.error('Failed to add user:', error);
-    setErrorMessage('Failed to add user. Please try again.');
-    setSuccessMessage('');
-  }
-}
-
-
-
-
-  async function addToGroup(username) {
-    try {
-      const apiName = 'AdminQueries';
-      const path = '/addUserToGroup';
-      const options = {
-        body: {
-          username: username,
-          groupname: 'Admins',
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`,
-        },
-      };
-      await post({ apiName, path, options });
-      setSuccessMessage(`User ${username} added to Admins.`);
-      setErrorMessage('');
-    } catch (error) {
-      setErrorMessage('Failed to add user to Admins. Please try again.');
-      setSuccessMessage('');
-    }
-  }
 
   async function removeFromGroup(username) {
     try {
@@ -216,6 +136,8 @@ const changeView = (view) => {
       <div className="container">
         <h1>Admin Dashboard</h1>
           <button onClick={() => changeView('report')}>Audit Log</button>
+           <button onClick={() => changeView('admincreate')}>Create A User</button>
+
 
         <form onSubmit={createUser} className="user-form">
           <label>Username:</label>
@@ -264,7 +186,6 @@ const changeView = (view) => {
                 <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div>
                 <div>User Create Date: {user.UserCreateDate}</div>
                 <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-                <button onClick={() => addToGroup(user.Username)}>Add to Admins</button>
                 <button onClick={() => removeFromGroup(user.Username)}>Remove from Admins</button>
                 <button onClick={() => disableUser(user.Username)}>Disable User</button>
                 <button onClick={() => enableUser(user.Username)}>Enable User</button>
@@ -273,6 +194,8 @@ const changeView = (view) => {
           </ul>
         </div>
            {activeView === 'report' && <Report />}
+           {activeView === 'admincreate' && <AdminCreate />}
+
       </div>
     </div>
   );
