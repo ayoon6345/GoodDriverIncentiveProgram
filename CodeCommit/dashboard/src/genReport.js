@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import {  get } from 'aws-amplify/api';
@@ -12,6 +12,8 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
 function report() {
+
+  const [users, setUsers] = useState([]);
 
 
   async function listAll(limit = 25) {
