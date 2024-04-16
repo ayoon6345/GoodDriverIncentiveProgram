@@ -87,7 +87,8 @@ function ChooseItemsForCatalog() {
   fetch('https://fakestoreapi.com/products')
     .then((response) => response.json())
     .then((data) => {
-      const filteredData = data.filter(product => !idsArray.includes(product.id));
+      const productsArray = data.map(product => product.id);
+      const filteredData = productsArray.filter(product => !idsArray.includes(product));
       console.log("Filtered data");
       console.log(filteredData);
       const transformedData = filteredData.map((product) => ({
