@@ -20,26 +20,21 @@ function Orders() {
       productsList.push(jsonData);
   }
 
-
+  useEffect(() => {
     async function fetchCurrentUser() {
       try {
         const user = await getCurrentUser();
         setCurrentUser(user.username);
-        userOrder = userOrders.filter(function (el) {
-          if ( el.user ===  currentUser) {
-            return el;
-          } 
-        })
-        console.log(userOrder);
       } catch (err) {
         console.log(err);
       }
     }
 
-    
-
+    fetchCurrentUser();
+  }, []);
   
   useEffect(() => {
+    if (currentUser !== null) {
     fetch('/api/getOrders')
       .then(response => response.json())
       .then(data => {
@@ -51,12 +46,17 @@ function Orders() {
         }));
 
         console.log(userOrders);
-        fetchCurrentUser();
-        
+        userOrder = userOrders.filter(function (el) {
+          if ( el.user ===  currentUser) {
+            return el;
+          } 
+        })
+        console.log(userOrder);
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
-  
+    }
+  }, [currentUser]);
+
     // Filter out the current user from the user list
 
   //userOrder.forEach(function (arrayItem) {
