@@ -215,7 +215,7 @@ const changeView = (view) => {
       <Navbar />
       <div className="container">
         <h1>Admin Dashboard</h1>
-          <button onClick={() => changeView('applications')}>Applications</button>
+          <button onClick={() => changeView('report')}>Generate A Report</button>
 
         <form onSubmit={createUser} className="user-form">
           <label>Username:</label>
