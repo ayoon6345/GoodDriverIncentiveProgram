@@ -130,35 +130,85 @@ function ChooseItemsForCatalog() {
 
 function UniqueCatalog() {
   const [products, setProducts] = useState([]);
-
-  const desiredProductIds = GetSponsorCatalog();
-  console.log(desiredProductIds);
+  const [userData, setUserData] = useState([]);
+  const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-      .then((response) => response.json())
-      .then((data) => {
-        const filteredData = data.filter(product => desiredProductIds.includes(product.id));
-        console.log("Filtered data !");
-        console.log(filteredData);
-        const transformedData = filteredData.map((product) => ({
-          id: product.id,
-          name: product.title,
-          price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
-          availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
-          description: product.description,
-          image: product.image,
-        }));
-        setProducts(transformedData);
+    fetch('/api/getCatalog/14321')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Data");
+        console.log(data);
+        setCatalogData(data.map(product => product.id));
       })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
+      .catch(error => console.error('Error fetching data:', error));
   }, []);
+
+  const addToCatalog = (productId,sponsorId) => {
+    console.log("adding" + productId);
+    
+    fetch('/api/addToCatalog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sponsorId, productId }),
+    })
+    .then(response => {
+      const contentType = response.headers.get("content-type");
+      if (!response.ok) {
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          return response.json().then(data => Promise.reject(data));
+        } else {
+          return response.text().then(text => Promise.reject(text));
+        }
+      }
+      return contentType && contentType.indexOf("application/json") !== -1
+        ? response.json()
+        : response.text();
+    })
+    .then(data => {
+      console.log('Response:', data);
+      const successStatus = { success: true, message: 'Catalog updated successfully.' };
+    })
+    .catch(error => {
+      console.error('Error adding to catalog:', error);
+      // Determine if error is an object (from JSON) or text, and set message accordingly
+      const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
+    });
+  }
+    
+  useEffect(() => {
+    if (catalogData.length > 0) {  // Check to prevent running before data is fetched
+      fetch('https://fakestoreapi.com/products')
+        .then(response => response.json())
+        .then(data => {
+          console.log("This is the catalog data");
+          console.log(catalogData);
+          const filteredData = data.filter(product => catalogData.includes(product.id));
+          console.log("Filtered data");
+          console.log(filteredData);
+          const transformedData = filteredData.map((product) => ({
+            id: product.id,
+            name: product.title,
+            price: Math.round(product.price * 100), // Convert price to points
+            availability: 'In stock',
+            description: product.description,
+            image: product.image,
+          }));
+          setProducts(transformedData);
+        })
+        .catch(error => {
+          console.error('Error fetching products:', error);
+        });
+    }
+  }, [catalogData]); // Include catalogData in the dependency array
+
+
 
   return (
     <div>
-      <h1>Your Catalog</h1>
+      <h1>Choose Items for Catalog</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
         {products.map((product) => (
           <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
@@ -167,7 +217,7 @@ function UniqueCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button>Remove from Catalog</button>
+            <button onClick={() => addToCatalog(product.id,'14321')}>Add to Catalog</button>
           </div>
         ))}
       </div>
