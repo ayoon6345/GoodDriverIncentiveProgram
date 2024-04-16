@@ -40,14 +40,10 @@ function ChooseItemsForCatalog() {
       .then(data => {
         console.log("Data");
         console.log(data);
-        setCatalogData(data);
+        setCatalogData(data.map(product => product.id));
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-
-  const idsArray = catalogData.map(product => product.id);
-  console.log("IDsArray");
-  console.log(idsArray);
 
   const addToCatalog = (productId,sponsorId) => {
     console.log("adding" + productId);
@@ -88,8 +84,8 @@ function ChooseItemsForCatalog() {
     .then((response) => response.json())
     .then((data) => {
       console.log("This is the catalog data");
-      console.log(idsArray);
-      const filteredData = data.filter(product => !idsArray.includes(product.id));
+      console.log(catalogData);
+      const filteredData = data.filter(product => !catalogData.includes(product.id));
       console.log("Filtered data");
       console.log(filteredData);
       const transformedData = filteredData.map((product) => ({
