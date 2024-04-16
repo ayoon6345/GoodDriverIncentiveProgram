@@ -80,28 +80,31 @@ function ChooseItemsForCatalog() {
   }
     
   useEffect(() => {
-  fetch('https://fakestoreapi.com/products')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("This is the catalog data");
-      console.log(catalogData);
-      const filteredData = data.filter(product => !catalogData.includes(product.id));
-      console.log("Filtered data");
-      console.log(filteredData);
-      const transformedData = filteredData.map((product) => ({
-        id: product.id,
-        name: product.title,
-        price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
-        availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
-        description: product.description,
-        image: product.image,
-      }));
-      setProducts(transformedData);
-    })
-    .catch((error) => {
-      console.error('Error fetching products:', error);
-    });
-  }, []);
+    if (catalogData.length > 0) {  // Check to prevent running before data is fetched
+      fetch('https://fakestoreapi.com/products')
+        .then(response => response.json())
+        .then(data => {
+          console.log("This is the catalog data");
+          console.log(catalogData);
+          const filteredData = data.filter(product => !catalogData.includes(product.id));
+          console.log("Filtered data");
+          console.log(filteredData);
+          const transformedData = filteredData.map((product) => ({
+            id: product.id,
+            name: product.title,
+            price: Math.round(product.price * 100), // Convert price to points
+            availability: 'In stock',
+            description: product.description,
+            image: product.image,
+          }));
+          setProducts(transformedData);
+        })
+        .catch(error => {
+          console.error('Error fetching products:', error);
+        });
+    }
+  }, [catalogData]); // Include catalogData in the dependency array
+
 
 
   return (
