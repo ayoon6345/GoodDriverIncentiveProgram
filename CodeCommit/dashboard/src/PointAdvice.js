@@ -4,6 +4,7 @@ const openai = new OpenAI({
 });
 
 async function getPointAdvice(driverActionDescription, sponsorPointRatio) {
+  console.log("about to call api");
   const model = 'gpt-4-turbo-preview'; 
   const OPENAI_POINT_CONSULTANT_ID = process.env.OPENAI_POINT_CONSULTANT_ID; // Ensure this is set in .env
     if(sponsorPointRatio == NULL) {
@@ -14,7 +15,7 @@ async function getPointAdvice(driverActionDescription, sponsorPointRatio) {
     // Create a Thread
     const myThread = await openai.beta.threads.create();
     console.log("This is the thread object: ", myThread, "\n");
-
+    
     // Add a Message to the Thread
     const myThreadMessage = await openai.beta.threads.messages.create(myThread.id, {
       role: 'user',
