@@ -7,11 +7,13 @@ import '@aws-amplify/ui-react/styles.css';
 
 import Navbar from './navbar';
 import './App.css';
+import Report from './genReport';
 
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
 function DriverDashboard() {
+  const [activeView, setActiveView] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -24,7 +26,9 @@ function DriverDashboard() {
   const [sponsor, setsponsorname] = useState('amazon');
 
 
-
+const changeView = (view) => {
+    setActiveView(view);
+  };
 
   async function listAll(limit = 25) {
     try {
@@ -211,6 +215,7 @@ function DriverDashboard() {
       <Navbar />
       <div className="container">
         <h1>Admin Dashboard</h1>
+          <button onClick={() => changeView('applications')}>Applications</button>
 
         <form onSubmit={createUser} className="user-form">
           <label>Username:</label>
@@ -267,6 +272,7 @@ function DriverDashboard() {
             ))}
           </ul>
         </div>
+           {activeView === 'report' && <Report />}
       </div>
     </div>
   );
