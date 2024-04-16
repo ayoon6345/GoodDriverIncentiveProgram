@@ -44,6 +44,7 @@ function Orders() {
           id: product.id,
           user: product.user_id,
           product: product.product_id,
+          status: product.status
         }));
 
         console.log(userOrders);
