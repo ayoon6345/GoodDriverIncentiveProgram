@@ -116,6 +116,7 @@ function UniqueCatalog() {
   const [products, setProducts] = useState([]);
 
   const desiredProductIds = GetSponsorCatalog();
+  console.log(desiredProductIds);
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
