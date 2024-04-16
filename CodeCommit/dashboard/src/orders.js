@@ -17,7 +17,7 @@ function Orders() {
     async function getProduct(prodId){
       const response = await fetch('https://fakestoreapi.com/products/'+prodId)
       const jsonData = await response.json();
-      setProducts(products + jsonData);
+      setProducts(products + [jsonData]);
   }
 
   useEffect(() => {
