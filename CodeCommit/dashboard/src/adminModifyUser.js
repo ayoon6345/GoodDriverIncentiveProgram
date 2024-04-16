@@ -137,7 +137,6 @@ function ModifyUser() {
   return (
     <div>
       <div className="container">
-          <label>Username:</label>
           {successMessage && <div className="success-message">{successMessage}</div>}
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <h2>Users:</h2>
