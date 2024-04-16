@@ -17,56 +17,56 @@ function Orders() {
     async function getProduct(prodId){
       const response = await fetch('https://fakestoreapi.com/products/'+prodId)
       const jsonData = await response.json();
-      setProducts([products,jsonData]);
+      setProducts(products + jsonData);
   }
 
-    useEffect(() => {
-      async function fetchCurrentUser() {
-        try {
-          const user = await getCurrentUser();
-          setCurrentUser(user.username);
-        } catch (err) {
-          console.log(err);
-        }
+  useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.username);
+      } catch (err) {
+        console.log(err);
       }
+    }
+
+    fetchCurrentUser();
+  }, []);
   
-      fetchCurrentUser();
-    }, []);
-  
-    useEffect(() => {
-      fetch('/api/getOrders')
-        .then(response => response.json())
-        .then(data => {
-          // Transform the data to match your application's data structure
-          userOrders = data.map((product) => ({
-            id: product.id,
-            user: product.user_id,
-            product: product.product_id,
-          }));
-          console.log(userOrders);
+  useEffect(() => {
+    fetch('/api/getOrders')
+      .then(response => response.json())
+      .then(data => {
+        // Transform the data to match your application's data structure
+        userOrders = data.map((product) => ({
+          id: product.id,
+          user: product.user_id,
+          product: product.product_id,
+        }));
+
+        console.log(userOrders);
+        userOrder = userOrders.filter(function (el) {
+          if ( el.user ===  currentUser) {
+            return el;
+          } 
         })
-        .catch(error => console.error('Error fetching data:', error));
-    }, []);
+        console.log(userOrder);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
   
     // Filter out the current user from the user list
-    if(userOrders.length > 0){
-    userOrder = userOrders.filter(function (el) {
-      if ( el.user ===  currentUser) {
-       return el;
-      } 
-    })
-
-    console.log(userOrder);
-
-    //userOrder.forEach(function (arrayItem) {
-      getProduct(1);
-      
+  //if(userOrders.length > 0){
+  //userOrder.forEach(function (arrayItem) {
+    useEffect(() => {
+  getProduct(1);   
+}, []); 
   //});
 
 
   console.log(products);
 
-  }
+  //}
   return (
     <div>
         <Navbar /> 
@@ -83,4 +83,3 @@ function Orders() {
 }
 
 export default Orders;
-
