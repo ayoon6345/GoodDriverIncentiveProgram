@@ -77,7 +77,7 @@ function Orders() {
     <div>
         <Navbar /> 
         <div className="container">
-        <h3>{productsList[0].title}</h3>
+        <h3></h3>
         </div>
     </div>
   );
