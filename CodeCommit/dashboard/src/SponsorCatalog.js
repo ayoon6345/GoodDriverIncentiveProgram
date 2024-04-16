@@ -88,7 +88,7 @@ function ChooseItemsForCatalog() {
     .then((response) => response.json())
     .then((data) => {
       console.log("This is the catalog data");
-      console.log(catalogData);
+      console.log(idsArray);
       const filteredData = data.filter(product => !idsArray.includes(product.id));
       console.log("Filtered data");
       console.log(filteredData);
