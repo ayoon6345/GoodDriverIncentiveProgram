@@ -83,7 +83,6 @@ function Orders() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: In stock</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={() => onAddToCart(product)}>Add to Cart</button>
           </div>
         ))}
         </div>
