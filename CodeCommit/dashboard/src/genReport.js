@@ -82,10 +82,6 @@ async function listAll(limit = 25) {
                 <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div>
                 <div>User Create Date: {user.UserCreateDate}</div>
                 <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-                <button onClick={() => addToGroup(user.Username)}>Add to Admins</button>
-                <button onClick={() => removeFromGroup(user.Username)}>Remove from Admins</button>
-                <button onClick={() => disableUser(user.Username)}>Disable User</button>
-                <button onClick={() => enableUser(user.Username)}>Enable User</button>
               </li>
             ))}
           </ul>
