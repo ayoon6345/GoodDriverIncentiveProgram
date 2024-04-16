@@ -103,7 +103,7 @@ function ChooseItemsForCatalog() {
     .catch((error) => {
       console.error('Error fetching products:', error);
     });
-  }, [idsArray]);
+  }, []);
 
 
   return (
