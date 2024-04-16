@@ -41,13 +41,13 @@ function ChooseItemsForCatalog() {
         console.log("Data");
         console.log(data);
         setCatalogData(data);
-        console.log("Catalog data");
-        console.log(catalogData);
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
   const idsArray = catalogData.map(product => product.id);
+  console.log("IDsArray");
+  console.log(idsArray);
 
   const addToCatalog = (productId,sponsorId) => {
     console.log("adding" + productId);
