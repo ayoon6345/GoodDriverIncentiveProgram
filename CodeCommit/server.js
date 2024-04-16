@@ -161,12 +161,20 @@ app.get('/api/about', (req, res) => {
   });
 });
 
-// Calling Assistant API function
+//Assistant API call
 app.post('/api/consultPoint', async (req, res) => {
-  const { driverActionDescription, sponsorPointRatio } = req.body;
-  const advice = await getPointAdvice(driverActionDescription, sponsorPointRatio);
-  res.json({ advice });
+  req.setTimeout(50000); // Extending timeout for incoming
+
+  try {
+    const { driverActionDescription, sponsorPointRatio } = req.body;
+    const advice = await getPointAdvice(driverActionDescription, sponsorPointRatio);
+    res.json({ advice });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
+
 
 
 // For all other routes, serve the index.html file
