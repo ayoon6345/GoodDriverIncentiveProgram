@@ -6,38 +6,36 @@ import './App.css';
 Amplify.configure(config);
 
 function Report() {
-  const [userData, setUserData] = useState(null);
-  
-useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch('/api/getUsers');
-      const data = await response.json();
-      console.log('Fetched data:', data); // Log fetched data
-      setUserData(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  const [userData, setUserData] = useState([]);
 
-  fetchUserData();
-}, []);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('/api/getUsers');
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
+    fetchUserData();
+  }, []);
 
   return (
     <div>
       <div className="container">
         <h1>Users</h1>
-        {userData && (
-          <div>
-            <p>Name: {userData.name}</p>
-            <p>UserName: {userData.user_id}</p>
-            <p>Email: {userData.email}</p>
-            <p>Phone Number: {userData.phone_number}</p>
-            <p>User Type: {userData.usertype}</p>
-            <p>Your Sponsor is : {userData.sponsor}</p>
+        {userData.map((user, index) => (
+          <div key={index}>
+            <p>Name: {user.name}</p>
+            <p>UserName: {user.user_id}</p>
+            <p>Email: {user.email}</p>
+            <p>Phone Number: {user.phone_number}</p>
+            <p>User Type: {user.usertype}</p>
+            <p>Your Sponsor is : {user.sponsor}</p>
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
