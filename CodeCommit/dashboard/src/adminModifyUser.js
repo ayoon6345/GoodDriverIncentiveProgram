@@ -43,6 +43,28 @@ function ModifyUser() {
       .catch((error) => console.error('Error:', error));
   }, []);
 
+  async function addToGroup(username) {
+    try {
+      const apiName = 'AdminQueries';
+      const path = '/addUserToGroup';
+      const options = {
+        body: {
+          username: username,
+          groupname: 'Admins',
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${(await fetchAuthSession()).tokens.accessToken}`,
+        },
+      };
+      await post({ apiName, path, options });
+      setSuccessMessage(`User ${username} added to Admins.`);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Failed to add user to Admins. Please try again.');
+      setSuccessMessage('');
+    }
+  }
 
 
   async function removeFromGroup(username) {
@@ -116,6 +138,8 @@ function ModifyUser() {
     <div>
       <div className="container">
           <label>Username:</label>
+          {successMessage && <div className="success-message">{successMessage}</div>}
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <h2>Users:</h2>
           <ul>
             {users.map((user, index) => (
@@ -132,6 +156,7 @@ function ModifyUser() {
                 <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div>
                 <div>User Create Date: {user.UserCreateDate}</div>
                 <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+                <button onClick={() => addToGroup(user.Username)}>Add to Admins</button>
                 <button onClick={() => removeFromGroup(user.Username)}>Remove from Admins</button>
                 <button onClick={() => disableUser(user.Username)}>Disable User</button>
                 <button onClick={() => enableUser(user.Username)}>Enable User</button>
