@@ -47,21 +47,18 @@ function Report() {
       .then(response => response.json())
       .then(data => {
         setApplicationData(data);
-
         setHeaders(Object.keys(data[0]));
         setRows(data.map(item => Object.values(item)));
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  // Function to convert data to CSV format
   function convertToCSV(data) {
     const csvContent = "data:text/csv;charset=utf-8," +
       data.map(row => row.join(",")).join("\n");
     return encodeURI(csvContent);
   }
 
-  // Event handler for the "Save as .csv" button
   function handleDownloadCSV() {
     const csvData = convertToCSV([headers, ...rows]);
     const link = document.createElement('a');
@@ -72,30 +69,30 @@ function Report() {
   }
 
   return (
-    <div>
-      <div className="container">
-        <div>
-          <h2>Users:</h2>
-          <ul>
-            {users.map((user, index) => (
-              <li key={index}>
-                <div>Username: {user.Username}</div>
-                <div>Name: {user.Attributes.find((attr) => attr.Name === 'name')?.Value}</div>
-                {user.Attributes.map((attribute, attrIndex) => (
-                  <div key={attrIndex}>
-                    {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
-                    {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
-                  </div>
-                ))}
-                <div>User Status: {user.UserStatus}</div>
-                <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div>
-                <div>User Create Date: {user.UserCreateDate}</div>
-                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="report-container">
+      <div className="users-section">
+        <h2>Users:</h2>
+        <ul>
+          {users.map((user, index) => (
+            <li key={index}>
+              <div><strong>Username:</strong> {user.Username}</div>
+              <div><strong>Name:</strong> {user.Attributes.find(attr => attr.Name === 'name')?.Value}</div>
+              {user.Attributes.map((attribute, attrIndex) => (
+                <div key={attrIndex}>
+                  {attribute.Name === 'phone_number' && <div><strong>Phone Number:</strong> {attribute.Value}</div>}
+                  {attribute.Name === 'email' && <div><strong>Email:</strong> {attribute.Value}</div>}
+                </div>
+              ))}
+              <div><strong>User Status:</strong> {user.UserStatus}</div>
+              <div><strong>Enabled:</strong> {user.Enabled ? 'Yes' : 'No'}</div>
+              <div><strong>User Create Date:</strong> {user.UserCreateDate}</div>
+              <div><strong>User Last Modified Date:</strong> {user.UserLastModifiedDate}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
 
+      <div className="applications-section">
         <h1>Application List</h1>
         <table>
           <thead>
@@ -112,7 +109,7 @@ function Report() {
           </tbody>
         </table>
       </div>
-    <button onClick={handleDownloadCSV}>Save as .csv</button>
+      <button onClick={handleDownloadCSV}>Save as .csv</button>
     </div>
   );
 }
