@@ -8,7 +8,6 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-/*
 function GetSponsorCatalog() {
   const [catalogData, setCatalogData] = useState([]);
 
@@ -27,37 +26,16 @@ function GetSponsorCatalog() {
 
   return idsArray;
 }
-*/
 
 
 function ChooseItemsForCatalog() {
 
-  const getSponsorCatalog = () => {
-    //const [catalogData, setCatalogData] = useState([]);
-
-    //useEffect(() => {
-      fetch('/api/getCatalog/14321')
-        .then(response => response.json())
-        .then(data => {
-          //setCatalogData(data);
-          //console.log("Catalog data");
-          //console.log(catalogData);
-          return data; 
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    //}, []);
-    
-    //const idsArray = catalogData.map(product => product.id);
-
-    //return idsArray;
-  }
+  const desiredProductIds = GetSponsorCatalog();
+  console.log("Desired products");
+  console.log(desiredProductIds);
   
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
-
-  const desiredProductIds = getSponsorCatalog();
-  console.log("Desired products");
-  console.log(desiredProductIds);
 
   const addToCatalog = (productId,sponsorId) => {
     console.log("adding" + productId);
@@ -140,7 +118,7 @@ function ChooseItemsForCatalog() {
 function UniqueCatalog() {
   const [products, setProducts] = useState([]);
 
-  const desiredProductIds =  [1,2,3,4,5]; //GetSponsorCatalog();
+  const desiredProductIds = GetSponsorCatalog();
   console.log(desiredProductIds);
 
   useEffect(() => {
