@@ -45,28 +45,31 @@ function Orders() {
         }));
 
         console.log(userOrders);
-        userOrder = userOrders.filter(function (el) {
-          if ( el.user ===  currentUser) {
-            return el;
-          } 
-        })
-        console.log(userOrder);
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
   
     // Filter out the current user from the user list
-  //if(userOrders.length > 0){
+
   //userOrder.forEach(function (arrayItem) {
+    if(userOrders.length > 0){
     useEffect(() => {
+      
+      userOrder = userOrders.filter(function (el) {
+        if ( el.user ===  currentUser) {
+          return el;
+        } 
+      })
+      console.log(userOrder);
   getProduct(1);   
+    
 }, []); 
-  //});
+    }
+
 
 
   console.log(products);
 
-  //}
   return (
     <div>
         <Navbar /> 
