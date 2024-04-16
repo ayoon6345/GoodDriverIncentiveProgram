@@ -47,6 +47,8 @@ function ChooseItemsForCatalog() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  const idsArray = catalogData.map(product => product.id);
+
   const addToCatalog = (productId,sponsorId) => {
     console.log("adding" + productId);
     
@@ -85,7 +87,7 @@ function ChooseItemsForCatalog() {
   fetch('https://fakestoreapi.com/products')
     .then((response) => response.json())
     .then((data) => {
-      const filteredData = data.filter(product => !desiredProductIds.includes(product.id));
+      const filteredData = data.filter(product => !idsArray.includes(product.id));
       console.log("Filtered data");
       console.log(filteredData);
       const transformedData = filteredData.map((product) => ({
@@ -101,7 +103,7 @@ function ChooseItemsForCatalog() {
     .catch((error) => {
       console.error('Error fetching products:', error);
     });
-  }, [desiredProductIds]);
+  }, [idsArray]);
 
 
   return (
