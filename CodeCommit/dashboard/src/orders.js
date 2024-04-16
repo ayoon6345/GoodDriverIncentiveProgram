@@ -59,7 +59,9 @@ function Orders() {
   }, [currentUser]);
   useEffect(() => {
     if(userOrder.length > 0){
-      getProduct(1);  
+      userOrder.forEach(function (arrayItem) {
+      getProduct(arrayItem.product);  
+      })
     }
   }, [userOrder]);
     // Filter out the current user from the user list
