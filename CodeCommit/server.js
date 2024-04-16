@@ -46,6 +46,21 @@ app.get('/api/getUsers', (req, res) => {
     res.json(results); // Return the entire array of user data
   });
 });
+
+
+app.get('/api/getUserApplication', (req, res) => {
+  connection.query('SELECT * FROM users WHERE usertype = "driver"', (err, results) => {
+    if (err) {
+      console.error('Error fetching data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.json(results); // Return the array of user data where usertype is "driver"
+  });
+});
+
+
+
 app.get('/api/getCart', (req, res) => {
   connection.query('SELECT * FROM cart', (err, results) => {
     if (err) {
@@ -66,34 +81,9 @@ app.get('/api/getOrders', (req, res) => {
     res.json(results); // Return the entire array of cart data
   });
 });
-app.get('/api/getApplications', (req, res) => {
-  connection.query('SELECT * FROM applications', (err, results) => {
-    if (err) {
-      console.error('Error fetching data: ' + err.stack);
-      res.status(500).send('Internal Server Error');
-      return;
-    }
-    res.json(results); // Return the entire array of user data
-  });
-});
 
-// Endpoint to add a driver application to the DB
-app.post('/api/addApplication', (req, res) => {
-  const { sponsorId, driverId, firstName, lastName, phone, email } = req.body;
-  const query = 'INSERT INTO applications (sponsor_id, driver_id, first_name, last_name, phone, email) VALUES (?, ?, ?, ?, ?, ?)';
 
-  connection.query(query, [sponsorId, driverId, firstName, lastName, phone, email], (err, results) => {
-    if (err) {
-      console.error('Error updating user points in MySQL database:', err);
-      return res.status(500).send('Internal Server Error');
-    }
-    if (results.affectedRows === 0) {
-      // No user found with the provided ID
-      return res.status(404).send('User not found');
-    }
-    res.status(200).send(`Application added successfully`);
-  });
-});
+
 
 app.get('/api/getCatalog/:sponsorId', (req, res) => {
 
