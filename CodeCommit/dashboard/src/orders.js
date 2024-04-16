@@ -58,10 +58,10 @@ function Orders() {
 
     console.log(userOrder);
 
-    userOrder.forEach(function (arrayItem) {
+    //userOrder.forEach(function (arrayItem) {
       getProduct(arrayItem.product);
       
-  });
+  //});
 
 
   console.log(products);
