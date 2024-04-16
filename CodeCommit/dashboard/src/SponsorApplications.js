@@ -9,6 +9,7 @@ function SponsorApplications() {
 
   const [headers, setHeaders] = useState([]);
   const [rows, setRows] = useState([]);
+  const [applicationData, setApplicationData] = useState([]);
 
   useEffect(() => {
     fetch('/api/getUserApplication')
