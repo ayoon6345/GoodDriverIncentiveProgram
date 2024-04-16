@@ -6,10 +6,10 @@ import { getCurrentUser } from 'aws-amplify/auth';
 
 var productsList = [];
 
-
-function Orders() {
 var userOrder = [];
 var userOrders = [];
+function Orders() {
+
 
     const [currentUser, setCurrentUser] = useState(null);
     const [products, setProducts] = useState([]);
