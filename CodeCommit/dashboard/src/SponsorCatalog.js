@@ -32,14 +32,14 @@ function ChooseItemsForCatalog() {
   
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
-
-  //Getting sponsor catalog product ids
-  const [catalogData, setCatalogData] = useState([]);
+  const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
 
   useEffect(() => {
     fetch('/api/getCatalog/14321')
       .then(response => response.json())
       .then(data => {
+        console.log("Data");
+        console.log(data);
         setCatalogData(data);
         console.log("Catalog data");
         console.log(catalogData);
