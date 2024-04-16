@@ -10,6 +10,7 @@ import Profile from './Profile';
 import Points from './DriverPoints';
 import SponsorCatalog from './SponsorCatalog';
 import SponsorApplications from './SponsorApplications';
+import Report from './genReport';
 import './App.css';
 
 import amplifyconfig from './amplifyconfiguration.json';
@@ -148,6 +149,7 @@ async function addToGroup(username) {
           <button onClick={() => changeView('profile')}>Profile</button>
           <button onClick={() => changeView('points')}>Assign Points To Drivers</button>
           <button onClick={() => changeView('catalog')}>Sponsor Catalog</button>
+          <button onClick={() => changeView('report')}>Generate A Report</button>
           <button onClick={() => changeView('applications')}>Applications</button>
         </nav>
       {currentUserData && currentUserData.sponsor ? (
