@@ -4,6 +4,7 @@ import config from './amplifyconfiguration.json';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { get } from 'aws-amplify/api';
+import { Bar, Pie } from 'react-chartjs-2'; // Importing chart components
 import './App.css';
 Amplify.configure(config);
 
@@ -71,6 +72,44 @@ function Report() {
     link.click();
   }
 
+  // Data for bar chart
+  const barChartData = {
+    labels: headers,
+    datasets: [
+      {
+        label: 'Application Data',
+        backgroundColor: 'rgba(75,192,192,1)',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 2,
+        data: rows[0] // Assuming the first row contains numerical data
+      }
+    ]
+  };
+
+  // Data for pie chart
+  const pieChartData = {
+    labels: headers,
+    datasets: [
+      {
+        data: rows[0], // Assuming the first row contains numerical data
+        backgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#8A2BE2',
+          '#20B2AA'
+        ],
+        hoverBackgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#8A2BE2',
+          '#20B2AA'
+        ]
+      }
+    ]
+  };
+
   return (
     <div>
       <div className="container">
@@ -98,7 +137,7 @@ function Report() {
 
         <h1>Application List</h1>
         <button onClick={handleDownloadCSV}>Save as .csv</button>
-        <table>
+       <table>
           <thead>
             <tr>
               {headers.map(header => <th key={header}>{header}</th>)}
@@ -112,6 +151,44 @@ function Report() {
             ))}
           </tbody>
         </table>
+
+        {/* Bar chart */}
+        <div>
+          <h2>Bar Chart</h2>
+          <Bar
+            data={barChartData}
+            options={{
+              title:{
+                display:true,
+                text:'Application Data',
+                fontSize:20
+              },
+              legend:{
+                display:true,
+                position:'right'
+              }
+            }}
+          />
+        </div>
+
+        {/* Pie chart */}
+        <div>
+          <h2>Pie Chart</h2>
+          <Pie
+            data={pieChartData}
+            options={{
+              title:{
+                display:true,
+                text:'Application Data',
+                fontSize:20
+              },
+              legend:{
+                display:true,
+                position:'right'
+              }
+            }}
+          />
+        </div>
       </div>
     </div>
   );
