@@ -23,7 +23,6 @@ function Report() {
     <div>
       <div className="container">
         <h1>Users</h1>
-        {currentUserData ? (
           <div>
             <p>Name: {name}</p>
             <p>UserName: {user_id}</p>
@@ -31,11 +30,7 @@ function Report() {
             <p>Phone Number: {phone_number}</p>
             <p>User Type: {usertype}</p>
            <p>Your Sponsor is : {sponsor}</p>
-
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
       </div>
     </div>
   );
