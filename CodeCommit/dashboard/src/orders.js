@@ -76,12 +76,16 @@ function Orders() {
     <div>
         <Navbar /> 
         <div className="container">
+
         {products.map((product) => (
+
           <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
             <img src={product.image} alt={product.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px' }} />
             <h3>{product.title}</h3>
+            {userOrder.map((stat) =>(
+            <div>{stat.status}</div>
+            ))}
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
-            <p style={{ fontStyle: 'italic' }}>Availability: In stock</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
           </div>
         ))}
