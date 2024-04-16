@@ -17,7 +17,7 @@ function Orders() {
     async function getProduct(prodId){
       const response = await fetch('https://fakestoreapi.com/products/'+prodId)
       const jsonData = await response.json();
-      setProducts(products + [jsonData]);
+      productsList.push(jsonData);
   }
 
   useEffect(() => {
@@ -45,13 +45,6 @@ function Orders() {
         }));
 
         console.log(userOrders);
-        userOrder = userOrders.filter(function (el) {
-          if ( el.user ===  currentUser) {
-            return el;
-          } 
-        })
-        console.log(userOrder);
-      getProduct(1);   
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
@@ -59,9 +52,15 @@ function Orders() {
     // Filter out the current user from the user list
 
   //userOrder.forEach(function (arrayItem) {
+    userOrder = userOrders.filter(function (el) {
+      if ( el.user ===  currentUser) {
+        return el;
+      } 
+    })
+    console.log(userOrder);
+  //getProduct(1);   
 
-
-  console.log(products);
+  //console.log(products);
 
   return (
     <div>
