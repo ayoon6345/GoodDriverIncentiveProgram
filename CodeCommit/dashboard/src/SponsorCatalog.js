@@ -29,13 +29,19 @@ function GetSponsorCatalog() {
 
 
 function ChooseItemsForCatalog() {
-
-  const desiredProductIds = GetSponsorCatalog();
-  console.log("Desired products");
-  console.log(desiredProductIds);
   
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [desiredProductIds, setDesiredProducts] = useState([]);
+
+  
+  useEffect(() => {
+    const data = GetSponsorCatalog();
+    console.log("Desired products");
+    console.log(data);
+    setDesiredProducts(data);
+  }, []);
+
 
   const addToCatalog = (productId,sponsorId) => {
     console.log("adding" + productId);
