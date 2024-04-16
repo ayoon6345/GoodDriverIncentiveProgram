@@ -45,19 +45,20 @@ function Orders() {
         }));
 
         console.log(userOrders);
-      })
+      }).then(
+        userOrder = userOrders.filter(function (el) {
+          if ( el.user ===  currentUser) {
+            return el;
+          } 
+        })
+      )
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-  
+  console.log(userOrder);
     // Filter out the current user from the user list
 
   //userOrder.forEach(function (arrayItem) {
-    userOrder = userOrders.filter(function (el) {
-      if ( el.user ===  currentUser) {
-        return el;
-      } 
-    })
-    console.log(userOrder);
+
   //getProduct(1);   
 
   //console.log(products);
