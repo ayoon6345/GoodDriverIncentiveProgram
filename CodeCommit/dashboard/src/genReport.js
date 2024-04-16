@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import { Amplify } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
+import { get } from 'aws-amplify/api';
 import './App.css';
 Amplify.configure(config);
 
@@ -9,15 +11,6 @@ function Report() {
   const [applicationData, setApplicationData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [rows, setRows] = useState([]);
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [userType, setusertype] = useState('driver');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
 
 async function listAll(limit = 25) {
