@@ -184,6 +184,7 @@ async function addToGroup(username) {
         {activeView === 'profile' && <Profile />}
         {activeView === 'points' && <Points />}
         {activeView === 'catalog' && <SponsorCatalog />}
+        {activeView === 'report' && <Report />}
         {activeView === 'applications' && <SponsorApplications />}
 
        
