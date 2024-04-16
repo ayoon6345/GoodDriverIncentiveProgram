@@ -22,7 +22,9 @@ function GetSponsorCatalog() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
   
-  return catalogData;
+  const idsArray = catalogData.map(product => product.id);
+  
+  return idsArray;
 }
 
 
