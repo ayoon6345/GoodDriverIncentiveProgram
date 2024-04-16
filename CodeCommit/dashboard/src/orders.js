@@ -84,7 +84,7 @@ function Orders() {
           <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
             <img src={product.image} alt={product.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px' }} />
             <h3>{product.title}</h3>
-            <h3>{(userOrder.find(item => item.id === product.id)).status}</h3>
+            
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
           </div>
