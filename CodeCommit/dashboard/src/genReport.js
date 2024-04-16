@@ -11,7 +11,7 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-function report() {
+function Report() {
 
   const [users, setUsers] = useState([]);
 
@@ -75,4 +75,4 @@ function report() {
   );
 }
 
-export default withAuthenticator(report);
+export default withAuthenticator(Report);
