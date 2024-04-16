@@ -137,39 +137,7 @@ const changeView = (view) => {
         <h1>Admin Dashboard</h1>
           <button onClick={() => changeView('report')}>Audit Log</button>
            <button onClick={() => changeView('admincreate')}>Create A User</button>
-
-
-        <form onSubmit={createUser} className="user-form">
           <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <label>Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-          <label>Phone Number:</label>
-          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-          <label>User Type:</label>
-          <select value={userType} onChange={(e) => setusertype(e.target.value)}>
-            <option value="sponsor">Sponsor</option>
-            <option value="driver">Driver</option>
-            <option value="admin">Admin</option>
-          </select>
-          <label>Sponsor Name:</label>
-          <select value={sponsor} onChange={(e) => setsponsorname(e.target.value)}>
-            <option value="amazon">AMAZON</option>
-            <option value="walmart">WALMART</option>
-            <option value="costco">COSTCO</option>
-            <option value="none">No Sponsor</option>
-
-          </select>
-          <button type="submit">Create User</button>
-        </form>
-
-        {successMessage && <div className="success-message">{successMessage}</div>}
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-        <div>
           <h2>Users:</h2>
           <ul>
             {users.map((user, index) => (
