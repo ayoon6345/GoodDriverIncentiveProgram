@@ -11,7 +11,7 @@ function SponsorPointRatio() {
 
     const fetchCurrentRatio = async () => {
         setLoading(true);
-        // Fetch the current ratio from your API
+        // Fetch the current ratio from API
         const data = await API.get('apiName', '/currentSponsorRatio');
         setRatio(data.ratio);
         setLoading(false);
@@ -20,7 +20,7 @@ function SponsorPointRatio() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        // Update the ratio in your API
+        // Update the ratio in API
         await API.put('apiName', '/updateSponsorRatio', { body: { ratio } });
         setLoading(false);
         alert('Ratio updated successfully!');
