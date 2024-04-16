@@ -134,7 +134,8 @@ async function addToGroup(username) {
   return (
     <div>
       <div className="container">
-  
+        <h1>Create A Sponsored User</h1>
+
       {currentUserData && currentUserData.sponsor ? (
         <form onSubmit={createUser} className="user-form">
           <label>Username:</label>
