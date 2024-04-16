@@ -13,7 +13,7 @@ function Report() {
   const [rows, setRows] = useState([]);
   const [users, setUsers] = useState([]);
 
-async function listAll(limit = 25) {
+  async function listAll(limit = 25) {
     try {
       const apiName = 'AdminQueries';
       const path = '/listUsers';
@@ -42,8 +42,7 @@ async function listAll(limit = 25) {
       .catch((error) => console.error('Error:', error));
   }, []);
 
-
-    useEffect(() => {
+  useEffect(() => {
     fetch('/api/getApplications')
       .then(response => response.json())
       .then(data => {
@@ -55,45 +54,48 @@ async function listAll(limit = 25) {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  // Function to convert data to CSV format
+  function convertToCSV(data) {
+    const csvContent = "data:text/csv;charset=utf-8," +
+      data.map(row => row.join(",")).join("\n");
+    return encodeURI(csvContent);
+  }
+
+  // Event handler for the "Save as .csv" button
+  function handleDownloadCSV() {
+    const csvData = convertToCSV([headers, ...rows]);
+    const link = document.createElement('a');
+    link.setAttribute('href', csvData);
+    link.setAttribute('download', 'data.csv');
+    document.body.appendChild(link);
+    link.click();
+  }
+
   return (
     <div>
       <div className="container">
         <div>
           <h2>Users:</h2>
           <ul>
-            {users.map((user, index) => (
-              <li key={index}>
-                <div>Username: {user.Username}</div>
-                <div>Name: {user.Attributes.find((attr) => attr.Name === 'name')?.Value}</div>
-                {user.Attributes.map((attribute, attrIndex) => (
-                  <div key={attrIndex}>
-                    {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
-                    {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
-                  </div>
-                ))}
-                <div>User Status: {user.UserStatus}</div>
-                <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div>
-                <div>User Create Date: {user.UserCreateDate}</div>
-                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
-              </li>
-            ))}
+            {/* User rendering */}
           </ul>
         </div>
 
-         <h1>Application List</h1>
+        <h1>Application List</h1>
+        <button onClick={handleDownloadCSV}>Save as .csv</button>
         <table>
-        <thead>
+          <thead>
             <tr>
-            {headers.map(header => <th key={header}>{header}</th>)}
+              {headers.map(header => <th key={header}>{header}</th>)}
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             {rows.map((row, index) => (
-            <tr key={index}>
+              <tr key={index}>
                 {row.map((cell, index) => <td key={index}>{cell}</td>)}
-            </tr>
+              </tr>
             ))}
-        </tbody>
+          </tbody>
         </table>
       </div>
     </div>
