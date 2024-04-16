@@ -6,13 +6,14 @@ import { getCurrentUser } from 'aws-amplify/auth';
 
 var productsList = [];
 
-var userOrder = [];
+
 var userOrders = [];
 function Orders() {
 
 
     const [currentUser, setCurrentUser] = useState(null);
     const [products, setProducts] = useState([]);
+    const [userOrder, setUserOrders] = useState([]);
 
     async function getProduct(prodId){
       const response = await fetch('https://fakestoreapi.com/products/'+prodId)
@@ -48,11 +49,11 @@ function Orders() {
         }));
 
         console.log(userOrders);
-        userOrder = userOrders.filter(function (el) {
+        setUserOrders(userOrders.filter(function (el) {
           if ( el.user ===  currentUser) {
             return el;
           } 
-        })
+        }))
         console.log(userOrder);
       })
       .catch(error => console.error('Error fetching data:', error));
