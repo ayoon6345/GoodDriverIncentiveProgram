@@ -7,20 +7,22 @@ Amplify.configure(config);
 
 function Report() {
   const [userData, setUserData] = useState(null);
+  
+useEffect(() => {
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch('/api/getUsers');
+      const data = await response.json();
+      console.log('Fetched data:', data); // Log fetched data
+      setUserData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch('/api/getUsers');
-        const data = await response.json();
-        setUserData(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  fetchUserData();
+}, []);
 
-    fetchUserData();
-  }, []);
 
   return (
     <div>
