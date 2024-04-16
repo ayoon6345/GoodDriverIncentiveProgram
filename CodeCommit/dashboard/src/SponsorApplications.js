@@ -23,44 +23,46 @@ function SponsorApplications() {
   }, []);
 
  const handleAccept = (userId) => {
-  fetch('/api/acceptApplication', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ userId }),
-  })
-  .then(response => {
-    if (response.ok) {
-      // Handle success
-      console.log(`Application accepted successfully for user ${userId}.`);
-    } else {
-      // Handle error
-      console.error('Error accepting application:', response.statusText);
-    }
-  })
-  .catch(error => console.error('Error accepting application:', error));
-};
+    const userStatus = 'Accepted'; // Update user status here
+    fetch('/api/acceptApplication', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId, userStatus }), // Send userId and userStatus
+    })
+    .then(response => {
+      if (response.ok) {
+        // Handle success
+        console.log(`Status updated successfully for user ${userId}.`);
+      } else {
+        // Handle error
+        console.error('Error updating status:', response.statusText);
+      }
+    })
+    .catch(error => console.error('Error updating status:', error));
+  };
 
 const handleDecline = (userId) => {
-  fetch('/api/declineApplication', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ userId }),
-  })
-  .then(response => {
-    if (response.ok) {
-      // Handle success
-      console.log(`Application declined successfully for user ${userId}.`);
-    } else {
-      // Handle error
-      console.error('Error declining application:', response.statusText);
-    }
-  })
-  .catch(error => console.error('Error declining application:', error));
-};
+    const userStatus = 'Declined'; // Update user status here
+    fetch('/api/declineApplication', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId, userStatus }), // Send userId and userStatus
+    })
+    .then(response => {
+      if (response.ok) {
+        // Handle success
+        console.log(`Status updated successfully for user ${userId}.`);
+      } else {
+        // Handle error
+        console.error('Error updating status:', response.statusText);
+      }
+    })
+    .catch(error => console.error('Error updating status:', error));
+  };
 
 
   return (
