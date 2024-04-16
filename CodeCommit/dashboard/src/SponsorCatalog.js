@@ -40,7 +40,7 @@ function ChooseItemsForCatalog() {
       .then(data => {
         console.log("Data");
         console.log(data);
-        setCatalogData(data.map(product => product.id));
+        setCatalogData(data.map(product => product.product_id));
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
@@ -139,44 +139,10 @@ function UniqueCatalog() {
       .then(data => {
         console.log("Data");
         console.log(data);
-        setCatalogData(data.map(product => product.id));
+        setCatalogData(data.map(product => product.product_id));
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-
-  const addToCatalog = (productId,sponsorId) => {
-    console.log("adding" + productId);
-    
-    fetch('/api/addToCatalog', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ sponsorId, productId }),
-    })
-    .then(response => {
-      const contentType = response.headers.get("content-type");
-      if (!response.ok) {
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-          return response.json().then(data => Promise.reject(data));
-        } else {
-          return response.text().then(text => Promise.reject(text));
-        }
-      }
-      return contentType && contentType.indexOf("application/json") !== -1
-        ? response.json()
-        : response.text();
-    })
-    .then(data => {
-      console.log('Response:', data);
-      const successStatus = { success: true, message: 'Catalog updated successfully.' };
-    })
-    .catch(error => {
-      console.error('Error adding to catalog:', error);
-      // Determine if error is an object (from JSON) or text, and set message accordingly
-      const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
-    });
-  }
     
   useEffect(() => {
     if (catalogData.length > 0) {  // Check to prevent running before data is fetched
@@ -217,7 +183,7 @@ function UniqueCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={() => addToCatalog(product.id,'14321')}>Add to Catalog</button>
+            <button>Remove from Catalog</button>
           </div>
         ))}
       </div>
