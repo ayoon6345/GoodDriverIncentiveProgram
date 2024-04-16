@@ -20,18 +20,24 @@ function Orders() {
       productsList.push(jsonData);
   }
 
-  useEffect(() => {
+
     async function fetchCurrentUser() {
       try {
         const user = await getCurrentUser();
         setCurrentUser(user.username);
+        userOrder = userOrders.filter(function (el) {
+          if ( el.user ===  currentUser) {
+            return el;
+          } 
+        })
+        console.log(userOrder);
       } catch (err) {
         console.log(err);
       }
     }
 
-    fetchCurrentUser();
-  }, []);
+    
+
   
   useEffect(() => {
     fetch('/api/getOrders')
@@ -45,12 +51,8 @@ function Orders() {
         }));
 
         console.log(userOrders);
-        userOrder = userOrders.filter(function (el) {
-          if ( el.user ===  'ayoon') {
-            return el;
-          } 
-        })
-        console.log(userOrder);
+        fetchCurrentUser();
+        
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
