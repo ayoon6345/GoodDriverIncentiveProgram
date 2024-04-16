@@ -53,20 +53,32 @@ function Report() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  function convertToCSV(data) {
-    const csvContent = "data:text/csv;charset=utf-8," +
-      data.map(row => row.join(",")).join("\n");
-    return encodeURI(csvContent);
-  }
+  function convertToCSV(headers, rows, users) {
+  const userHeaders = ['Username', 'Name', 'Phone Number', 'Email', 'User Status', 'Enabled', 'User Create Date', 'User Last Modified Date'];
+  const userData = users.map(user => [
+    user.Username,
+    user.Attributes.find(attr => attr.Name === 'name')?.Value || '',
+    user.Attributes.find(attr => attr.Name === 'phone_number')?.Value || '',
+    user.Attributes.find(attr => attr.Name === 'email')?.Value || '',
+    user.UserStatus,
+    user.Enabled ? 'Yes' : 'No',
+    user.UserCreateDate,
+    user.UserLastModifiedDate
+  ]);
+  const csvContent = "data:text/csv;charset=utf-8," +
+    [headers, ...rows, userHeaders, ...userData].map(row => row.join(",")).join("\n");
+  return encodeURI(csvContent);
+}
 
-  function handleDownloadCSV() {
-    const csvData = convertToCSV([headers, ...rows]);
-    const link = document.createElement('a');
-    link.setAttribute('href', csvData);
-    link.setAttribute('download', 'data.csv');
-    document.body.appendChild(link);
-    link.click();
-  }
+function handleDownloadCSV() {
+  const csvData = convertToCSV(headers, rows, users);
+  const link = document.createElement('a');
+  link.setAttribute('href', csvData);
+  link.setAttribute('download', 'data.csv');
+  document.body.appendChild(link);
+  link.click();
+}
+
 
   return (
     <div className="report-container">
