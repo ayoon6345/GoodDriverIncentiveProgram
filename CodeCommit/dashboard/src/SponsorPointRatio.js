@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 
 function SponsorPointRatio() {
     const [ratio, setRatio] = useState('');
