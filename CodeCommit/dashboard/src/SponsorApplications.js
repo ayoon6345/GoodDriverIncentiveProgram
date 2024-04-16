@@ -79,8 +79,8 @@ const handleDecline = (userId) => {
               <tr key={index}>
                 {row.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}
                 <td>
-                  <button onClick={() => handleAccept(row[userIdIndex])}>Accept</button>
-                  <button onClick={() => handleDecline(row[userIdIndex])}>Decline</button>
+                  <button onClick={() => handleAccept(row[0])}>Accept</button>
+                  <button onClick={() => handleDecline(row[0])}>Decline</button>
                 </td>
               </tr>
             ))}
