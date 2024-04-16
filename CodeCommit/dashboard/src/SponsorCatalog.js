@@ -28,9 +28,7 @@ function GetSponsorCatalog() {
 
 function ChooseItemsForCatalog() {
 
-  const desiredProductIds = [1,2,3];
-  console.log(desiredProductIds);
-  console.log(GetSponsorCatalog());
+  const desiredProductIds = GetSponsorCatalog();
   
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -115,9 +113,9 @@ function ChooseItemsForCatalog() {
 function UniqueCatalog() {
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const desiredProductIds = [1, 2, 3];
+  const desiredProductIds = GetSponsorCatalog();
 
+  useEffect(() => {
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
       .then((data) => {
