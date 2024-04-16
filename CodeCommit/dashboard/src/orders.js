@@ -21,7 +21,7 @@ function getProduct(prodId){
 }
 
 function Orders() {
-  getProduct();
+
     const [currentUser, setCurrentUser] = useState(null);
 
 
@@ -66,18 +66,17 @@ function Orders() {
 
     userOrder.forEach(function (arrayItem) {
       getProduct(arrayItem.product);
-      console.log(productsList);
+      
   });
 
 
-    
+  console.log(productsList);
 
   }
   return (
     <div>
         <Navbar /> 
         <div className="container">
-        <h3>{userOrder}</h3>
         </div>
     </div>
   );
