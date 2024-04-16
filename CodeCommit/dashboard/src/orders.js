@@ -46,7 +46,7 @@ function Orders() {
 
         console.log(userOrders);
         userOrder = userOrders.filter(function (el) {
-          if ( el.user ===  currentUser) {
+          if ( el.user ===  'ayoon') {
             return el;
           } 
         })
