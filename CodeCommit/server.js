@@ -59,6 +59,42 @@ app.get('/api/getUserApplication', (req, res) => {
   });
 });
 
+// Endpoint to accept an application
+app.post('/api/acceptApplication', (req, res) => {
+  const { userId } = req.body;
+  const query = 'UPDATE users SET application_status = "Accepted" WHERE user_id = ?';
+
+  connection.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('Error accepting application in MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    if (results.affectedRows === 0) {
+      // No user found with the provided ID
+      return res.status(404).send('User not found');
+    }
+    res.status(200).send(`Application accepted successfully for user ${userId}.`);
+  });
+});
+
+// Endpoint to decline an application
+app.post('/api/declineApplication', (req, res) => {
+  const { userId } = req.body;
+  const query = 'UPDATE users SET application_status = "Declined" WHERE user_id = ?';
+
+  connection.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('Error declining application in MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    if (results.affectedRows === 0) {
+      // No user found with the provided ID
+      return res.status(404).send('User not found');
+    }
+    res.status(200).send(`Application declined successfully for user ${userId}.`);
+  });
+});
+
 
 
 app.get('/api/getCart', (req, res) => {
