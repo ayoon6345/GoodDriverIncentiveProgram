@@ -77,7 +77,22 @@ function Report() {
         <div>
           <h2>Users:</h2>
           <ul>
-            {/* User rendering */}
+            {users.map((user, index) => (
+              <li key={index}>
+                <div>Username: {user.Username}</div>
+                <div>Name: {user.Attributes.find((attr) => attr.Name === 'name')?.Value}</div>
+                {user.Attributes.map((attribute, attrIndex) => (
+                  <div key={attrIndex}>
+                    {attribute.Name === 'phone_number' && <div>Phone Number: {attribute.Value}</div>}
+                    {attribute.Name === 'email' && <div>Email: {attribute.Value}</div>}
+                  </div>
+                ))}
+                <div>User Status: {user.UserStatus}</div>
+                <div>Enabled: {user.Enabled ? 'Yes' : 'No'}</div>
+                <div>User Create Date: {user.UserCreateDate}</div>
+                <div>User Last Modified Date: {user.UserLastModifiedDate}</div>
+              </li>
+            ))}
           </ul>
         </div>
 
