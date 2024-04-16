@@ -35,7 +35,7 @@ function ChooseItemsForCatalog() {
   const getSponsorCatalog = () => {
     //const [catalogData, setCatalogData] = useState([]);
 
-    useEffect(() => {
+    //useEffect(() => {
       fetch('/api/getCatalog/14321')
         .then(response => response.json())
         .then(data => {
@@ -45,7 +45,7 @@ function ChooseItemsForCatalog() {
           return data; 
         })
         .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    //}, []);
     
     //const idsArray = catalogData.map(product => product.id);
 
