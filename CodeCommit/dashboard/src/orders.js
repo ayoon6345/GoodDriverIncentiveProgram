@@ -14,11 +14,7 @@ function Orders() {
     const [currentUser, setCurrentUser] = useState(null);
     const [products, setProducts] = useState([]);
 
-    async function getProduct(prodId){
-      const response = await fetch('https://fakestoreapi.com/products/'+prodId)
-      const jsonData = await response.json();
-      setProducts(products + jsonData);
-  }
+
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -52,7 +48,7 @@ function Orders() {
     // Filter out the current user from the user list
 
   //userOrder.forEach(function (arrayItem) {
-    if(userOrders.length > 0){
+    useEffect(() => {
 
       
       userOrder = userOrders.filter(function (el) {
@@ -64,7 +60,7 @@ function Orders() {
   getProduct(1);   
     
 
-    }
+}, []);
 
 
 
