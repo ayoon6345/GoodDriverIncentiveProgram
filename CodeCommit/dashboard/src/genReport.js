@@ -6,7 +6,7 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
 function Report() {
-  const [ setAboutData] = useState([]);
+const [aboutData, setAboutData] = useState([]);
 
 
   useEffect(() => {
