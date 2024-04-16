@@ -53,7 +53,7 @@ function Orders() {
 
   //userOrder.forEach(function (arrayItem) {
     if(userOrders.length > 0){
-    useEffect(() => {
+
       
       userOrder = userOrders.filter(function (el) {
         if ( el.user ===  currentUser) {
@@ -63,7 +63,7 @@ function Orders() {
       console.log(userOrder);
   getProduct(1);   
     
-}, []); 
+
     }
 
 
