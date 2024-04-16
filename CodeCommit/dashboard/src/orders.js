@@ -3,13 +3,13 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './navbar'; // Import the Navbar component
 import { getCurrentUser } from 'aws-amplify/auth';
-var userOrder = [];
 
-var userOrders = [];
 var productsList = [];
 
 
 function Orders() {
+var userOrder = [];
+var userOrders = [];
 
     const [currentUser, setCurrentUser] = useState(null);
     const [products, setProducts] = useState([]);
@@ -83,11 +83,7 @@ function Orders() {
           <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
             <img src={product.image} alt={product.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px' }} />
             <h3>{product.title}</h3>
-            <div>{userOrders.filter(function (el) {
-              if ( el.product ===  product.id) {
-                return el.status;
-              } 
-            })}</div>
+            <div>{userOrders}</div>
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
           </div>
