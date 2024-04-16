@@ -82,7 +82,6 @@ function handleDownloadCSV() {
 
   return (
     <div className="report-container">
-          <button onClick={handleDownloadCSV}>Save as .csv</button>
       <div className="users-section">
         <h2>Users:</h2>
         <ul>
@@ -122,6 +121,7 @@ function handleDownloadCSV() {
           </tbody>
         </table>
       </div>
+      <button onClick={handleDownloadCSV}>Save as .csv</button>
     </div>
   );
 }
