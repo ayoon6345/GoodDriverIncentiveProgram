@@ -8,23 +8,30 @@ var userOrder = [];
 var userOrders = [];
 var productsList = [];
 
-function getProduct(prodId){
-  fetch('https://fakestoreapi.com/products/'+prodId)
-  .then((response) => response.json())
-  .then((data) => {
-      // Transform the data to match your application's data structure
-      productsList.push(data);
-  })
-  .catch((error) => {
-    console.error('Error fetching products:', error);
-  });
-}
 
 function Orders() {
 
     const [currentUser, setCurrentUser] = useState(null);
+    const [products, setProducts] = useState([]);
 
-
+    async function getProduct(prodId){
+      await fetch('https://fakestoreapi.com/products/'+prodId)
+        .then((response) => response.json())
+        .then((data) => {
+          const transformedData = data.map((product) => ({
+            id: product.id,
+            name: product.title,
+            price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
+            availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
+            description: product.description,
+            image: product.image,
+          }));
+          setProducts([products,transformedData]);
+        })
+        .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+  }
 
     useEffect(() => {
       async function fetchCurrentUser() {
@@ -70,17 +77,17 @@ function Orders() {
   });
 
 
-  console.log(productsList);
+  console.log(products);
 
   }
   return (
     <div>
         <Navbar /> 
         <div className="container">
-        {productsList.map((product) => (
+        {products.map((product) => (
           <div key={product.id} style={{ width: '300px', border: '1px solid #ddd', borderRadius: '5px', padding: '10px', boxSizing: 'border-box' }}>
           
-            <h3>{product.title}</h3>
+            <h3>{product.name}</h3>
           </div>
         ))}
         </div>
@@ -89,5 +96,4 @@ function Orders() {
 }
 
 export default Orders;
-
 
