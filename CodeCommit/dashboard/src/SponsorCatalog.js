@@ -29,13 +29,23 @@ function GetSponsorCatalog() {
 
 
 function ChooseItemsForCatalog() {
-
-  const desiredProductIds = GetSponsorCatalog();
-  console.log("Desired products");
-  console.log(desiredProductIds);
   
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
+
+  //Getting sponsor catalog product ids
+  const [catalogData, setCatalogData] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/getCatalog/14321')
+      .then(response => response.json())
+      .then(data => {
+        setCatalogData(data);
+        console.log("Catalog data");
+        console.log(catalogData);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
   const addToCatalog = (productId,sponsorId) => {
     console.log("adding" + productId);
