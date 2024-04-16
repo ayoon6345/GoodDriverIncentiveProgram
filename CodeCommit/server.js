@@ -59,23 +59,24 @@ app.get('/api/getUserApplication', (req, res) => {
   });
 });
 
-// Endpoint to accept an application
+// Endpoint to update user status
 app.post('/api/acceptApplication', (req, res) => {
-  const { userId } = req.body;
-  const query = 'UPDATE users SET application_status = "Accepted" WHERE user_id = ?';
+  const { userId, userStatus } = req.body;
+  const query = 'UPDATE users SET accepted = ? WHERE user_id = ?';
 
-  connection.query(query, [userId], (err, results) => {
+  connection.query(query, [userStatus, userId], (err, results) => {
     if (err) {
-      console.error('Error accepting application in MySQL database:', err);
+      console.error('Error updating status in MySQL database:', err);
       return res.status(500).send('Internal Server Error');
     }
     if (results.affectedRows === 0) {
       // No user found with the provided ID
       return res.status(404).send('User not found');
     }
-    res.status(200).send(`Application accepted successfully for user ${userId}.`);
+    res.status(200).send(`Status updated successfully for user ${userId}.`);
   });
 });
+
 
 // Endpoint to decline an application
 app.post('/api/declineApplication', (req, res) => {
