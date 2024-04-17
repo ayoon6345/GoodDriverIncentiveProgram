@@ -4,19 +4,11 @@ import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import './App.css';
 import { Amplify } from 'aws-amplify';
-import ChangePassword from './ChangePassword'; // Import the ChangePassword component
-
 Amplify.configure(config);
 
 function PointsOverview() {
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
- const [activeView, setActiveView] = useState('profile');
-
-  const changeView = (view) => {
-    setActiveView(view);
-  };
-
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -61,10 +53,6 @@ function PointsOverview() {
           <p>Loading...</p>
         )}
       </div>
-      <nav>
-          <button onClick={() => changeView('ChangePassword')}>Change Password</button>
-        </nav>
-        {activeView === 'ChangePassword' && <ChangePassword />}
     </div>
   );
 }
