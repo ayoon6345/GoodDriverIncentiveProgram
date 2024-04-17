@@ -27,9 +27,9 @@ const ChangePassword = () => {
       const accessToken = (await fetchAuthSession()).tokens?.accessToken;
       const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
       const command = new ChangePasswordCommand({
-        PreviousPassword: currentPassword,
-        ProposedPassword: newPassword,
-        AccessToken: accessToken,
+     PreviousPassword: currentPassword,
+    ProposedPassword: newPassword,
+    AccessToken: `${(await fetchAuthSession()).tokens?.accessToken}`,
       });
       const response = await client.send(command);
       if (response.$metadata.httpStatusCode === 200) {
