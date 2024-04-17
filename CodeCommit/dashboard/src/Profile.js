@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getCurrentUser } from 'aws-amplify/auth';
+import { CognitoIdentityProviderClient, ChangePasswordCommand } from "@aws-sdk/client-cognito-identity-provider";
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import './App.css';
@@ -9,6 +10,8 @@ Amplify.configure(config);
 function PointsOverview() {
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [passwordChangeSuccess, setPasswordChangeSuccess] = useState(false);
+  const [passwordChangeError, setPasswordChangeError] = useState(null);
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -32,6 +35,24 @@ function PointsOverview() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  async function cognitoChangePassword(currentPassword, newPassword) {
+    try {
+      const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
+      const input = {
+        PreviousPassword: currentPassword,
+        ProposedPassword: newPassword,
+        AccessToken: (await getCurrentUser()).signInUserSession.accessToken.jwtToken,
+      };
+      const command = new ChangePasswordCommand(input);
+      await client.send(command);
+      setPasswordChangeSuccess(true);
+      setPasswordChangeError(null);
+    } catch (error) {
+      setPasswordChangeError(error.message);
+      setPasswordChangeSuccess(false);
+    }
+  }
+
   // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
@@ -46,8 +67,12 @@ function PointsOverview() {
             <p>Email: {currentUserData.email}</p>
             <p>Phone Number: {currentUserData.phone_number}</p>
             <p>User Type: {currentUserData.usertype}</p>
-           <p>Your Sponsor is : {currentUserData.sponsor}</p>
-
+            <p>Your Sponsor is: {currentUserData.sponsor}</p>
+            {passwordChangeSuccess && <p>Password changed successfully!</p>}
+            {passwordChangeError && <p>Error: {passwordChangeError}</p>}
+            <button onClick={() => cognitoChangePassword("CURRENT_PASSWORD", "NEW_PASSWORD")}>
+              Change Password
+            </button>
           </div>
         ) : (
           <p>Loading...</p>
