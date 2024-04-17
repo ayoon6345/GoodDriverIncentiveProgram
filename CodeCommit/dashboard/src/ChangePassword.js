@@ -80,3 +80,5 @@ const ChangePassword = () => {
     </div>
   );
 };
+export default ChangePassword;
+
