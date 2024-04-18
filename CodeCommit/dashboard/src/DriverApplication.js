@@ -86,8 +86,12 @@ function DriverApplication() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const { sponsorId, driverId, firstName, lastName, phone, email } = formData;
+    console.log("Form data");
+    console.log(formData);
     submitApplication(sponsorId, driverId, firstName, lastName, phone, email);
   };
+
+  const sponsorArray = [1,2,3];
 
 /*
   function submitApplication(sponsorId, driverId, firstName, lastName, phone, email) {
@@ -102,14 +106,19 @@ function DriverApplication() {
       <div className="container">
         <h1>Applications</h1>
         <form onSubmit={handleSubmit}>
-          <input 
-            type="text"
+          <select 
             name="sponsorId"
             value={formData.sponsorId}
             onChange={handleChange}
-            placeholder="Sponsor ID"
             required
-          />
+          >
+            <option value="">Select a Sponsor</option>
+            {sponsorArray.map((sponsor) => (
+              <option key={sponsor} value={sponsor}>
+                Sponsor ID {sponsor}
+              </option>
+            ))}
+          </select>
           <input 
             type="text"
             name="driverId"
