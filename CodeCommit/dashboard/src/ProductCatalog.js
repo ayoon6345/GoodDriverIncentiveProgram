@@ -13,7 +13,6 @@ Amplify.configure(amplifyconfig);
 function UniqueSponsorCatalog({ sponsor }) {
   const [products, setProducts] = useState([]);
   const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
-  const [sponsorData, setSponsorData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
   
@@ -59,17 +58,15 @@ function UniqueSponsorCatalog({ sponsor }) {
   */
 
   //Getting all products in catalog for specific sponsor ID and store in array
-  useEffect(() => {
-    if (sponsorData.length > 0) {  // Check to prevent running before data is fetched 
-      fetch(`/api/getCatalog/${sponsor}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log("Data");
-          console.log(data);
-          setCatalogData(data.map(product => product.product_id));
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    }
+  useEffect(() => { 
+    fetch(`/api/getCatalog/${sponsor}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("Data");
+        console.log(data);
+        setCatalogData(data.map(product => product.product_id));
+      })
+      .catch(error => console.error('Error fetching data:', error));
   }, []);
 
   useEffect(() => {
