@@ -12,36 +12,40 @@ function CreateSponsor() {
   const [errorMessage, setErrorMessage] = useState('');
 
   async function createSponsor(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    try {
-      const response = await fetch('/api/createUserInMySQL', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_id: sponsorID, // Assuming user_id corresponds to sponsorID
-          email: '', // Set email, name, phoneNumber, userType, and sponsor according to your requirements
-          name: '',
-          phone_number: '',
-          userType: '',
-          sponsor: '',
-        }),
-      });
+  try {
+    const response = await fetch('/api/sponsorInMySQL', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        sponsorID: sponsorID,
+        sponsorName: sponsorName,
+        sponsorPointRatio: sponsorPointRatio,
+        isActive: isActive,
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error('Failed to create sponsor');
-      }
-
-      setSuccessMessage('Sponsor created successfully');
-      setErrorMessage('');
-    } catch (error) {
-      console.error('Failed to create sponsor:', error);
-      setErrorMessage('Failed to create sponsor. Please try again.');
-      setSuccessMessage('');
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage || 'Failed to create sponsor');
     }
+
+    setSuccessMessage('Sponsor created successfully');
+    setErrorMessage('');
+    setSponsorID('');
+    setSponsorName('');
+    setSponsorPointRatio('');
+    setIsActive(true);
+  } catch (error) {
+    console.error('Failed to create sponsor:', error);
+    setErrorMessage('Failed to create sponsor. Please try again.');
+    setSuccessMessage('');
   }
+}
+
 
   return (
     <div>
