@@ -15,6 +15,7 @@ function DriverApplication() {
       try {
         const response = await fetch('/api/getSponsorNames');
         const data = await response.json();
+        console.log('Sponsor names:', data); // Add this line to check the data
         setSponsorNames(data);
       } catch (error) {
         console.error('Error fetching sponsor names:', error);
@@ -69,5 +70,3 @@ function DriverApplication() {
     </div>
   );
 }
-
-export default DriverApplication;
