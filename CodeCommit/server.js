@@ -49,14 +49,15 @@ app.get('/api/getUsers', (req, res) => {
 
 
 
+// Update your existing getSponsorNames API to only return the SponsorName
 app.get('/api/getSponsorNames', (req, res) => {
-  connection.query('SELECT * FROM Sponsor', (err, results) => {
+  connection.query('SELECT SponsorName FROM Sponsor', (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
       res.status(500).send('Internal Server Error');
       return;
     }
-    res.json(results); // Return the entire array of user data
+    res.json(results); // Return only the SponsorName
   });
 });
 
