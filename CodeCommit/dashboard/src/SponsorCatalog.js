@@ -134,7 +134,7 @@ function ChooseItemsForCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={() => addToCatalog(product.id,'14321')}>Add to Catalog</button>
+            <button onClick={() => addToCatalog(product.id,currentUserData.sponsor)}>Add to Catalog</button>
           </div>
         ))}
       </div>
@@ -191,6 +191,40 @@ function UniqueCatalog() {
         .catch(error => console.error('Error fetching data:', error));
     }
   }, [currentUserData]);
+
+  const removeFromCatalog = (productId, sponsorId) => {
+    console.log("removing product ID " + productId);
+
+    fetch('/api/removeFromCatalog', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sponsorId, productId }),
+    })
+    .then(response => {
+      const contentType = response.headers.get("content-type");
+      if (!response.ok) {
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          return response.json().then(data => Promise.reject(data));
+        } else {
+          return response.text().then(text => Promise.reject(text));
+        }
+      }
+      return contentType && contentType.indexOf("application/json") !== -1
+        ? response.json()
+        : response.text();
+    })
+    .then(data => {
+      console.log('Response:', data);
+      const successStatus = { success: true, message: 'Product removed successfully from catalog.' };
+    })
+    .catch(error => {
+      console.error('Error removing from catalog:', error);
+      const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error during removal' };
+    });
+  }
+
     
   useEffect(() => {
     if (catalogData.length > 0) {  // Check to prevent running before data is fetched
@@ -231,7 +265,7 @@ function UniqueCatalog() {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button>Remove from Catalog</button>
+            <button onClick={() => removeFromCatalog(product.id,currentUserData.sponsor)}>Remove from Catalog</button>
           </div>
         ))}
       </div>
