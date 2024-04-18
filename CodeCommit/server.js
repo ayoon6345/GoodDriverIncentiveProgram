@@ -222,7 +222,7 @@ app.post('/api/sponsorInMySQL', (req, res) => {
 
   const query = `INSERT INTO Sponsor (SponsorID, SponsorName, SponsorPointRatio, IsActive) VALUES (?, ?, ?, ?)`;
 
-  connection.query(query, [mysql.escape(sponsorID), mysql.escape(sponsorName), mysql.escape(sponsorPointRatio), mysql.escape(isActive)], (err, results) => {
+  connection.query(query, [sponsorID, sponsorName, sponsorPointRatio, isActive], (err, results) => {
     if (err) {
       console.error('Error adding sponsor to MySQL database:', err);
       return res.status(500).send('Internal Server Error');
@@ -230,6 +230,7 @@ app.post('/api/sponsorInMySQL', (req, res) => {
     res.status(201).send(`Sponsor ${sponsorName} added successfully to MySQL database.`);
   });
 });
+
 
 
 // Serve static files from the 'build' directory
