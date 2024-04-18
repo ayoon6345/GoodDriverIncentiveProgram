@@ -70,3 +70,6 @@ function DriverApplication() {
     </div>
   );
 }
+
+export default DriverApplication;
+
