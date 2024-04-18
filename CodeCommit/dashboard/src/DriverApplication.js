@@ -41,7 +41,7 @@ const submitApplication = (sponsorId, userId, name) => {
 };
 
 
-//submitApplication( '789', '123', 'Justin', 'Smith', '4103028154', 'email@email.com');
+submitApplication( 2, 'testadj', 'Justin');
 
 function DriverApplication() {
   const [aboutData, setAboutData] = useState([]);
@@ -88,9 +88,6 @@ function DriverApplication() {
     console.log(formData);
     submitApplication(sponsorId, driverId, name);
   };
-
-  const sponsorArray = [1,2,3];
-
 
   return (
     <div>
