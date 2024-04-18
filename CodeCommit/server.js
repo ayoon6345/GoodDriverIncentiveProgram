@@ -74,6 +74,20 @@ app.get('/api/getUserApplication', (req, res) => {
   });
 });
 
+app.post('/api/addApplication', (req, res) => {
+  const { sponsorId, userId, name, accepted } = req.body;
+  const query = 'INSERT INTO applications (sponsor_id, user_id, name, accepted) VALUES (?, ?, ?, ?)';
+
+  connection.query(query, [sponsorId, userId, name, accepted], (err, results) => {
+    if (err) {
+      console.error('Error adding application to MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.status(201).send('Application added successfully');
+  });
+});
+
+
 // Endpoint to update user status
 app.post('/api/acceptApplication', (req, res) => {
   const { userId, userStatus } = req.body;
