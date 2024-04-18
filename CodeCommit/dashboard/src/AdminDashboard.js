@@ -34,7 +34,9 @@ const changeView = (view) => {
         </div>
            {activeView === 'report' && <Report />}
            {activeView === 'admincreate' && <AdminCreate />}
+           {activeView === 'modifyuser' && <ModifyUser />}
            {activeView === 'createsponsor' && <CreateSponsor />}
+
 
     </div>
   );
