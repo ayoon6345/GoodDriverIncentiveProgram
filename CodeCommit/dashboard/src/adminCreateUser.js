@@ -173,6 +173,7 @@ useEffect(() => {
               <option key={index} value={sponsorData.SponsorName}>{sponsorData.SponsorName}</option>
             ))}
           </select>
+            <button type="submit">Create User</button>
         </form>
 
         {successMessage && <div className="success-message">{successMessage}</div>}
