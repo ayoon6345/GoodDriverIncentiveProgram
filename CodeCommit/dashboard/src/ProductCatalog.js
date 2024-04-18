@@ -1,27 +1,100 @@
 import React, { useState, useEffect } from 'react';
+import { Amplify } from 'aws-amplify';
+import { getCurrentUser } from 'aws-amplify/auth';
+
+import '@aws-amplify/ui-react/styles.css';
+import './App.css';
+
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 
 // Destructure onAddToCart from props
 function ProductCatalog({ onAddToCart }) {
   const [products, setProducts] = useState([]);
+  const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
+  const [currentUser, setCurrentUser] = useState(null);
+  const [aboutData, setAboutData] = useState([]);
+  const [sponsorData, setSponsorData] = useState([]);
+
+  //getting current user info
+  useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.username);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-      .then((response) => response.json())
-      .then((data) => {
-        const transformedData = data.map((product) => ({
-          id: product.id,
-          name: product.title,
-          price: Math.round(product.price * 100), // Convert price to points (assuming 1 point = $0.01)
-          availability: 'In stock', // Fake Store API doesn't provide availability, so we'll just assume everything is in stock
-          description: product.description,
-          image: product.image,
-        }));
-        setProducts(transformedData);
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        setAboutData(data);
       })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
+      .catch(error => console.error('Error fetching data:', error));
   }, []);
+
+  // Filter out the current user from the user list
+  const currentUserData = aboutData.find(user => user.user_id === currentUser);
+  console.log("Current user data");
+  console.log(currentUserData);
+
+  //Getting list of sponsors for specific driver
+  useEffect(() => {
+    fetch(`/api/getSponsors/${currentUserData.user_id}`)
+      .then(response => response.json())
+      .then(data => {
+        setSponsorData(data);
+        console.log("Sponsor list");
+        console.log(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, [currentUserData]);
+
+  //Getting all products in catalog for specific sponsor ID and store in array
+  useEffect(() => {
+    if (currentUserData && currentUserData.sponsor) {  // Check to prevent running before data is fetched 
+      fetch(`/api/getCatalog/1`)
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data");
+          console.log(data);
+          setCatalogData(data.map(product => product.product_id));
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+  }, [currentUserData]);
+
+  useEffect(() => {
+    if (catalogData.length > 0) {  // Check to prevent running before data is fetched
+      fetch('https://fakestoreapi.com/products')
+        .then(response => response.json())
+        .then(data => {
+          console.log("This is the catalog data");
+          console.log(catalogData);
+          const filteredData = data.filter(product => catalogData.includes(product.id));
+          console.log("Filtered data");
+          console.log(filteredData);
+          const transformedData = filteredData.map((product) => ({
+            id: product.id,
+            name: product.title,
+            price: Math.round(product.price * 100), // Convert price to points
+            availability: 'In stock',
+            description: product.description,
+            image: product.image,
+          }));
+          setProducts(transformedData);
+        })
+        .catch(error => {
+          console.error('Error fetching products:', error);
+        });
+    }
+  }, [catalogData]); // Include catalogData in the dependency array
 
   return (
     <div style={{ padding: '20px' }}>
