@@ -57,7 +57,7 @@ function ChooseItemsForCatalog() {
         })
         .catch(error => console.error('Error fetching data:', error));
     }
-  }, []);
+  }, [currentUserData]);
 
   //adds a product to a sponsor's catalog
   const addToCatalog = (productId,sponsorId) => {
