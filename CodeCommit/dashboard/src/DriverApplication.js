@@ -7,15 +7,15 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
 
-const submitApplication = (sponsorId, driverId, name) => {
+const submitApplication = (sponsorId, userId, name) => {
   const accepted = "Pending";
-  console.log('Submitting application with the following data:', { sponsorId, driverId, name });
+  console.log('Submitting application with the following data:', { sponsorId, userId, name, accepted });
   fetch('/api/addApplication', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sponsorId, driverId, name, accepted }),
+    body: JSON.stringify({ sponsorId, userId, name, accepted }), // Corrected parameter name here
   })
   .then(response => {
     const contentType = response.headers.get("content-type");
@@ -32,7 +32,6 @@ const submitApplication = (sponsorId, driverId, name) => {
   })
   .then(data => {
     console.log('Submission response:', data);
-    const successStatus = { success: true, message: 'Points updated successfully.' };
   })
   .catch(error => {
     console.error('Error submitting application:', error);
@@ -40,6 +39,7 @@ const submitApplication = (sponsorId, driverId, name) => {
     const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
   });
 };
+
 
 //submitApplication( '789', '123', 'Justin', 'Smith', '4103028154', 'email@email.com');
 
