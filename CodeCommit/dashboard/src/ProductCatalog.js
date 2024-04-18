@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { getCurrentUser } from 'aws-amplify/auth';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
 import '@aws-amplify/ui-react/styles.css';
 import './App.css';
@@ -109,7 +110,7 @@ function UniqueSponsorCatalog({ sponsor }) {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={() => onAddToCart(product)}>Add to Cart</button>
+            <button>Add to Cart</button>
           </div>
         ))}
       </div>
@@ -185,7 +186,7 @@ function ProductCatalog() {
                   </select>
               </nav>
               {/* Dynamically render UniqueCatalog based on activeView */}
-              {options.map((option) => {
+              {sponsorData.map((option) => {
                   if (activeView === `option#${option}`) {
                       return <UniqueSponsorCatalog sponsor={option} />;
                   }
