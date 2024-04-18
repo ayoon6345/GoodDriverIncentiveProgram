@@ -10,6 +10,7 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
 function AdminCreate() {
+  const [aboutData, setAboutData] = useState([]);
   const [activeView, setActiveView] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -60,11 +61,12 @@ function AdminCreate() {
     fetch('/api/getSponsorNames')
       .then(response => response.json())
       .then(data => {
-        const sponsorNames = data.map(sponsor => sponsor.SponsorName);
-        setSponsorNames(sponsorNames);
+        setAboutData(data);
       })
-      .catch(error => console.error('Error fetching sponsor names:', error));
+      .catch(error => console.error('Error fetching data:', error));
   }, []);
+
+
 
   async function createUser(event) {
     event.preventDefault();
@@ -167,12 +169,11 @@ function AdminCreate() {
           </select>
           <label>Sponsor Name:</label>
           <select value={sponsor} onChange={(e) => setSponsorName(e.target.value)}>
-            {sponsorNames.map(sponsorName => (
-              <option key={sponsorName} value={sponsorName}>{sponsorName}</option>
-            ))}
             <option value="none">No Sponsor</option>
+            {aboutData.map((sponsorData, index) => (
+              <option key={index} value={sponsorData.SponsorName}>{sponsorData.SponsorName}</option>
+            ))}
           </select>
-          <button type="submit">Create User</button>
         </form>
 
         {successMessage && <div className="success-message">{successMessage}</div>}
