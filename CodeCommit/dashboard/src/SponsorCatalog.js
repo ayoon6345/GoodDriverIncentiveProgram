@@ -146,19 +146,51 @@ function ChooseItemsForCatalog() {
 
 function UniqueCatalog() {
   const [products, setProducts] = useState([]);
-  const [userData, setUserData] = useState([]);
   const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
+  const [currentUser, setCurrentUser] = useState(null);
+  const [aboutData, setAboutData] = useState([]);
+
+  //getting current user info
+  useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.username);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
-    fetch('/api/getCatalog/14321')
+    fetch('/api/getUsers')
       .then(response => response.json())
       .then(data => {
-        console.log("Data");
-        console.log(data);
-        setCatalogData(data.map(product => product.product_id));
+        setAboutData(data);
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
+
+  // Filter out the current user from the user list
+  const currentUserData = aboutData.find(user => user.user_id === currentUser);
+  console.log("Current user data");
+  console.log(currentUserData);
+
+  //Getting all products in catalog for specific sponsor ID and store in array
+  useEffect(() => {
+    if (currentUserData && currentUserData.sponsor) {  // Check to prevent running before data is fetched 
+      fetch(`/api/getCatalog/${currentUserData.sponsor}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data");
+          console.log(data);
+          setCatalogData(data.map(product => product.product_id));
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+  }, [currentUserData]);
     
   useEffect(() => {
     if (catalogData.length > 0) {  // Check to prevent running before data is fetched
