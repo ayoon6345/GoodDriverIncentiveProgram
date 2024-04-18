@@ -36,7 +36,7 @@ function CreateSponsor() {
     setSuccessMessage('Sponsor created successfully');
     setErrorMessage('');
     setSponsorID('');
-    setSponsorName('');
+    setSponsorName();
     setSponsorPointRatio('');
     setIsActive(true);
   } catch (error) {
