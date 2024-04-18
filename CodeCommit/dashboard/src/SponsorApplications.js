@@ -10,6 +10,7 @@ function SponsorApplications() {
   const [headers, setHeaders] = useState([]);
   const [rows, setRows] = useState([]);
   const [applicationData, setApplicationData] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetch('/api/getUserApplication')
@@ -20,7 +21,7 @@ function SponsorApplications() {
         setRows(data.map(item => Object.values(item)));
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
+  }, [successMessage]); // Refresh data when successMessage changes
 
  const handleAccept = (userId) => {
     const userStatus = 'Accepted'; // Update user status here
@@ -34,6 +35,7 @@ function SponsorApplications() {
     .then(response => {
       if (response.ok) {
         // Handle success
+        setSuccessMessage('Status updated successfully.');
         console.log(`Status updated successfully for user ${userId}.`);
       } else {
         // Handle error
@@ -55,6 +57,7 @@ const handleDecline = (userId) => {
     .then(response => {
       if (response.ok) {
         // Handle success
+        setSuccessMessage('Status updated successfully.');
         console.log(`Status updated successfully for user ${userId}.`);
       } else {
         // Handle error
@@ -64,9 +67,26 @@ const handleDecline = (userId) => {
     .catch(error => console.error('Error updating status:', error));
   };
 
+  useEffect(() => {
+    if (successMessage) {
+      setTimeout(() => {
+        setSuccessMessage('');
+        // Refresh data after success message disappears
+        fetch('/api/getUserApplication')
+          .then(response => response.json())
+          .then(data => {
+            setApplicationData(data);
+            setHeaders(Object.keys(data[0]));
+            setRows(data.map(item => Object.values(item)));
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      }, 3000); // Clear success message after 3 seconds
+    }
+  }, [successMessage]);
 
   return (
     <div>
+      {successMessage && <div className="success-message">{successMessage}</div>}
       <div className="container">
         <h1>Application List</h1>
         <table>
