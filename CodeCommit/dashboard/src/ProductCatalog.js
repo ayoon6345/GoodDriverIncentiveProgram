@@ -18,7 +18,6 @@ function UniqueSponsorCatalog({ sponsor }) {
   
   console.log("SPONSOR IS " + sponsor);
 
-  /*
   //getting current user info
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -44,18 +43,6 @@ function UniqueSponsorCatalog({ sponsor }) {
 
   // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
-
-  //Getting list of sponsors for specific driver
-  useEffect(() => {
-    fetch(`/api/getSponsors/${currentUserData.user_id}`)
-      .then(response => response.json())
-      .then(data => {
-        setSponsorData(data.map(user => user.sponsor_id));
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, [currentUserData]);
-
-  */
 
   //Getting all products in catalog for specific sponsor ID and store in array
   useEffect(() => { 
