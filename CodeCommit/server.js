@@ -136,6 +136,25 @@ app.get('/api/getCatalog/:sponsorId', (req, res) => {
   });
 });
 
+
+app.delete('/api/removeFromCatalog', (req, res) => {
+  const { sponsorId, productId } = req.body;
+
+  connection.query('DELETE FROM catalogs WHERE sponsor_id = ? AND product_id = ?', [sponsorId, productId], (err, result) => {
+    if (err) {
+      console.error('Error deleting data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    if (result.affectedRows === 0) {
+      res.status(404).send('Product not found in catalog');
+      return;
+    }
+    res.send('Product removed successfully');
+  });
+});
+
+
 app.post('/api/addToCatalog', (req, res) => {
   const { sponsorId, productId } = req.body;
   const query = 'INSERT IGNORE INTO catalogs (sponsor_id, product_id) VALUES (?, ?)';
