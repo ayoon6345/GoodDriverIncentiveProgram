@@ -61,7 +61,6 @@ useEffect(() => {
     .then(response => response.json())
     .then(data => {
       setAboutData(data);
-      console.log(data); // Move the console.log inside the then block
     })
     .catch(error => console.error('Error fetching data:', error));
 }, []);
