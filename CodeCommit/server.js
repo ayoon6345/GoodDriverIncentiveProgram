@@ -134,7 +134,19 @@ app.get('/api/getOrders', (req, res) => {
 });
 
 
+app.get('/api/getSponsors/:userId', (req, res) => {
 
+  const userId = req.params.userId;
+
+  connection.query('SELECT * FROM driver_sponsor WHERE user_id = ?', [userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.json(results); // Return the entire array of user data
+  });
+});
 
 app.get('/api/getCatalog/:sponsorId', (req, res) => {
 
