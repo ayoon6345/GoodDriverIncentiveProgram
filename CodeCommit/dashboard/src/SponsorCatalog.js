@@ -47,14 +47,16 @@ function ChooseItemsForCatalog() {
 
   //Getting all products in catalog for specific sponsor ID and store in array
   useEffect(() => {
-    fetch('/api/getCatalog/${currentUserData.sponsor}')
-      .then(response => response.json())
-      .then(data => {
-        console.log("Data");
-        console.log(data);
-        setCatalogData(data.map(product => product.product_id));
-      })
-      .catch(error => console.error('Error fetching data:', error));
+    if (currentUserData.length > 0) {  // Check to prevent running before data is fetched
+      fetch('/api/getCatalog/${currentUserData.sponsor}')
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data");
+          console.log(data);
+          setCatalogData(data.map(product => product.product_id));
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
   }, []);
 
   //adds a product to a sponsor's catalog
