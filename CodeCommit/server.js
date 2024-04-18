@@ -23,11 +23,11 @@ connection.connect((err) => {
 });
 
 app.post('/api/createUserInMySQL', (req, res) => {
-  const { user_id, name, email, phone_number, userType, sponsor } = req.body; // Get user details from request body
+  const { user_id, name, email, phone_number, userType, sponsor, sponsorPointRatio } = req.body; // Get user details from request body
 
-  const query = `INSERT INTO users (user_id, name, email, phone_number, usertype, sponsor) VALUES (?, ?, ?, ?, ?, ?)`;
+  const query = `INSERT INTO users (user_id, name, email, phone_number, usertype, sponsor, sponsorPointRatio) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-  connection.query(query, [user_id, name, email, phone_number, userType, sponsor], (err, results) => {
+  connection.query(query, [user_id, name, email, phone_number, userType, sponsor, sponsorPointRatio], (err, results) => {
     if (err) {
       console.error('Error adding user to MySQL database:', err);
       return res.status(500).send('Internal Server Error');
@@ -35,6 +35,7 @@ app.post('/api/createUserInMySQL', (req, res) => {
     res.status(201).send(`User ${user_id} added successfully to MySQL database.`);
   });
 });
+
 
 app.get('/api/getUsers', (req, res) => {
   connection.query('SELECT * FROM users', (err, results) => {
