@@ -172,29 +172,29 @@ function ProductCatalog() {
   };
 
   return (
-      <div>
-          <div className="container">
-              <h1>Catalog</h1>
-              <nav>
-                  <select onChange={handleDropdownChange} value={activeView}>
-                      <option value="">Select a Sponsor</option>
-                      {sponsorData.map((sponsor, index) => (
-                          <option key={index} value={`Sponsor#${sponsor}`}>
-                              Option {sponsor}
-                          </option>
-                      ))}
-                  </select>
-              </nav>
-              {/* Dynamically render UniqueCatalog based on activeView */}
-              {sponsorData.map((option) => {
-                  if (activeView === `option#${option}`) {
-                      return <UniqueSponsorCatalog sponsor={option} />;
-                  }
-                  return null;
-              })}
-          </div>
-      </div>
-  );
+        <div>
+            <div className="container">
+                <h1>Sponsor Catalog</h1>
+                <nav>
+                    <select onChange={handleDropdownChange} value={activeView}>
+                        <option value="">Select a Sponsor</option>
+                        {sponsorData.map((sponsor, index) => (
+                            <option key={index} value={`sponsor#${sponsor}`}>
+                                Sponsor {sponsor}
+                            </option>
+                        ))}
+                    </select>
+                </nav>
+                {/* Dynamically render UniqueCatalog based on activeView */}
+                {sponsorData.map((sponsor) => {
+                    if (activeView === `sponsor#${sponsor}`) {
+                        return <UniqueSponsorCatalog key={sponsor} sponsor={sponsor} />;
+                    }
+                    return null;
+                })}
+            </div>
+        </div>
+    );
 }
 
 export default withAuthenticator(ProductCatalog);
