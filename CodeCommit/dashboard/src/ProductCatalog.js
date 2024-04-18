@@ -14,23 +14,52 @@ function UniqueSponsorCatalog({ sponsor }) {
   const [products, setProducts] = useState([]);
   const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
   const [sponsorData, setSponsorData] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [aboutData, setAboutData] = useState([]);
+
+  /*
+  //getting current user info
+  useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.username);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        setAboutData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  // Filter out the current user from the user list
+  const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
   //Getting list of sponsors for specific driver
   useEffect(() => {
-    fetch(`/api/getSponsors/${sponsor}`)
+    fetch(`/api/getSponsors/${currentUserData.user_id}`)
       .then(response => response.json())
       .then(data => {
         setSponsorData(data.map(user => user.sponsor_id));
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
+  }, [currentUserData]);
+
+  */
 
   //Getting all products in catalog for specific sponsor ID and store in array
   useEffect(() => {
     if (sponsorData.length > 0) {  // Check to prevent running before data is fetched 
-      console.log("sposor list");
-      console.log(sponsorData);
-      fetch(`/api/getCatalog/1`)
+      fetch(`/api/getCatalog/${sponsor}`)
         .then(response => response.json())
         .then(data => {
           console.log("Data");
@@ -39,7 +68,7 @@ function UniqueSponsorCatalog({ sponsor }) {
         })
         .catch(error => console.error('Error fetching data:', error));
     }
-  }, [sponsorData]);
+  }, []);
 
   useEffect(() => {
     if (catalogData.length > 0) {  // Check to prevent running before data is fetched
