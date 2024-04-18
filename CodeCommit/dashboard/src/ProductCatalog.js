@@ -46,14 +46,16 @@ function ProductCatalog({ onAddToCart }) {
 
   //Getting list of sponsors for specific driver
   useEffect(() => {
-    fetch(`/api/getSponsors/${currentUserData.user_id}`)
-      .then(response => response.json())
-      .then(data => {
-        setSponsorData(data);
-        console.log("Sponsor list");
-        console.log(data);
-      })
-      .catch(error => console.error('Error fetching data:', error));
+    if (currentUserData && currentUserData.user_id) {  // Check to prevent running before data is fetched
+      fetch(`/api/getSponsors/${currentUserData.user_id}`)
+        .then(response => response.json())
+        .then(data => {
+          setSponsorData(data);
+          console.log("Sponsor list");
+          console.log(data);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
   }, [currentUserData]);
 
   //Getting all products in catalog for specific sponsor ID and store in array
