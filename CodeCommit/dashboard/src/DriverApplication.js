@@ -89,6 +89,8 @@ function DriverApplication() {
     submitApplication(sponsorId, driverId, name);
   };
 
+  sponsorArray = [1,2,3];
+
   return (
     <div>
       <div className="container">
