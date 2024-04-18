@@ -8,6 +8,7 @@ import './App.css';
 import Report from './genReport';
 import AdminCreate from './adminCreateUser';
 import ModifyUser from './adminModifyUser';
+import CreateSponsor from './adminCreateSponsor';
 
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
@@ -28,10 +29,12 @@ const changeView = (view) => {
           <button onClick={() => changeView('report')}>Audit Log</button>
           <button onClick={() => changeView('admincreate')}>Create A User</button>
           <button onClick={() => changeView('modifyuser')}>Modify A User</button>
+          <button onClick={() => changeView('createsponsor')}>Create A Sponsor</button>
+
         </div>
            {activeView === 'report' && <Report />}
            {activeView === 'admincreate' && <AdminCreate />}
-           {activeView === 'modifyuser' && <ModifyUser />}
+           {activeView === 'createsponsor' && <CreateSponsor />}
 
     </div>
   );
