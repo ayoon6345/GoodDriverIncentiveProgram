@@ -16,6 +16,8 @@ function UniqueSponsorCatalog({ sponsor }) {
   const [sponsorData, setSponsorData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
+  
+  console.log("SPONSOR IS " + sponsor);
 
   /*
   //getting current user info
