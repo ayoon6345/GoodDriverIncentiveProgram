@@ -48,8 +48,7 @@ function ChooseItemsForCatalog() {
   //Getting all products in catalog for specific sponsor ID and store in array
   useEffect(() => {
     if (currentUserData && currentUserData.sponsor) {  // Check to prevent running before data is fetched 
-      console.log("Current sponsor is " + currentUserData.sponsor);
-      fetch('/api/getCatalog/${currentUserData.sponsor}')
+      fetch(`/api/getCatalog/${currentUserData.sponsor}`)
         .then(response => response.json())
         .then(data => {
           console.log("Data");
