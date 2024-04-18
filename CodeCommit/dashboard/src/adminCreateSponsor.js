@@ -1,3 +1,4 @@
+// CreateSponsor.js
 import React, { useState } from 'react';
 import { post } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
@@ -11,7 +12,7 @@ function CreateSponsor() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  async function CreateSponsor(event) {
+  async function createSponsor(event) {
     event.preventDefault();
 
     try {
