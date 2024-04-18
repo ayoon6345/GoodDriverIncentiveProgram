@@ -15,6 +15,8 @@ function UniqueSponsorCatalog({ sponsor }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
   const [sponsorData, setSponsorData] = useState([]);
+  
+  console.log("SPONROS = " + sponsor);
 
   //getting current user info
   useEffect(() => {
@@ -115,8 +117,6 @@ function UniqueSponsorCatalog({ sponsor }) {
   );
 }
 
-export default UniqueSponsorCatalog;
-
 
 function ProductCatalog() {
   const [activeView, setActiveView] = useState('profile');
@@ -187,7 +187,7 @@ function ProductCatalog() {
               {/* Dynamically render UniqueCatalog based on activeView */}
               {options.map((option) => {
                   if (activeView === `option#${option}`) {
-                      return <UniqueCatalog sponsor={option} />;
+                      return <UniqueSponsorCatalog sponsor={option} />;
                   }
                   return null;
               })}
