@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -8,32 +9,42 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-function GetSponsorCatalog() {
-  const [catalogData, setCatalogData] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/getCatalog/14321')
-      .then(response => response.json())
-      .then(data => {
-        setCatalogData(data);
-        console.log("Catalog data");
-        console.log(catalogData);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-  
-  const idsArray = catalogData.map(product => product.id);
-
-  return idsArray;
-}
-
 
 function ChooseItemsForCatalog() {
   
   const [products, setProducts] = useState([]);
-  const [userData, setUserData] = useState([]);
   const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
+  const [currentUser, setCurrentUser] = useState(null);
+  const [aboutData, setAboutData] = useState([]);
 
+  useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.username);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        setAboutData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  // Filter out the current user from the user list
+  const currentUserData = aboutData.find(user => user.user_id === currentUser);
+  console.log("Current user data");
+  console.log(currentUserData);
+
+  //Getting all products in catalog for specific sponsor ID and store in array
   useEffect(() => {
     fetch('/api/getCatalog/14321')
       .then(response => response.json())
@@ -45,6 +56,7 @@ function ChooseItemsForCatalog() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  //adds a product to a sponsor's catalog
   const addToCatalog = (productId,sponsorId) => {
     console.log("adding" + productId);
     
@@ -78,7 +90,8 @@ function ChooseItemsForCatalog() {
       const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
     });
   }
-    
+  
+  //Filters all products from API and only puts the ones corresponding to the sponsor's catalog in an array
   useEffect(() => {
     if (catalogData.length > 0) {  // Check to prevent running before data is fetched
       fetch('https://fakestoreapi.com/products')
