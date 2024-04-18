@@ -50,7 +50,7 @@ function ProductCatalog({ onAddToCart }) {
       fetch(`/api/getSponsors/${currentUserData.user_id}`)
         .then(response => response.json())
         .then(data => {
-          setSponsorData(data);
+          setSponsorData(data.map(user => user.sponsor_id));
           console.log("Sponsor list");
           console.log(data);
         })
