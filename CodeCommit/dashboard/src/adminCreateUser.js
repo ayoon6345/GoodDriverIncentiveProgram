@@ -11,7 +11,6 @@ Amplify.configure(amplifyconfig);
 
 function AdminCreate() {
   const [aboutData, setAboutData] = useState([]);
-  const [activeView, setActiveView] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -22,11 +21,7 @@ function AdminCreate() {
   const [errorMessage, setErrorMessage] = useState('');
   const [users, setUsers] = useState([]);
   const [sponsor, setSponsorName] = useState('none');
-  const [sponsorNames, setSponsorNames] = useState([]);
 
-  const changeView = (view) => {
-    setActiveView(view);
-  };
 
   async function listAll(limit = 25) {
     try {
