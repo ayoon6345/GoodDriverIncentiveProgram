@@ -41,8 +41,6 @@ function ProductCatalog({ onAddToCart }) {
 
   // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
-  console.log("Current user data");
-  console.log(currentUserData);
 
   //Getting list of sponsors for specific driver
   useEffect(() => {
@@ -51,8 +49,6 @@ function ProductCatalog({ onAddToCart }) {
         .then(response => response.json())
         .then(data => {
           setSponsorData(data.map(user => user.sponsor_id));
-          console.log("Sponsor list");
-          console.log(data);
         })
         .catch(error => console.error('Error fetching data:', error));
     }
@@ -60,7 +56,9 @@ function ProductCatalog({ onAddToCart }) {
 
   //Getting all products in catalog for specific sponsor ID and store in array
   useEffect(() => {
-    if (currentUserData && currentUserData.sponsor) {  // Check to prevent running before data is fetched 
+    if (sponsorData.length > 0) {  // Check to prevent running before data is fetched 
+      console.log("sposor list");
+      console.log(sponsorData);
       fetch(`/api/getCatalog/1`)
         .then(response => response.json())
         .then(data => {
@@ -70,7 +68,7 @@ function ProductCatalog({ onAddToCart }) {
         })
         .catch(error => console.error('Error fetching data:', error));
     }
-  }, [currentUserData]);
+  }, [sponsorData]);
 
   useEffect(() => {
     if (catalogData.length > 0) {  // Check to prevent running before data is fetched
