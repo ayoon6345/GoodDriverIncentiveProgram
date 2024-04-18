@@ -52,6 +52,8 @@ function DriverApplication() {
     name: ''
   });
 
+  sponsorArray = [1,2,3];
+
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
@@ -89,7 +91,7 @@ function DriverApplication() {
     submitApplication(sponsorId, driverId, name);
   };
 
-  sponsorArray = [1,2,3];
+  
 
   return (
     <div>
