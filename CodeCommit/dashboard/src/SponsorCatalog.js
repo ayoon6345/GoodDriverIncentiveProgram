@@ -17,6 +17,7 @@ function ChooseItemsForCatalog() {
   const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
 
+  //getting current user info
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
@@ -46,7 +47,7 @@ function ChooseItemsForCatalog() {
 
   //Getting all products in catalog for specific sponsor ID and store in array
   useEffect(() => {
-    fetch('/api/getCatalog/14321')
+    fetch('/api/getCatalog/${currentUserData.sponsor}')
       .then(response => response.json())
       .then(data => {
         console.log("Data");
