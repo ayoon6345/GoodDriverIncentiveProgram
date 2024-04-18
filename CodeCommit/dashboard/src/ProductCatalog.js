@@ -9,7 +9,7 @@ import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
 // Destructure onAddToCart from props
-function ProductCatalog({ onAddToCart }) {
+function UniqueSponsorCatalog({ sponsor }) {
   const [products, setProducts] = useState([]);
   const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
   const [currentUser, setCurrentUser] = useState(null);
@@ -115,4 +115,85 @@ function ProductCatalog({ onAddToCart }) {
   );
 }
 
-export default ProductCatalog;
+export default UniqueSponsorCatalog;
+
+
+function ProductCatalog() {
+  const [activeView, setActiveView] = useState('profile');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [aboutData, setAboutData] = useState([]);
+  const [sponsorData, setSponsorData] = useState([]);
+
+  //getting current user info
+  useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.username);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        setAboutData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  // Filter out the current user from the user list
+  const currentUserData = aboutData.find(user => user.user_id === currentUser);
+
+  //Getting list of sponsors for specific driver
+  useEffect(() => {
+    if (currentUserData && currentUserData.user_id) {  // Check to prevent running before data is fetched
+      fetch(`/api/getSponsors/${currentUserData.user_id}`)
+        .then(response => response.json())
+        .then(data => {
+          setSponsorData(data.map(user => user.sponsor_id));
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+  }, [currentUserData]);
+
+  const changeView = (view) => {
+    setActiveView(view);
+  };
+
+  const handleDropdownChange = (event) => {
+    setActiveView(event.target.value);
+  };
+
+  return (
+      <div>
+          <div className="container">
+              <h1>Catalog</h1>
+              <nav>
+                  <select onChange={handleDropdownChange} value={activeView}>
+                      <option value="">Select a Sponsor</option>
+                      {sponsorData.map((sponsor, index) => (
+                          <option key={index} value={`Sponsor#${sponsor}`}>
+                              Option {sponsor}
+                          </option>
+                      ))}
+                  </select>
+              </nav>
+              {/* Dynamically render UniqueCatalog based on activeView */}
+              {options.map((option) => {
+                  if (activeView === `option#${option}`) {
+                      return <UniqueCatalog sponsor={option} />;
+                  }
+                  return null;
+              })}
+          </div>
+      </div>
+  );
+}
+
+export default withAuthenticator(ProductCatalog);
