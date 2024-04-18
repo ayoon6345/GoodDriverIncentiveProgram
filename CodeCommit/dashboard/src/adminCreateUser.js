@@ -57,14 +57,19 @@ function AdminCreate() {
       .catch((error) => console.error('Error:', error));
   }, []);
 
-  useEffect(() => {
-    fetch('/api/getSponsorNames')
-      .then(response => response.json())
-      .then(data => {
-        setAboutData(data);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
+
+
+
+
+useEffect(() => {
+  fetch('/api/getSponsorNames')
+    .then(response => response.json())
+    .then(data => {
+      setAboutData(data);
+      console.log(data); // Move the console.log inside the then block
+    })
+    .catch(error => console.error('Error fetching data:', error));
+}, []);
 
 
 
