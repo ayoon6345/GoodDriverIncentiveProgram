@@ -7,14 +7,15 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure(config);
 
 
-const submitApplication = (sponsorId, driverId, firstName, lastName, phone, email) => {
-  console.log('Submitting application with the following data:', { sponsorId, driverId, firstName, lastName, phone, email });
+const submitApplication = (sponsorId, driverId, name) => {
+  const accepted = "Pending";
+  console.log('Submitting application with the following data:', { sponsorId, driverId, name });
   fetch('/api/addApplication', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sponsorId, driverId, firstName, lastName, phone, email }),
+    body: JSON.stringify({ sponsorId, driverId, name, accepted }),
   })
   .then(response => {
     const contentType = response.headers.get("content-type");
@@ -48,10 +49,7 @@ function DriverApplication() {
   const [formData, setFormData] = useState({
     sponsorId: '',
     driverId: '',
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: ''
+    name: ''
   });
 
   useEffect(() => {
@@ -85,21 +83,14 @@ function DriverApplication() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { sponsorId, driverId, firstName, lastName, phone, email } = formData;
+    const { sponsorId, driverId, name} = formData;
     console.log("Form data");
     console.log(formData);
-    submitApplication(sponsorId, driverId, firstName, lastName, phone, email);
+    submitApplication(sponsorId, driverId, name);
   };
 
   const sponsorArray = [1,2,3];
 
-/*
-  function submitApplication(sponsorId, driverId, firstName, lastName, phone, email) {
-    // Implementation of submitApplication function
-    console.log('Submitting application with the following data:', { sponsorId, driverId, firstName, lastName, phone, email });
-    // Add your fetch logic here
-  }
-*/
 
   return (
     <div>
@@ -129,34 +120,10 @@ function DriverApplication() {
           />
           <input 
             type="text"
-            name="firstName"
+            name="name"
             value={formData.firstName}
             onChange={handleChange}
-            placeholder="First Name"
-            required
-          />
-          <input 
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Last Name"
-            required
-          />
-          <input 
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="Phone"
-            required
-          />
-          <input 
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
+            placeholder="Name"
             required
           />
           <button type="submit">Submit Application</button>
