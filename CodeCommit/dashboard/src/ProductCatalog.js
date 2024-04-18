@@ -23,7 +23,7 @@ function UniqueSponsorCatalog({ sponsor }) {
         setSponsorData(data.map(user => user.sponsor_id));
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, [currentUserData]);
+  }, []);
 
   //Getting all products in catalog for specific sponsor ID and store in array
   useEffect(() => {
