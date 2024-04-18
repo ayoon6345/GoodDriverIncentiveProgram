@@ -13,48 +13,16 @@ Amplify.configure(amplifyconfig);
 function UniqueSponsorCatalog({ sponsor }) {
   const [products, setProducts] = useState([]);
   const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
-  const [currentUser, setCurrentUser] = useState(null);
-  const [aboutData, setAboutData] = useState([]);
   const [sponsorData, setSponsorData] = useState([]);
-  
-  console.log("SPONROS = " + sponsor);
-
-  //getting current user info
-  useEffect(() => {
-    async function fetchCurrentUser() {
-      try {
-        const user = await getCurrentUser();
-        setCurrentUser(user.username);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    fetchCurrentUser();
-  }, []);
-
-  useEffect(() => {
-    fetch('/api/getUsers')
-      .then(response => response.json())
-      .then(data => {
-        setAboutData(data);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
-  // Filter out the current user from the user list
-  const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
   //Getting list of sponsors for specific driver
   useEffect(() => {
-    if (currentUserData && currentUserData.user_id) {  // Check to prevent running before data is fetched
-      fetch(`/api/getSponsors/${currentUserData.user_id}`)
-        .then(response => response.json())
-        .then(data => {
-          setSponsorData(data.map(user => user.sponsor_id));
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    }
+    fetch(`/api/getSponsors/${sponsor}`)
+      .then(response => response.json())
+      .then(data => {
+        setSponsorData(data.map(user => user.sponsor_id));
+      })
+      .catch(error => console.error('Error fetching data:', error));
   }, [currentUserData]);
 
   //Getting all products in catalog for specific sponsor ID and store in array
