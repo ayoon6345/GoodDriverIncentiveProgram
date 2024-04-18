@@ -1,6 +1,5 @@
 // CreateSponsor.js
 import React, { useState } from 'react';
-import { post } from 'aws-amplify/api';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
@@ -16,26 +15,30 @@ function CreateSponsor() {
     event.preventDefault();
 
     try {
-      const apiName = 'AdminQueries';
-      const path = '/createSponsor';
-      const options = {
-        body: {
-          sponsorID: sponsorID,
-          sponsorName: sponsorName,
-          sponsorPointRatio: sponsorPointRatio,
-          isActive: isActive,
-        },
+      const response = await fetch('/api/createUserInMySQL', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${await Auth.currentSession().getIdToken().getJwtToken()}`,
         },
-      };
-      await post(apiName, path, options);
+        body: JSON.stringify({
+          user_id: sponsorID, // Assuming user_id corresponds to sponsorID
+          email: '', // Set email, name, phoneNumber, userType, and sponsor according to your requirements
+          name: '',
+          phone_number: '',
+          userType: '',
+          sponsor: '',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create sponsor');
+      }
+
       setSuccessMessage('Sponsor created successfully');
       setErrorMessage('');
     } catch (error) {
-      console.error('Failed to add sponsor:', error);
-      setErrorMessage('Failed to add sponsor. Please try again.');
+      console.error('Failed to create sponsor:', error);
+      setErrorMessage('Failed to create sponsor. Please try again.');
       setSuccessMessage('');
     }
   }
