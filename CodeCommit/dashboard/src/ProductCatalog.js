@@ -157,7 +157,7 @@ function ProductCatalog() {
   return (
         <div>
             <div className="container">
-                <h1>Sponsor Catalog</h1>
+                <h1>Catalog</h1>
                 <nav>
                     <select onChange={handleDropdownChange} value={activeView}>
                         <option value="">Select a Sponsor</option>
