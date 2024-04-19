@@ -45,7 +45,7 @@ function DriverApplication() {
   const sponsorArray = [1,2,3];
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [sponsorArray, setSponsorArray] = useState([]);
+  const [bonsorArray, setSponsorArray] = useState([]);
   const [formData, setFormData] = useState({
     sponsorId: '',
     driverId: '',
