@@ -64,6 +64,9 @@ app.get('/api/getSponsorNames', (req, res) => {
 
 
 app.get('/api/getUserApplication/:sponsor', (req, res) => {
+
+  const sponsor = req.params.sponsor;
+
   connection.query('SELECT * FROM applications WHERE sponsor_id = ?', [sponsor], (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
