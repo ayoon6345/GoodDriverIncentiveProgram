@@ -112,7 +112,6 @@ function ProductCatalog() {
       .then(response => response.json())
       .then(data => {
         setSponsorArray(data);
-        console.log(data);
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
@@ -168,8 +167,6 @@ function ProductCatalog() {
     if (sponsorArray && sponsorData) {  // Check to prevent running before data is fetched
       const data = sponsorArray.filter(sponsor => sponsorData.includes(sponsor.SponsorID));
       setFilteredSponsors(data);
-      console.log("Filtered");
-      console.log(data);
     }
   }, [sponsorArray, sponsorData]);
 
@@ -189,7 +186,7 @@ function ProductCatalog() {
                 </nav>
                 {/* Dynamically render UniqueCatalog based on activeView */}
                 {sponsorData.map((sponsor) => {
-                    if (activeView === `sponsor#${sponsor}`) {
+                    if (parseInt(activeView) === sponsor) {
                         return <UniqueSponsorCatalog key={sponsor} sponsor={sponsor} />;
                     }
                     return null;
