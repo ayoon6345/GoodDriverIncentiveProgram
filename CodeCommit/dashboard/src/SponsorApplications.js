@@ -11,9 +11,35 @@ function SponsorApplications() {
   const [rows, setRows] = useState([]);
   const [applicationData, setApplicationData] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
+  const [aboutData, setAboutData] = useState([]);
+
+  //getting current user info
+  useEffect(() => {
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.username);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
-    fetch('/api/getUserApplication')
+    fetch('/api/getUsers')
+      .then(response => response.json())
+      .then(data => {
+        setAboutData(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  const currentUserData = aboutData.find(user => user.user_id === currentUser);
+
+  useEffect(() => {
+    fetch(`/api/getUserApplication/${currentUserData.sponsor}`)
       .then(response => response.json())
       .then(data => {
         setApplicationData(data);
@@ -21,7 +47,7 @@ function SponsorApplications() {
         setRows(data.map(item => Object.values(item)));
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, [successMessage]); // Refresh data when successMessage changes
+  }, [currentUserData, successMessage]); // Refresh data when successMessage changes
 
  const handleAccept = (userId) => {
     const userStatus = 'Accepted'; // Update user status here
