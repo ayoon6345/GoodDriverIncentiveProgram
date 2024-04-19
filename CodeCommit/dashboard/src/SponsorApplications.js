@@ -14,9 +14,7 @@ function SponsorApplications() {
   const [successMessage, setSuccessMessage] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
-
-  console.log("Row");
-  console.log(rows);
+  
   //getting current user info
   useEffect(() => {
     async function fetchCurrentUser() {
