@@ -78,12 +78,13 @@ function SponsorApplications() {
 
 const handleDecline = (userId) => {
     const userStatus = 'Declined'; // Update user status here
+    const sponsorId = currentUserData.sponsor; 
     fetch('/api/declineApplication', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId, userStatus }), // Send userId and userStatus
+      body: JSON.stringify({ userId, sponsorId }), // Send userId and userStatus
     })
     .then(response => {
       if (response.ok) {
