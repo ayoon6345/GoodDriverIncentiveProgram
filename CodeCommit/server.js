@@ -94,7 +94,7 @@ app.post('/api/addApplication', (req, res) => {
 // Endpoint to update user status
 app.post('/api/acceptApplication', (req, res) => {
   const { userId, userStatus } = req.body;
-  const query = 'UPDATE applications SET accepted = ? WHERE user_id = ?';
+  const query = 'UPDATE applications SET accepted = ? WHERE user_id = ? AND sponsor_id = ?';
 
   connection.query(query, [userStatus, userId], (err, results) => {
     if (err) {
@@ -112,10 +112,11 @@ app.post('/api/acceptApplication', (req, res) => {
 
 // Endpoint to decline an application
 app.post('/api/declineApplication', (req, res) => {
-  const { userId } = req.body;
-  const query = 'UPDATE applications SET accepted = "Declined" WHERE user_id = ?';
+  const { userId, sponsorId } = req.body;
+  const query = 'UPDATE applications SET accepted = "Declined" WHERE user_id = ? AND sponsor_id = ?';
 
-  connection.query(query, [userId], (err, results) => {
+
+  connection.query(query, [userId, sponsorId], (err, results) => {
     if (err) {
       console.error('Error declining application in MySQL database:', err);
       return res.status(500).send('Internal Server Error');
