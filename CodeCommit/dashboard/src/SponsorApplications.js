@@ -133,7 +133,7 @@ const handleDecline = (userId) => {
                 {row.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}
                 <td>
                   <button onClick={() => handleAccept(currentUserData.user_id)}>Accept</button>
-                  <button onClick={() => handleDecline(row[0])}>Decline</button>
+                  <button onClick={() => handleDecline(currentUserData.user_id)}>Decline</button>
                 </td>
               </tr>
             ))}
