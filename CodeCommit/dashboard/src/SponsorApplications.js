@@ -39,16 +39,19 @@ function SponsorApplications() {
   }, []);
 
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
+  console.log(currentUserData);
 
   useEffect(() => {
-    fetch(`/api/getUserApplication/${currentUserData.sponsor}`)
-      .then(response => response.json())
-      .then(data => {
-        setApplicationData(data);
-        setHeaders(Object.keys(data[0]));
-        setRows(data.map(item => Object.values(item)));
-      })
-      .catch(error => console.error('Error fetching data:', error));
+    if (currentUserData.sponsor) {
+      fetch(`/api/getUserApplication/${currentUserData.sponsor}`)
+        .then(response => response.json())
+        .then(data => {
+          setApplicationData(data);
+          setHeaders(Object.keys(data[0]));
+          setRows(data.map(item => Object.values(item)));
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
   }, [currentUserData, successMessage]); // Refresh data when successMessage changes
 
  const handleAccept = (userId) => {
