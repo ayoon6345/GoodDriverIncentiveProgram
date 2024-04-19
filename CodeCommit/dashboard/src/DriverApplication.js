@@ -45,11 +45,22 @@ function DriverApplication() {
   const sponsorArray = [1,2,3];
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [sponsorArray, setSponsorArray] = useState([]);
   const [formData, setFormData] = useState({
     sponsorId: '',
     driverId: '',
     name: ''
   });
+
+  useEffect(() => {
+    fetch('/api/getSponsors')
+      .then(response => response.json())
+      .then(data => {
+        setSponsorArray(data);
+        console.log(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
 
   useEffect(() => {
