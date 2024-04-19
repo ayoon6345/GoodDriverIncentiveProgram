@@ -10,10 +10,21 @@ Amplify.configure(config);
 function PointsOverview() {
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-const [activeView, setActiveView] = useState('profile');
+  const [activeView, setActiveView] = useState('profile');
+  const [sponsorArray, setSponsorArray] = useState([]);
   const changeView = (view) => {
     setActiveView(view);
   };
+
+  useEffect(() => {
+    fetch('/api/getSponsors')
+      .then(response => response.json())
+      .then(data => {
+        setSponsorArray(data);
+        console.log(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
 
   useEffect(() => {
@@ -40,19 +51,20 @@ const [activeView, setActiveView] = useState('profile');
 
   // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
+  const sponsorNames = sponsorArray.filter(s => s.SponsorID === sponsor).map(s => s.SponsorName);
 
   return (
     <div>
       <div className="container">
         <h1>User Details</h1>
-        {currentUserData ? (
+        {currentUserData && sponsorArray ? (
           <div>
             <p>Name: {currentUserData.name}</p>
             <p>UserName: {currentUserData.user_id}</p>
             <p>Email: {currentUserData.email}</p>
             <p>Phone Number: {currentUserData.phone_number}</p>
             <p>User Type: {currentUserData.usertype}</p>
-           <p>Your Sponsor is : {currentUserData.sponsor}</p>
+            <p>Sponsors: {sponsorNames}</p>
 
           </div>
         ) : (
