@@ -12,6 +12,9 @@ function PointsOverview() {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeView, setActiveView] = useState('profile');
   const [sponsorArray, setSponsorArray] = useState([]);
+  const [sponsorNames, setSponsorNames] = useState([]);
+  const [currentUserData, setCurrentUserData] = useState([]);
+
   const changeView = (view) => {
     setActiveView(view);
   };
@@ -50,9 +53,14 @@ function PointsOverview() {
   }, []);
 
   // Filter out the current user from the user list
-  const currentUserData = aboutData.find(user => user.user_id === currentUser);
-  console.log(currentUserData);
-  const sponsorNames = sponsorArray.filter(s => s.SponsorID === currentUserData.sponsor).map(s => s.SponsorName);
+  useEffect(() => {
+    if (sponsorArray && aboutData) {
+      const data1 = aboutData.find(user => user.user_id === currentUser);
+      setCurrentUserData(data1);
+      const data2 = sponsorArray.filter(s => s.SponsorID === currentUserData.sponsor).map(s => s.SponsorName);
+      setSponsorNames(data2);
+    }
+  }, [sponsorArray, aboutData]);
 
   return (
     <div>
