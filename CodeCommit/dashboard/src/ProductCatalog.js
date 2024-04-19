@@ -9,14 +9,11 @@ import './App.css';
 import amplifyconfig from './amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
-// Destructure onAddToCart from props
 function UniqueSponsorCatalog({ sponsor }) {
   const [products, setProducts] = useState([]);
   const [catalogData, setCatalogData] = useState([]);//Getting sponsor catalog product ids
   const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
-  
-  console.log("SPONSOR IS " + sponsor);
 
   //getting current user info
   useEffect(() => {
@@ -107,6 +104,18 @@ function ProductCatalog() {
   const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
   const [sponsorData, setSponsorData] = useState([]);
+  const [sponsorArray, setSponsorArray] = useState([]);
+  const [filteredSponsors, setFilteredSponsors] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/getSponsors')
+      .then(response => response.json())
+      .then(data => {
+        setSponsorArray(data);
+        console.log(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
   //getting current user info
   useEffect(() => {
@@ -154,6 +163,16 @@ function ProductCatalog() {
     setActiveView(event.target.value);
   };
 
+  
+  useEffect(() => {
+    if (sponsorArray && sponsorData) {  // Check to prevent running before data is fetched
+      const data = sponsorArray.filter(sponsor => sponsorData.includes(sponsor.SponsorID));
+      setFilteredSponsors(data);
+      console.log("Filtered");
+      console.log(data);
+    }
+  }, [sponsorArray, sponsorData]);
+
   return (
         <div>
             <div className="container">
@@ -161,10 +180,10 @@ function ProductCatalog() {
                 <nav>
                     <select onChange={handleDropdownChange} value={activeView}>
                         <option value="">Select a Sponsor</option>
-                        {sponsorData.map((sponsor, index) => (
-                            <option key={index} value={`sponsor#${sponsor}`}>
-                                Sponsor {sponsor}
-                            </option>
+                        {filteredSponsors.map((sponsor, index) => (
+                          <option key={index} value={sponsor.SponsorID}>
+                              {sponsor.SponsorName}
+                          </option>
                         ))}
                     </select>
                 </nav>
