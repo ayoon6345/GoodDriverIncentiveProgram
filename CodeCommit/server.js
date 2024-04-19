@@ -49,6 +49,18 @@ app.get('/api/getUsers', (req, res) => {
 });
 
 
+app.get('/api/getSponsors', (req, res) => {
+  connection.query('SELECT * FROM Sponsor', (err, results) => {
+    if (err) {
+      console.error('Error fetching data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.json(results); // Return the entire array of user data
+  });
+});
+
+
 
 app.get('/api/getSponsorNames', (req, res) => {
   connection.query('SELECT * FROM Sponsor', (err, results) => {
