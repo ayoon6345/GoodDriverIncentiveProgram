@@ -93,10 +93,10 @@ app.post('/api/addApplication', (req, res) => {
 
 // Endpoint to update user status
 app.post('/api/acceptApplication', (req, res) => {
-  const { userId, userStatus } = req.body;
-  const query = 'UPDATE applications SET accepted = ? WHERE user_id = ? AND sponsor_id = ?';
+  const { userId, sponsorId } = req.body;
+  const query = 'UPDATE applications SET accepted = "Accepted" WHERE user_id = ? AND sponsor_id = ?';
 
-  connection.query(query, [userStatus, userId], (err, results) => {
+  connection.query(query, [userId, sponsorId], (err, results) => {
     if (err) {
       console.error('Error updating status in MySQL database:', err);
       return res.status(500).send('Internal Server Error');
