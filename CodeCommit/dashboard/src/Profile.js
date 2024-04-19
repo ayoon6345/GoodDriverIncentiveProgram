@@ -51,7 +51,7 @@ function PointsOverview() {
 
   // Filter out the current user from the user list
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
-  const sponsorNames = sponsorArray.filter(s => s.SponsorID === sponsor).map(s => s.SponsorName);
+  const sponsorNames = sponsorArray.filter(s => s.SponsorID === currentUserData.sponsor).map(s => s.SponsorName);
 
   return (
     <div>
