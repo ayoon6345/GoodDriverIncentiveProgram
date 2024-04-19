@@ -42,7 +42,7 @@ function SponsorApplications() {
   console.log(currentUserData);
 
   useEffect(() => {
-    if (currentUserData.sponsor) {
+    if (currentUserData && currentUserData.sponsor) {
       fetch(`/api/getUserApplication/${currentUserData.sponsor}`)
         .then(response => response.json())
         .then(data => {
