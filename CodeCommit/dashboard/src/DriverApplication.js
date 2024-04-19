@@ -47,7 +47,7 @@ function DriverApplication() {
   const [currentUser, setCurrentUser] = useState(null);
   const [formData, setFormData] = useState({
     sponsorId: '',
-    driverId: '',
+    driverId: currentUserData.user_id,
     name: ''
   });
 
