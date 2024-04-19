@@ -63,6 +63,8 @@ function PointsOverview() {
     if (currentUserData) {
       const names = sponsorArray.filter(s => s.SponsorID === currentUserData.sponsor).map(s => s.SponsorName);
       setSponsorNames(names);
+      console.log("NAEMS");
+      console.log(names);
     }
   }, [sponsorArray, currentUserData]);
 
