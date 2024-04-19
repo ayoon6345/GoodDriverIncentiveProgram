@@ -42,10 +42,10 @@ const submitApplication = (sponsorId, userId, name) => {
 
 
 function DriverApplication() {
-  const sponsorArray = [1,2,3];
+  //const sponsorArray = [1,2,3];
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [bonsorArray, setSponsorArray] = useState([]);
+  const [sponsorArray, setSponsorArray] = useState([]);
   const [formData, setFormData] = useState({
     sponsorId: '',
     driverId: '',
@@ -115,8 +115,8 @@ function DriverApplication() {
           >
             <option value="">Select a Sponsor</option>
             {sponsorArray.map((sponsor) => (
-              <option key={sponsor} value={sponsor}>
-                Sponsor ID {sponsor}
+              <option key={sponsor.SponsorID} value={sponsor.SponsorID}>
+                {sponsor.SponsorName}
               </option>
             ))}
           </select>
