@@ -52,17 +52,20 @@ function PointsOverview() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  // Filter out the current user from the user list
+
   useEffect(() => {
-    if (sponsorArray && aboutData) {
-      const data1 = aboutData.find(user => user.user_id === currentUser);
-      setCurrentUserData(data1);
-      console.log("Current data");
-      console.log(data1);
-      const data2 = sponsorArray.filter(s => s.SponsorID === currentUserData.sponsor).map(s => s.SponsorName);
-      setSponsorNames(data2);
+    const data = aboutData.find(user => user.user_id === currentUser);
+    setCurrentUserData(data);
+  }, [aboutData, currentUser]);
+
+
+  useEffect(() => {
+    if (currentUserData) {
+      const names = sponsorArray.filter(s => s.SponsorID === currentUserData.sponsor).map(s => s.SponsorName);
+      setSponsorNames(names);
     }
-  }, [sponsorArray, aboutData]);
+  }, [sponsorArray, currentUserData]);
+
 
   return (
     <div>
