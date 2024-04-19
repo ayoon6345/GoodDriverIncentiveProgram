@@ -41,8 +41,6 @@ const submitApplication = (sponsorId, userId, name) => {
 };
 
 
-submitApplication( 2, 'testadj', 'Justin');
-
 function DriverApplication() {
   const sponsorArray = [1,2,3];
   const [aboutData, setAboutData] = useState([]);
