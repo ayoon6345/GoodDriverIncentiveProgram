@@ -63,14 +63,14 @@ app.get('/api/getSponsorNames', (req, res) => {
 
 
 
-app.get('/api/getUserApplication', (req, res) => {
-  connection.query('SELECT * FROM users WHERE usertype = "driver"', (err, results) => {
+app.get('/api/getUserApplication/:sponsor', (req, res) => {
+  connection.query('SELECT * FROM applications WHERE sponsor_id = ?', [sponsor], (err, results) => {
     if (err) {
       console.error('Error fetching data: ' + err.stack);
       res.status(500).send('Internal Server Error');
       return;
     }
-    res.json(results); // Return the array of user data where usertype is "driver"
+    res.json(results); // Return the array
   });
 });
 
