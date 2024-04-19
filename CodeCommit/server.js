@@ -91,7 +91,7 @@ app.post('/api/addApplication', (req, res) => {
 // Endpoint to update user status
 app.post('/api/acceptApplication', (req, res) => {
   const { userId, userStatus } = req.body;
-  const query = 'UPDATE users SET accepted = ? WHERE user_id = ?';
+  const query = 'UPDATE applications SET accepted = ? WHERE user_id = ?';
 
   connection.query(query, [userStatus, userId], (err, results) => {
     if (err) {
@@ -110,7 +110,7 @@ app.post('/api/acceptApplication', (req, res) => {
 // Endpoint to decline an application
 app.post('/api/declineApplication', (req, res) => {
   const { userId } = req.body;
-  const query = 'UPDATE users SET accepted = "Declined" WHERE user_id = ?';
+  const query = 'UPDATE applications SET accepted = "Declined" WHERE user_id = ?';
 
   connection.query(query, [userId], (err, results) => {
     if (err) {
