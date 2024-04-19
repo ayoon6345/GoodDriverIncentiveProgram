@@ -57,6 +57,8 @@ function PointsOverview() {
     if (sponsorArray && aboutData) {
       const data1 = aboutData.find(user => user.user_id === currentUser);
       setCurrentUserData(data1);
+      console.log("Current data");
+      console.log(data1);
       const data2 = sponsorArray.filter(s => s.SponsorID === currentUserData.sponsor).map(s => s.SponsorName);
       setSponsorNames(data2);
     }
