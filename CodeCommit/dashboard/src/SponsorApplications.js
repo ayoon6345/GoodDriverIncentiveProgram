@@ -3,6 +3,7 @@ import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import './App.css';
 import { Amplify } from 'aws-amplify';
+import { getCurrentUser } from 'aws-amplify/auth';
 Amplify.configure(config);
 
 function SponsorApplications() {
@@ -11,6 +12,7 @@ function SponsorApplications() {
   const [rows, setRows] = useState([]);
   const [applicationData, setApplicationData] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
   const [aboutData, setAboutData] = useState([]);
 
   //getting current user info
