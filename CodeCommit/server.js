@@ -227,7 +227,21 @@ app.post('/api/addToCatalog', (req, res) => {
     res.status(201).send('Sponsor product added successfully');
   });
 });
+app.post('/api/addToCart', (req, res) => {
+  const { userId, productId } = req.body;
+  const query = 'INSERT IGNORE INTO cart (user_id, product_id) VALUES (?, ?)';
 
+  connection.query(query, [userId, productId], (err, results) => {
+    if (err) {
+      console.error('Error adding product to cart in MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    if (results.affectedRows === 0) {
+      return res.status(200).send('product already exists in cart');
+    }
+    res.status(201).send('Sponsor product added successfully');
+  });
+});
 
 // Endpoint to update user points
 app.post('/api/updatePoints', (req, res) => {
