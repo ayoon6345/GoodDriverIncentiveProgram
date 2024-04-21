@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import "./addToCart.js";
+import { addToCart } from "./addToCart.js";
 import '@aws-amplify/ui-react/styles.css';
 import './App.css';
 
