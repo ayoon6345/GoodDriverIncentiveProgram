@@ -90,7 +90,7 @@ function UniqueSponsorCatalog({ sponsor }) {
             <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
             <p style={{ fontStyle: 'italic' }}>Availability: {product.availability}</p>
             <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
-            <button onClick={addToCart(currentUser,product.id)}>Add to Cart</button>
+            <button onClick={() => {addToCart(currentUser,product.id)}}>Add to Cart</button>
           </div>
         ))}
       </div>
