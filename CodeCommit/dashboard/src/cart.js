@@ -1,6 +1,9 @@
 // App.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Navbar from './navbar'; // Import the Navbar component
+import { getCurrentUser } from 'aws-amplify/auth';
+
 
 function ShopCart() {
   var userCarts = [];
