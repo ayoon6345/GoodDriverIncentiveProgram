@@ -259,18 +259,18 @@ app.post('/api/addToCart', (req, res) => {
   });
 });
 app.post('/api/addToOrders', (req, res) => {
-  const { userId, productId } = req.body;
-  const query = 'INSERT IGNORE INTO orders (user_id, product_id) VALUES (?, ?)';
+  const { userId } = req.body;
+  const query = 'INSERT IGNORE INTO orders (user_id, product_id) SELECT user_id, product_id FROM cart WHERE user_id = ?';
 
-  connection.query(query, [userId, productId], (err, results) => {
+  connection.query(query, [userId], (err, results) => {
     if (err) {
-      console.error('Error adding product to orders in MySQL database:', err);
+      console.error('Error adding products to orders in MySQL database:', err);
       return res.status(500).send('Internal Server Error');
     }
     if (results.affectedRows === 0) {
-      return res.status(200).send('product already exists in cart');
+      return res.status(200).send('products already exists in cart');
     }
-    res.status(201).send('User product added successfully');
+    res.status(201).send('User products added successfully');
   });
 });
 
