@@ -58,7 +58,9 @@ const App = () => {
           ) : (
             <Route path="/dashboard" element={<DriverDashboard />} />
           )
-        ) : null}
+        ) : (
+          <Route path="/dashboard" element={<DriverDashboard />} /> // Render DriverDashboard when currentUserData is null
+        )}
         <Route path="/search" element={<ProductSearch />} />
         <Route path="/orders" element={<Orders />} />
       </Routes>
