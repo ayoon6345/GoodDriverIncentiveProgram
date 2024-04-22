@@ -1,5 +1,5 @@
 export function checkoutCart(userId,cost,currentPoints){
-
+    const [updateStatus, setUpdateStatus] = useState({ success: false, message: '' });
 
     var newPoints = currentPoints - cost;
     if(currentPoints > cost){
@@ -31,7 +31,6 @@ export function checkoutCart(userId,cost,currentPoints){
             const successStatus = { success: true, message: 'Points updated successfully.' };
             setUpdateStatus(successStatus);
             localStorage.setItem('updateStatus', JSON.stringify(successStatus));
-            fetchUserData();
         })
         .catch(error => {
             console.error('Error updating points:', error);
