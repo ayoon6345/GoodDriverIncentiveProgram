@@ -101,12 +101,9 @@ export function checkoutCart(userId,cost,currentPoints){
       // Determine if error is an object (from JSON) or text, and set message accordingly
       const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error deleting cart' };
     });
-
-
-      
-
+    window.location.reload();
     }
     else{
-        console.log("not enough points");
+        alert("not enough points");
     }
 }
