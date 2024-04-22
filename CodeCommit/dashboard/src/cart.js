@@ -10,6 +10,7 @@ function ShopCart() {
   var userCarts = [];
 
   const [currentUser, setCurrentUser] = useState(null);
+  const [aboutData, setAboutData] = useState([]);
   const [products, setProducts] = useState([]);
   const [userCart, setUserCarts] = useState([]);
   const [totalCost, updateTotal] = useState(0);
@@ -35,6 +36,17 @@ useEffect(() => {
 
   fetchCurrentUser();
 }, []);
+useEffect(() => {
+  fetch('/api/getUsers')
+    .then(response => response.json())
+    .then(data => {
+      setAboutData(data);
+    })
+    .catch(error => console.error('Error fetching data:', error));
+}, []);
+
+// Filter out the current user from the user list
+const currentUserData = aboutData.find(user => user.user_id === currentUser);
 
 useEffect(() => {
   if (currentUser !== null) {
@@ -93,7 +105,7 @@ console.log(products);
     ))}
     <div style={{ padding: 20, display: 'inline-block'}}>
       <h3>Total Price: {totalCost}</h3>
-      <button onClick={() => {checkoutCart(currentUser,totalCost)}}>Checkout</button>
+      <button onClick={() => {checkoutCart(currentUser,totalCost,currentUserData.points)}}>Checkout</button>
     </div>
     
     </div>
