@@ -255,7 +255,22 @@ app.post('/api/addToCart', (req, res) => {
     if (results.affectedRows === 0) {
       return res.status(200).send('product already exists in cart');
     }
-    res.status(201).send('Sponsor product added successfully');
+    res.status(201).send('User product added successfully');
+  });
+});
+app.post('/api/addToOrders', (req, res) => {
+  const { userId, productId } = req.body;
+  const query = 'INSERT IGNORE INTO orders (user_id, product_id) VALUES (?, ?)';
+
+  connection.query(query, [userId, productId], (err, results) => {
+    if (err) {
+      console.error('Error adding product to orders in MySQL database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    if (results.affectedRows === 0) {
+      return res.status(200).send('product already exists in cart');
+    }
+    res.status(201).send('User product added successfully');
   });
 });
 
