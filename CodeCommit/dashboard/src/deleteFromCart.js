@@ -1,5 +1,5 @@
-//adds a product to a sponsor's catalog
-export function addToCart(userId,productId){
+
+export function deleteFromCart(userId,productId){
     console.log("removing" + productId);
     
     fetch('/api/removeFromCart', {
