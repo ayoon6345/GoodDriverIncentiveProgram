@@ -349,8 +349,8 @@ app.post('/api/consultPoint', async (req, res) => {
     const advice = await getPointAdvice(driverActionDescription, sponsorPointRatio);
     res.json({ advice });
   } catch (error) {
-    console.error('Error processing request:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error processing request:', error.message, error.stack);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
 
