@@ -19,7 +19,7 @@ function ShopCart() {
     console.log(jsonData);
     setProducts(prevProducts => [...prevProducts, jsonData]);
     console.log(jsonData.price);
-    updateTotal(totalCost + jsonData.price);
+    updateTotal(prevCost => prevCost + jsonData.price);
 }
 
 useEffect(() => {
