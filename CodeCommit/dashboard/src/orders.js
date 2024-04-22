@@ -19,15 +19,10 @@ function Orders() {
       const response = await fetch('https://fakestoreapi.com/products/'+prodId)
       const jsonData = await response.json();
       console.log(jsonData);
-      const dataObject = JSON.parse(jsonData);
 
-      // Append new data
-      dataObject.status = userOrder.status;
+      jsonData.satus = userOrder.status;
 
-      // Stringify the modified object back to JSON format
-      const modifiedJsonData = JSON.stringify(dataObject);
-      console.log(modifiedJsonData);
-      setProducts(prevProducts => [...prevProducts, modifiedJsonData]);
+      setProducts(prevProducts => [...prevProducts, jsonData]);
   }
 
   useEffect(() => {
