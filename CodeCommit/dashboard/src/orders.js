@@ -19,7 +19,7 @@ function Orders() {
       const response = await fetch('https://fakestoreapi.com/products/'+prodId)
       const jsonData = await response.json();
       console.log(jsonData);
-
+      console.log(orderStatus);
       jsonData.satus = orderStatus;
 
       setProducts(prevProducts => [...prevProducts, jsonData]);
