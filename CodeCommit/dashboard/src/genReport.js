@@ -14,6 +14,7 @@ function Report() {
   const [rows, setRows] = useState([]);
   const [users, setUsers] = useState([]);
   const [userStatusCounts, setUserStatusCounts] = useState({});
+  const [filter, setFilter] = useState('');
 
   async function listAll(limit = 25) {
     try {
@@ -125,12 +126,31 @@ function Report() {
     });
   }
 
+  function handleFilterChange(event) {
+    setFilter(event.target.value);
+  }
+
+  function filteredUsers() {
+    return users.filter(user =>
+      user.Username.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
+
   return (
     <div className="report-container">
+      <div className="filter-section">
+        <input
+          type="text"
+          placeholder="Filter by username"
+          value={filter}
+          onChange={handleFilterChange}
+        />
+      </div>
+
       <div className="users-section">
         <h2>Users:</h2>
         <ul>
-          {users.map((user, index) => (
+          {filteredUsers().map((user, index) => (
             <li key={index}>
               <div><strong>Username:</strong> {user.Username}</div>
               <div><strong>Name:</strong> {user.Attributes.find(attr => attr.Name === 'name')?.Value}</div>
