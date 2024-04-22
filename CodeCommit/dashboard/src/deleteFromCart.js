@@ -31,5 +31,6 @@ export function deleteFromCart(userId,productId){
       // Determine if error is an object (from JSON) or text, and set message accordingly
       const errorMessage = { success: false, message: typeof error === 'string' ? error : error.message || 'Error submitting application' };
     });
+    window.location.reload();
   }
   
