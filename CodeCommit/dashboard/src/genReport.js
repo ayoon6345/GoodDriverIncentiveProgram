@@ -14,8 +14,6 @@ function Report() {
   const [rows, setRows] = useState([]);
   const [users, setUsers] = useState([]);
   const [userStatusCounts, setUserStatusCounts] = useState({});
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filter, setFilter] = useState('');
 
   async function listAll(limit = 25) {
     try {
@@ -47,7 +45,7 @@ function Report() {
           return acc;
         }, {});
         setUserStatusCounts(counts);
-        updateChart(users);
+        updateChart(counts);
       })
       .catch((error) => console.error('Error:', error));
   }, []);
@@ -63,19 +61,7 @@ function Report() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  useEffect(() => {
-    const filteredUsers = users.filter(user => {
-      const fullName = user.Attributes.find(attr => attr.Name === 'name')?.Value || '';
-      const email = user.Attributes.find(attr => attr.Name === 'email')?.Value || '';
-      return fullName.toLowerCase().includes(searchQuery.toLowerCase()) || email.toLowerCase().includes(searchQuery.toLowerCase());
-    });
-
-    const finalUsers = filter ? filteredUsers.filter(user => user.UserStatus === filter) : filteredUsers;
-
-    updateChart(finalUsers);
-  }, [searchQuery, filter]);
-
-   function convertToCSV(headers, rows, users) {
+  function convertToCSV(headers, rows, users) {
     const userHeaders = ['Username', 'Name', 'Phone Number', 'Email', 'User Status', 'Enabled', 'User Create Date', 'User Last Modified Date'];
     const userData = users.map(user => [
       user.Username,
@@ -92,7 +78,6 @@ function Report() {
     return encodeURI(csvContent);
   }
 
-
   function handleDownloadCSV() {
     const csvData = convertToCSV(headers, rows, users);
     const link = document.createElement('a');
@@ -102,11 +87,7 @@ function Report() {
     link.click();
   }
 
-  function updateChart(filteredUsers) {
-    const counts = filteredUsers.reduce((acc, user) => {
-      acc[user.UserStatus] = acc[user.UserStatus] ? acc[user.UserStatus] + 1 : 1;
-      return acc;
-    }, {});
+  function updateChart(counts) {
     const ctx = document.getElementById('userStatusChart');
     new Chart(ctx, {
       type: 'bar',
@@ -146,21 +127,6 @@ function Report() {
 
   return (
     <div className="report-container">
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search by name or email..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="">All</option>
-          {Object.keys(userStatusCounts).map(status => (
-            <option key={status} value={status}>{status}</option>
-          ))}
-        </select>
-      </div>
-
       <div className="users-section">
         <h2>Users:</h2>
         <ul>
