@@ -58,10 +58,7 @@ const App = () => {
           ) : (
             <Route path="/dashboard" element={<DriverDashboard />} />
           )
-        ) : (
-          // Optional: Render a loading component or null while user data is being fetched
-          <Route path="/dashboard" element={<div>Loading...</div>} />
-        )}
+        ) : null}
         <Route path="/search" element={<ProductSearch />} />
         <Route path="/orders" element={<Orders />} />
       </Routes>
