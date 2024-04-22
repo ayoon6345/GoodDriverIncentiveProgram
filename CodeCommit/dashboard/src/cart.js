@@ -17,6 +17,7 @@ function ShopCart() {
     const jsonData = await response.json();
     console.log(jsonData);
     setProducts(prevProducts => [...prevProducts, jsonData]);
+    console.log(jsonData.price);
     totalCost = totalCost + jsonData.price;
 }
 
