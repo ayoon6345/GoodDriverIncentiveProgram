@@ -7,7 +7,7 @@ import { deleteFromCart } from "./deleteFromCart.js";
 
 function ShopCart() {
   var userCarts = [];
-
+  var totalCost;
   const [currentUser, setCurrentUser] = useState(null);
   const [products, setProducts] = useState([]);
   const [userCart, setUserCarts] = useState([]);
@@ -17,6 +17,7 @@ function ShopCart() {
     const jsonData = await response.json();
     console.log(jsonData);
     setProducts(prevProducts => [...prevProducts, jsonData]);
+    totalCost+= jsonData.price;
 }
 
 useEffect(() => {
@@ -69,6 +70,7 @@ useEffect(() => {
 // 
 
 console.log(products);
+console.log(totalCost);
   return (
     <div>
     <Navbar /> 
