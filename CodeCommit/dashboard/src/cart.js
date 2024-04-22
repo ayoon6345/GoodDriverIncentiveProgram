@@ -7,10 +7,11 @@ import { deleteFromCart } from "./deleteFromCart.js";
 
 function ShopCart() {
   var userCarts = [];
-  var totalCost = 0;
+
   const [currentUser, setCurrentUser] = useState(null);
   const [products, setProducts] = useState([]);
   const [userCart, setUserCarts] = useState([]);
+  const [totalCost, updateTotal] = useState(0);
 
   async function getProduct(prodId){
     const response = await fetch('https://fakestoreapi.com/products/'+prodId)
@@ -18,7 +19,7 @@ function ShopCart() {
     console.log(jsonData);
     setProducts(prevProducts => [...prevProducts, jsonData]);
     console.log(jsonData.price);
-    totalCost = totalCost + 1;
+    updateTotal(totalCost + jsonData.price);
 }
 
 useEffect(() => {
