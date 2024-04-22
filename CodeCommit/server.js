@@ -227,6 +227,22 @@ app.delete('/api/removeFromCart', (req, res) => {
     res.send('Product removed successfully');
   });
 });
+app.delete('/api/removeUsersCart', (req, res) => {
+  const { userId } = req.body;
+
+  connection.query('DELETE FROM cart WHERE user_id= ?', [userId], (err, result) => {
+    if (err) {
+      console.error('Error deleting data: ' + err.stack);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    if (result.affectedRows === 0) {
+      res.status(404).send('User cart not deleted');
+      return;
+    }
+    res.send('User cart deleted');
+  });
+});
 
 app.post('/api/addToCatalog', (req, res) => {
   const { sponsorId, productId } = req.body;
