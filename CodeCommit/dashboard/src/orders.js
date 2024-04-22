@@ -20,7 +20,7 @@ function Orders() {
       const jsonData = await response.json();
       console.log(jsonData);
       console.log(orderStatus);
-      jsonData.satus = orderStatus;
+      jsonData.status = orderStatus;
 
       setProducts(prevProducts => [...prevProducts, jsonData]);
   }
