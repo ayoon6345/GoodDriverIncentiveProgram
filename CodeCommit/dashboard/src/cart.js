@@ -18,7 +18,7 @@ function ShopCart() {
     console.log(jsonData);
     setProducts(prevProducts => [...prevProducts, jsonData]);
     console.log(jsonData.price);
-    totalCost = totalCost + jsonData.price;
+    totalCost = totalCost + 1;
 }
 
 useEffect(() => {
