@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './navbar'; // Import the Navbar component
 import { getCurrentUser } from 'aws-amplify/auth';
-
+import { deleteFromCart } from "./deleteFromCart.js";
 
 function ShopCart() {
   var userCarts = [];
@@ -81,6 +81,7 @@ console.log(products);
         <h3>{product.title}</h3>
         <p style={{ fontWeight: 'bold' }}>Points: {product.price}</p>
         <p>Description: {product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description}</p>
+        <button  onClick={() => {deleteFromCart(currentUser,product.id)}} >Delete</button>
       </div>
     ))}
     </div>
