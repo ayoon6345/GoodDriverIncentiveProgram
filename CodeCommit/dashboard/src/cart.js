@@ -4,6 +4,7 @@ import './App.css';
 import Navbar from './navbar'; // Import the Navbar component
 import { getCurrentUser } from 'aws-amplify/auth';
 import { deleteFromCart } from "./deleteFromCart.js";
+import { checkoutCart } from "./checkoutCart.js";
 
 function ShopCart() {
   var userCarts = [];
@@ -92,7 +93,7 @@ console.log(products);
     ))}
     <div style={{ padding: 20, display: 'inline-block'}}>
       <h3>Total Price: {totalCost}</h3>
-      <button>Checkout</button>
+      <button onClick={() => {checkoutCart(currentUser,totalCost)}}>Checkout</button>
     </div>
     
     </div>
