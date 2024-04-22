@@ -71,9 +71,9 @@ useEffect(() => {
 // 
 
 console.log(products);
-useEffect(() => {
+
   console.log(totalCost);
-}, [totalCost]);
+
   return (
     <div>
     <Navbar /> 
@@ -89,6 +89,7 @@ useEffect(() => {
         <button  onClick={() => {deleteFromCart(currentUser,product.id)}} >Delete</button>
       </div>
     ))}
+    <h3>{totalCost}</h3>
     </div>
 </div>
   );
