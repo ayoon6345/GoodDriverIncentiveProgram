@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 import { Amplify } from 'aws-amplify';
@@ -8,8 +8,11 @@ import './App.css';
 Amplify.configure(config);
 
 function Report() {
+  const [applicationData, setApplicationData] = useState([]);
+  const [headers, setHeaders] = useState([]);
+  const [rows, setRows] = useState([]);
   const [users, setUsers] = useState([]);
-  const [userData, setUserData] = useState([]);
+  const [userStatusCounts, setUserStatusCounts] = useState({});
 
   async function listAll(limit = 25) {
     try {
@@ -36,19 +39,11 @@ function Report() {
       .then((result) => result.body.json())
       .then((data) => {
         setUsers(data.Users);
-        const userData = data.Users.map((user) => {
-          return {
-            username: user.Username,
-            name: user.Attributes.find((attr) => attr.Name === 'name')?.Value || '',
-            phoneNumber: user.Attributes.find((attr) => attr.Name === 'phone_number')?.Value || '',
-            email: user.Attributes.find((attr) => attr.Name === 'email')?.Value || '',
-            userStatus: user.UserStatus,
-            enabled: user.Enabled ? 'Yes' : 'No',
-            userCreateDate: user.UserCreateDate,
-            userLastModifiedDate: user.UserLastModifiedDate,
-          };
-        });
-        setUserData(userData);
+        const statusCounts = data.Users.reduce((acc, user) => {
+          acc[user.UserStatus] = (acc[user.UserStatus] || 0) + 1;
+          return acc;
+        }, {});
+        setUserStatusCounts(statusCounts);
       })
       .catch((error) => console.error('Error:', error));
   }, []);
@@ -61,7 +56,7 @@ function Report() {
           {users.map((user, index) => (
             <li key={index}>
               <div><strong>Username:</strong> {user.Username}</div>
-              <div><strong>Name:</strong> {user.Attributes.find((attr) => attr.Name === 'name')?.Value}</div>
+              <div><strong>Name:</strong> {user.Attributes.find(attr => attr.Name === 'name')?.Value}</div>
               {user.Attributes.map((attribute, attrIndex) => (
                 <div key={attrIndex}>
                   {attribute.Name === 'phone_number' && <div><strong>Phone Number:</strong> {attribute.Value}</div>}
@@ -77,12 +72,31 @@ function Report() {
         </ul>
       </div>
 
-      <div className="chart-container">
-        <h2>User Status Distribution:</h2>
-        <div className="bar-graph">
-          {userData.map((user, index) => (
-            <div key={index} className="bar" style={{ height: '20px', width: user.enabled === 'Yes' ? '200px' : '100px' }}>
-              {user.username} - {user.enabled}
+      <div className="applications-section">
+        <h1>Application List</h1>
+        <table>
+          <thead>
+            <tr>
+              {headers.map(header => <th key={header}>{header}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, index) => (
+              <tr key={index}>
+                {row.map((cell, index) => <td key={index}>{cell}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="bar-graph">
+        <h2>User Status Counts</h2>
+        <div className="bar-container">
+          {Object.entries(userStatusCounts).map(([status, count]) => (
+            <div key={status} className="bar">
+              <div className="bar-label">{status}</div>
+              <div className="bar-inner" style={{ width: `${(count / users.length) * 100}%` }}>{count}</div>
             </div>
           ))}
         </div>
