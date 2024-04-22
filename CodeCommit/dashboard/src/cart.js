@@ -90,7 +90,11 @@ console.log(products);
         <button  onClick={() => {deleteFromCart(currentUser,product.id)}} >Delete</button>
       </div>
     ))}
-    <h3>{totalCost}</h3>
+    <div style={{ padding: 20, display: 'inline-block'}}>
+      <h3>Total Price: {totalCost}</h3>
+      <button>Checkout</button>
+    </div>
+    
     </div>
 </div>
   );
