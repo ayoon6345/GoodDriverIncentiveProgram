@@ -16,6 +16,7 @@ import { getCurrentUser } from 'aws-amplify/auth'; // Import getCurrentUser
 const App = () => {
   const [aboutData, setAboutData] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -24,6 +25,8 @@ const App = () => {
         setCurrentUser(user.username);
       } catch (err) {
         console.log(err);
+      } finally {
+        setLoading(false); // Set loading to false once user data is fetched (or failed to fetch)
       }
     }
 
@@ -41,6 +44,10 @@ const App = () => {
 
   // Assuming user_id is the correct identifier and matches currentUser
   const currentUserData = aboutData.find(user => user.user_id === currentUser);
+
+  if (loading) {
+    return <div>Loading...</div>; // Render a loading indicator while fetching user data
+  }
 
   return (
     <BrowserRouter>
