@@ -15,12 +15,12 @@ function Orders() {
     const [products, setProducts] = useState([]);
     const [userOrder, setUserOrders] = useState([]);
 
-    async function getProduct(prodId){
+    async function getProduct(prodId, orderStatus){
       const response = await fetch('https://fakestoreapi.com/products/'+prodId)
       const jsonData = await response.json();
       console.log(jsonData);
 
-      jsonData.satus = userOrder.status;
+      jsonData.satus = orderStatus;
 
       setProducts(prevProducts => [...prevProducts, jsonData]);
   }
@@ -65,7 +65,7 @@ function Orders() {
   useEffect(() => {
     if(userOrder.length > 0){
       userOrder.forEach(function (arrayItem) {
-      getProduct(arrayItem.product);  
+      getProduct(arrayItem.product,arrayItem.status);  
       })
     }
   }, [userOrder]);
